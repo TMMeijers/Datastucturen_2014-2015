@@ -1,5 +1,10 @@
+import java.util.List;
+
+/*
+ * Class
+ */
 public class ListTimer extends CollectionTimer {
-	
+
 	private List<Integer> list;
 
 	/*
@@ -36,8 +41,8 @@ public class ListTimer extends CollectionTimer {
 	/*
 	 * Methods
 	 */
-	public void removeELement() {
-
+	public void removeElement() {
+		
 	}
 
 	/*
@@ -51,6 +56,6 @@ public class ListTimer extends CollectionTimer {
 	 * Methods
 	 */
 	public boolean isEmpty() {
-
+		return true;
 	}
 }

@@ -1,3 +1,8 @@
+import java.util.Queue;
+
+/*
+ * Class
+ */
 public class QueueTimer extends CollectionTimer {
 
 	private Queue<Integer> queue;
@@ -5,7 +10,7 @@ public class QueueTimer extends CollectionTimer {
 	/*
 	 * Constructors
 	 */ 
-	public QueueTimer(List<Integer> queue) {
+	public QueueTimer(Queue<Integer> queue) {
 		super();
 		this.queue = queue;
 	}
@@ -13,7 +18,7 @@ public class QueueTimer extends CollectionTimer {
 	/*
 	 * Constructors
 	 */ 
-	public QueueTimer(List<Integer> queue, long elemGenSeed) {
+	public QueueTimer(Queue<Integer> queue, long elemGenSeed) {
 		super(elemGenSeed);
 		this.queue = queue;
 	}
@@ -21,7 +26,7 @@ public class QueueTimer extends CollectionTimer {
 	/*
 	 * Constructors
 	 */ 
-	public QueueTimer(List<Integer> queue, Long elemGenSeed) {
+	public QueueTimer(Queue<Integer> queue, Long elemGenSeed) {
 		super(elemGenSeed);
 		this.queue = queue;
 	}
@@ -36,7 +41,7 @@ public class QueueTimer extends CollectionTimer {
 	/*
 	 * Methods
 	 */
-	public void removeELement() {
+	public void removeElement() {
 
 	}
 
@@ -51,6 +56,6 @@ public class QueueTimer extends CollectionTimer {
 	 * Methods
 	 */
 	public boolean isEmpty() {
-
+		return true;
 	}
 }
