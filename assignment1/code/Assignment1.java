@@ -36,7 +36,7 @@ public class Assignment1 {
 	 * Performs benchmark with random seed 0 to populate the data structures and with mutations as in 
 	 * CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
 	 * 
-	 * @see CollectionTimer.DEFAULT_MUTATIONS
+	 * @see CollectionTimer#DEFAULT_MUTATIONS
 	 */
 	public void benchmark() {
 		for (List<Integer> list : lists) {
@@ -54,7 +54,7 @@ public class Assignment1 {
 	 * CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
 	 * 
 	 * @param elemGenSeed 	seed for the random object generator
-	 * @see 				CollectionTimer.DEFAULT_MUTATIONS
+	 * @see 				CollectionTimer#DEFAULT_MUTATIONS
 	 */
 	public void benchmark(long elemGenSeed) {
 		for (List<Integer> list : lists) {
