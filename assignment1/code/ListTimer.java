@@ -15,7 +15,7 @@ public class ListTimer extends CollectionTimer {
 	/**
 	 * Constructor that creates a ListTimer instance for the given list.
 	 *
-	 * @param 	list 		instance of the data structure that is to be benchmarked.
+	 * @param list 	instance of the data structure that is to be benchmarked.
 	 */ 
 	public ListTimer(List<Integer> list) {
 		super();
@@ -25,8 +25,8 @@ public class ListTimer extends CollectionTimer {
 	/**
 	 * Constructor that creates a ListTimer instance for the given list.
 	 *
-	 * @param 	list 		instance of the data structure that is to be benchmarked.
-	 * @param 	elemGenSeed seed for the generator of random elements
+	 * @param list 			instance of the data structure that is to be benchmarked.
+	 * @param elemGenSeed 	seed for the generator of random elements
 	 */ 
 	public ListTimer(List<Integer> list, long elemGenSeed) {
 		super(elemGenSeed);
@@ -36,8 +36,8 @@ public class ListTimer extends CollectionTimer {
 	/**
 	 * Constructor that creates a ListTimer instance for the given list.
 	 *
-	 * @param 	list 		instance of the data structure that is to be benchmarked.
-	 * @param 	elemGenSeed seed for the generator of random elements
+	 * @param list 			instance of the data structure that is to be benchmarked.
+	 * @param elemGenSeed	seed for the generator of random elements
 	 */ 
 	public ListTimer(List<Integer> list, Long elemGenSeed) {
 		super(elemGenSeed);
@@ -47,7 +47,7 @@ public class ListTimer extends CollectionTimer {
 	/**
 	 * Adds an Integer object to the list.
 	 *
-	 * @param 	elem 		the object that is to be inserted
+	 * @param elem 	the object that is to be inserted
 	 */ 
 	public void addElement(Integer elem) {
 		list.add(elem);
@@ -56,8 +56,8 @@ public class ListTimer extends CollectionTimer {
 	/**
 	 * Removes an object from the list.
 	 *
-	 * @throws 	IndexOutOfBoundsException 		if the list is empty
-	 * @throws 	UnsupportedOperationException 	if the list does not support removal of elements
+	 * @throws IndexOutOfBoundsException 		if the list is empty
+	 * @throws UnsupportedOperationException 	if the list does not support removal of elements
 	 */ 
 	public void removeElement() throws IndexOutOfBoundsException, UnsupportedOperationException {
 		list.remove(list.size() - 1);

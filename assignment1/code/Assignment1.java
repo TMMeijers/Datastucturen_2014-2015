@@ -1,7 +1,10 @@
 import java.util.*;
 import java.lang.String;
+
 /**
- * Class
+ * Example solution for the first assignment of the course Data Structures 2009/2010 at the University of Amsterdam. 
+ * Times the mutations (population and depopulation) of various data structures provided by the Java standard library 
+ * that either implement the List or Queue interface.
  */
 public class Assignment1 {
 
@@ -30,79 +33,108 @@ public class Assignment1 {
 	}
 
 	/**
-	 * Performs benchmark with random seed 0 to populate the data structures and with mutations as in CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
+	 * Performs benchmark with random seed 0 to populate the data structures and with mutations as in 
+	 * CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
 	 * 
-	 * @see 		CollectionTimer.DEFAULT_MUTATIONS
+	 * @see CollectionTimer.DEFAULT_MUTATIONS
 	 */
 	public void benchmark() {
 		for (List<Integer> list : lists) {
 			ListTimer listTimer = new ListTimer(list);
-			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time());
+			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time() + "ms");
 		}
 		for (Queue<Integer> queue : queues) {
 			QueueTimer queueTimer = new QueueTimer(queue);
-			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time());
+			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time() + "ms");
 		}
 	}
 
 	/**
-	 * Performs benchmark using the given seed to populate the data structures and with mutations as in CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
+	 * Performs benchmark using the given seed to populate the data structures and with mutations as in 
+	 * CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
 	 * 
-	 * @param 	elemGenSeed 	seed for the random object generator
-	 * @see 					CollectionTimer.DEFAULT_MUTATIONS
+	 * @param elemGenSeed 	seed for the random object generator
+	 * @see 				CollectionTimer.DEFAULT_MUTATIONS
 	 */
 	public void benchmark(long elemGenSeed) {
 		for (List<Integer> list : lists) {
 			ListTimer listTimer = new ListTimer(list, elemGenSeed);
-			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time());
+			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time() + "ms");
 		}
 		for (Queue<Integer> queue : queues) {
 			QueueTimer queueTimer = new QueueTimer(queue, elemGenSeed);
-			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time());
+			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time() + "ms");
 		}
 	}
 
 	/**
-	 * Performs benchmark with random seed 0 to populate the data structures and with mutations as in CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
+	 * Performs benchmark with random seed 0 to populate the data structures and with mutations as in 
+	 * CollectionTimer.DEFAULT_MUTATIONS. The result is printed to stdout.
 	 * 
-	 * @param 	elemGenSeed 	seed for the random object generator
-	 * @param	mutations 		integer array defining which successive permutations should be performed
+	 * @param elemGenSeed 	seed for the random object generator
+	 * @param mutations 	integer array defining which successive permutations should be performed
 	 */
 	public void benchmark(long elemGenSeed, int[] mutations) {
 		for (List<Integer> list : lists) {
 			ListTimer listTimer = new ListTimer(list, elemGenSeed);
-			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time(mutations));
+			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time(mutations) + "ms");
 		}
 		for (Queue<Integer> queue : queues) {
 			QueueTimer queueTimer = new QueueTimer(queue, elemGenSeed);
-			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time(mutations));
+			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time(mutations) + "ms");
 		}
 	}
 
 	/**
-	 * Main method of the program. Parses the command line options and initiates the benchmarking process according to the provided arguments. See the class description for an overview of the accepted paramers.
+	 * Main method of the program. Parses the command line options and initiates the benchmarking process according to 
+	 * the provided arguments. See the class description for an overview of the accepted paramers.
 	 * 
-	 * @param 	args 			the command line arguments passed to the program
+	 * @param args 	the command line arguments passed to the program
 	 */
 	public static void main(String[] args) {
-		long elemGenSeed;
-		int mutations[];
+		Assignment1 assignment1 = new Assignment1();
+
 		if (args.length > 0) {
-			elemGenSeed = Long.parseLong(args[0]);
-		}
-		if (args.length > 1) {
-			mutations = new int[args.length-1];
-			for (int i = 1; i < args.length; i++) {
-				mutations[i-1] = Integer.parseInt(args[i]);
+			long elemGenSeed = 0;
+			int mutationsIndex = 0;
+
+			// If seed is specified
+			if (args[0].equals("-s")) {
+				try {
+					elemGenSeed = Long.parseLong(args[1]);
+					mutationsIndex = 2;
+				} catch (NumberFormatException e) {
+					errorExit("Please specify the seed correctly");
+				}
 			}
+
+			// Get mutations
+			int[] mutations = new int[args.length - mutationsIndex];
+			for (int i = 0; i < args.length - mutationsIndex; i++) {
+				try {
+					mutations[i] = Integer.parseInt(args[i + mutationsIndex]);
+				} catch (NumberFormatException e) {
+					errorExit("Please specify the mutations correctly");
+				}
+			}
+
+			// Call benchmark method according to specified arguments
+			if (mutations.length > 0) {
+				assignment1.benchmark(elemGenSeed, mutations);
+			} else {
+				assignment1.benchmark(elemGenSeed);
+			}
+		} else {
+			assignment1.benchmark();
 		}
-		benchmark();
+		
+
 	}
 
 	/**
 	 * Print a message to stderr and exit with value 1.
 	 *
-	 * @param 	msg 			the error message
+	 * @param msg 	the error message
 	 */
 	private static void errorExit(String msg) {
 		System.out.println(msg);

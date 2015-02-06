@@ -16,7 +16,7 @@ public class QueueTimer extends CollectionTimer {
 	/**
 	 * Constructor that creates a QueueTimer instance for the given queue.
 	 *
-	 * @param 	queue 		instance of the data structure that is to be benchmarked.
+	 * @param queue 	instance of the data structure that is to be benchmarked.
 	 */ 
 	public QueueTimer(Queue<Integer> queue) {
 		super();
@@ -26,8 +26,8 @@ public class QueueTimer extends CollectionTimer {
 	/**
 	 * Constructor that creates a QueueTimer instance for the given queue.
 	 *
-	 * @param 	queue 		instance of the data structure that is to be benchmarked.
-	 * @param 	elemGenSeed seed for the generator of random elements
+	 * @param queue 		instance of the data structure that is to be benchmarked.
+	 * @param elemGenSeed 	seed for the generator of random elements
 	 */ 
 	public QueueTimer(Queue<Integer> queue, long elemGenSeed) {
 		super(elemGenSeed);
@@ -37,8 +37,8 @@ public class QueueTimer extends CollectionTimer {
 	/**
 	 * Constructor that creates a QueueTimer instance for the given queue.
 	 *
-	 * @param 	queue 		instance of the data structure that is to be benchmarked.
-	 * @param 	elemGenSeed seed for the generator of random elements
+	 * @param queue 		instance of the data structure that is to be benchmarked.
+	 * @param elemGenSeed 	seed for the generator of random elements
 	 */ 
 	public QueueTimer(Queue<Integer> queue, Long elemGenSeed) {
 		super(elemGenSeed);
@@ -48,7 +48,7 @@ public class QueueTimer extends CollectionTimer {
 	/**
 	 * Adds an Integer object to the queue.
 	 *
-	 * @param 	elem 		the object that is to be inserted
+	 * @param elem 	the object that is to be inserted
 	 */ 
 	public void addElement(Integer elem) {
 		queue.add(elem);
@@ -57,10 +57,10 @@ public class QueueTimer extends CollectionTimer {
 	/**
 	 * Removes an object from the queue.
 	 *
-	 * @throws 	NoSuchElementException  		if the queue is empty
+	 * @throws NoSuchElementException 	if the queue is empty
 	 */ 
 	public void removeElement() throws NoSuchElementException {
-		queue.remove(queue.size() - 1);
+		queue.poll();
 	}
 
 	/**
