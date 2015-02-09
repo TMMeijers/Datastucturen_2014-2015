@@ -5,7 +5,6 @@ import java.lang.String;
  * Example solution for the first assignment of the course Data Structures 2009/2010 at the University of Amsterdam. 
  * Times the mutations (population and depopulation) of various data structures provided by the Java standard library 
  * that either implement the List or Queue interface.
- * <p>
  */
 public class Assignment1 {
 

@@ -118,10 +118,26 @@ public abstract class CollectionTimer {
 
 	/**
 	 * Removes some object from the data structure.
-	 *
+	 * <p>
+	 * <b>QUESTION</b>: "How will the implementation of removeElement() affect the performance of the different ADTs?"
+	 * <p>
+	 * <b>ANSWER</b>: For ADTs based on the List class the method used is removing elements at the end. This has the 
+	 * best performance since if one would remove an element at any other index all the elements coming after the
+	 * removed one would have to be moved one index to the front.
+	 * <p>
+	 * For ADTs based on the Queue class this is the other way around. The method used to remove elements is
+	 * poll(), which returns the element at the start. If one would opt to remove any other element, just as
+	 * with the List class, the elements coming before that element have to be moved one index.
+	 * <p>
+	 * When removeElement is implemented this way, both classes have "optimal" performance and can be comapred
+	 * in a realistic way, which is why we chose to implement it in this way.
+	 * 
 	 * @throws RuntimeException 	If no element can be removed from the underlying data structure
 	 */
 	public abstract void removeElement() throws RuntimeException;
+	/*
+
+	 */
 
 	/**
 	 * Determines the size of the data structure that is being timed.
