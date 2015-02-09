@@ -6,7 +6,6 @@ import java.lang.String;
  * Times the mutations (population and depopulation) of various data structures provided by the Java standard library 
  * that either implement the List or Queue interface.
  * <p>
- * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO 
  */
 public class Assignment1 {
 
