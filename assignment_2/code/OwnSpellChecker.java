@@ -1,15 +1,16 @@
 import java.util.*;
 import java.io.*;
-class SpellChecker {
+class OwnSpellChecker {
     public static void main(String[] args) {
         int hash_size;
         int count = 0, typo = 0;
         long start = 0, end = 0;
         String wordfile, textfile;
-        Hashtable<String, String> table;
+        OpenHashtable table;
+        Compressable function;
+        Strategy strategy;
 
         /* Shared token to store for every word in the hash table. */
-        String placeholder = "a";
 
         if (!(args.length == 3) ) {
             System.out.println("Usage: java SpellChecker <wordfile> <text> <size>");
@@ -19,7 +20,9 @@ class SpellChecker {
         textfile = args[1];
         hash_size = Integer.parseInt(args[2]);
         System.out.printf("Selected table size: %d\n", hash_size);
-        table = new Hashtable<String, String>(hash_size);
+        function = new Division(hash_size);
+        strategy = new QuadraticProbing(hash_size);
+        table = new OpenHashtable(hash_size, function, strategy);
        
         /* Read wordfile, and insert every word into the hash table. */
         try {
@@ -28,14 +31,14 @@ class SpellChecker {
             String str, copy;
             while ((str = in.readLine()) != null) {
                 copy = str.toLowerCase();
-                table.put(copy, placeholder);
+                table.put(copy);
             }
             end = System.currentTimeMillis();
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("java opbouwen Hashtable in " + (end - start) + " ms");
+        System.out.println("java OpenHashtable built in " + (end - start) + " ms");
 
         // Read text file, and lookup every word in the hash table.
         try {
@@ -49,7 +52,6 @@ class SpellChecker {
                 while(st.hasMoreTokens()) {
                     String word = st.nextToken();
                     if (!contains_numbers(word) && table.get(word) == null) {
-                        // System.out.printf("Not found: [%s]\n", word);
                         typo++;
                     }
                     count++;
@@ -68,7 +70,7 @@ class SpellChecker {
         System.out.printf("Text contains %d words\n", count);
         System.out.printf("typo's %d\n", typo);
 
-        System.out.println("zoeken woorden in " + (end - start) + " ms");
+        System.out.println("word search in " + (end - start) + " ms");
     }
     /* Checks is word contains digits. So it can be ignored for spell
      * checking. */

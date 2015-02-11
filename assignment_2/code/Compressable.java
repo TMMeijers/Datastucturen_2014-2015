@@ -2,5 +2,11 @@
  * 
  */
 public interface Compressable {
-    int calcIndex(Object key);
+
+	/**
+	 * [calcIndex description]
+	 * @param  key [description]
+	 * @return     [description]
+	 */
+    int calcIndex(String key);
 }

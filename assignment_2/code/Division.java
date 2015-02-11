@@ -5,7 +5,7 @@ public class Division implements Compressable {
     /**
      * 
      */
-    int table_length;
+    private int table_length;
 
     /**
      * 
@@ -21,7 +21,7 @@ public class Division implements Compressable {
      * Constructor
      * @param  length length of the table
      */
-    Division(int length) {
+    public Division(int length) {
         table_length = length;
     }
 
@@ -30,7 +30,7 @@ public class Division implements Compressable {
      * @param  key [description]
      * @return     [description]
      */
-    int calcIndex(String key) {
+    public int calcIndex(String key) {
         int index;
 
         index = Math.abs(hashCode(key)) % table_length;
@@ -42,7 +42,7 @@ public class Division implements Compressable {
      * @param  key [description]
      * @return     [description]
      */
-    int hashCode(String key) {
+    private int hashCode(String key) {
         int h = initial;
         char[] val = key.toCharArray();
         int len = key.length();

@@ -1,0 +1,748 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Link",
+				"LinkedHashList"
+			],
+			[
+				"hash",
+				"hashStrategy"
+			],
+			[
+				"error",
+				"errorExit"
+			],
+			[
+				"add",
+				"addElement"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Hasher.java",
+			"settings":
+			{
+				"buffer_size": 916,
+				"line_ending": "Windows",
+				"name": "public class Hasher implements Compressable {"
+			}
+		},
+		{
+			"file": "AbstractHashtable.java",
+			"settings":
+			{
+				"buffer_size": 820,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "OwnSpellChecker.java",
+			"settings":
+			{
+				"buffer_size": 3062,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "OpenHashtable.java",
+			"settings":
+			{
+				"buffer_size": 1578,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ChainHashtable.java",
+			"settings":
+			{
+				"buffer_size": 1033,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LinkedHashList.java",
+			"settings":
+			{
+				"buffer_size": 459,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "CollisionChaining.java",
+			"settings":
+			{
+				"buffer_size": 288,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LinearProbing.java",
+			"settings":
+			{
+				"buffer_size": 366,
+				"line_ending": "Windows",
+				"name": "public class LinearProbing implements Strategy {"
+			}
+		},
+		{
+			"file": "QuadraticProbing.java",
+			"settings":
+			{
+				"buffer_size": 314,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "DoubleHashProbing.java",
+			"settings":
+			{
+				"buffer_size": 515,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 81.0,
+		"selected_items":
+		[
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"syntax latex",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 400.0
+	},
+	"console":
+	{
+		"height": 160.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/LinkedHashNode.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/Strategy.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/SpellChecker.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/Compressable.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/Division.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Beeldverwerken/Practica/P02/canny.m",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/OpenHashTable.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/AbstractHashTable.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/ChainHashTable.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_1/code/QueueTimer.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_1/code/Assignment1.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_1/code/CollectionTimer.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_1/code/ListTimer.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/ExperimentHashTable.java",
+		"/C/Users/T.M. Meijers/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/T.M. Meijers/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/datastructuren_assignment2.sublime-project",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/experimentHashTable.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment_2/code/collisionChaining.java",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Lineaire Algebra/HW/phw1.txt",
+		"/D/Games/Red Alert 2/SERIAL.TXT",
+		"/C/Users/T.M. Meijers/AppData/Local/Temp/Rar$DIa0.082/ReadMeLAN.txt",
+		"/D/Games/Red Alert 2/keygen.nfo",
+		"/C/Users/T.M. Meijers/AppData/Local/Temp/Rar$DIa0.652/ReadMeLAN.txt",
+		"/C/ProgramData/Sun/Java/Java Update/jaureglist.xml",
+		"/C/Users/T.M. Meijers/AppData/Local/GitHub/PortableGit_ed44d00daa128db527396557813e7b68709ed0e2/git-bash.bat",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/.gitignore",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment1/code/Assignment1.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment1/code/QueueTimer.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment1/code/CollectionTimer.java",
+		"/D/Documents and files/KI/BSc KI/2014-2015/Datastructuren/assignment1/code/ListTimer.java",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/README.txt",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/login.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/register.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/core/functions/users.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/core/functions/general.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/productbeheer.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/products.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/css/bierbrommer_stylesheet123.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/add_to_cart.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/README.txt",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/core/database/connect.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/connect.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/core/init.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/product.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/leveranciersbeheer.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/klantbeheer.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/index.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/admin.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/cart.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/KI23-Bierbrommer/code/phpinfo.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/js/animation.js",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/createpage.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/deleteprofilepic.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/uploadpic.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/deletePost.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/README.txt",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/chatbox.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/addcommentpage.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/addcomment.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/index.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/pageimg/fail",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/newsfeed.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/editpage.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/feed.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/follow.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/login.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/.friendlist.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/chatbox.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/chatbox-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/core.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/core-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/default-index.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/default-index-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/feed.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/footer.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/footer-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/friendlist.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/header.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/index.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/newsfeed-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/page.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/postzoom.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/profiel.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/profile.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/register.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/register-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/settings.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/css/settings-light.css",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/friends.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/header.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/logout.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/notificaties.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/page.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/pagecreation.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/pageID.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/pagezoom.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/postzoom.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/profiel.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/profielieder.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/redirect.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/register.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/request.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/sendMessage.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/settings.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/test.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/testprofiel.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/updateMessageLog.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/upload.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/uploadtopage.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/en/uploadtoprofile.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/connect.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/connect_index.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/footer.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/header.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/indexfooter.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/infodivs.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/loadCSS.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/loadindexCSS.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/loadregisterCSS.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/loadLogo.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/logout.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/php/styleswitch.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15ki27/webdb15ki27/VerslagKI27.pdf",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15KI26/aigenda/README.txt",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15KI26/aigenda/index.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15KI26/aigenda/php/opendb.php",
+		"/D/Documents and files/KI/Teaching Assistant/2014-2015/Webprogrammeren en Databases/webdb15KI26/aigenda/php/pages/userlist.php"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"jos",
+			"aap",
+			"clean_input",
+			"cleanin",
+			"cleaninput",
+			"GET",
+			"post",
+			"input",
+			"add_prod",
+			".*;\n",
+			"/*",
+			"List",
+			"list",
+			"HEAD",
+			"1",
+			"15",
+			"16",
+			"17",
+			"\\\\n",
+			"\\n",
+			"cursors",
+			"cookies",
+			"function buyCursor()",
+			"cookies",
+			"woodCuttersRate",
+			"cookies",
+			"git",
+			" ",
+			";",
+			"cost",
+			";",
+			"	",
+			";",
+			"video_frame_read",
+			"depth_frame_",
+			"depth_frame",
+			"return",
+			"color",
+			"IMageReso",
+			"open",
+			"skeletonengine",
+			"strea",
+			"video_display",
+			"jointid",
+			"install",
+			"64-bit",
+			"bit",
+			"Collections",
+			"room",
+			"low",
+			"kings",
+			"king",
+			"kings",
+			"king",
+			"kingsroom",
+			"win",
+			"1",
+			"x",
+			"X",
+			"Poslist",
+			"AN",
+			"powerdesc",
+			"beachauto",
+			"==",
+			"displaydescr",
+			"beachautocli",
+			"switchstatus(\\'beachau",
+			"countdown",
+			"att",
+			"attk",
+			"1999",
+			"scott",
+			"1987",
+			"13."
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"/**",
+			"Queue",
+			"queue",
+			"huts",
+			"food",
+			"",
+			",",
+			" ",
+			",",
+			"score",
+			"-1",
+			"o",
+			"x",
+			"PosList"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": false,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Hasher.java",
+					"settings":
+					{
+						"buffer_size": 916,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								485,
+								488
+							]
+						],
+						"settings":
+						{
+							"auto_name": "public class Hasher implements Compressable {",
+							"syntax": "Packages/Java/Java.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "AbstractHashtable.java",
+					"settings":
+					{
+						"buffer_size": 820,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								711,
+								711
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "OwnSpellChecker.java",
+					"settings":
+					{
+						"buffer_size": 3062,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2742,
+								2742
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "OpenHashtable.java",
+					"settings":
+					{
+						"buffer_size": 1578,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1069,
+								656
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "ChainHashtable.java",
+					"settings":
+					{
+						"buffer_size": 1033,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								878,
+								878
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "LinkedHashList.java",
+					"settings":
+					{
+						"buffer_size": 459,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								92,
+								92
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "CollisionChaining.java",
+					"settings":
+					{
+						"buffer_size": 288,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								283,
+								283
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "LinearProbing.java",
+					"settings":
+					{
+						"buffer_size": 366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								321,
+								321
+							]
+						],
+						"settings":
+						{
+							"auto_name": "public class LinearProbing implements Strategy {",
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "QuadraticProbing.java",
+					"settings":
+					{
+						"buffer_size": 314,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								314,
+								314
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "DoubleHashProbing.java",
+					"settings":
+					{
+						"buffer_size": 515,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								501,
+								501
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.latex_log":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": false,
+	"side_bar_visible": true,
+	"side_bar_width": 181.0,
+	"status_bar_visible": true
+}
