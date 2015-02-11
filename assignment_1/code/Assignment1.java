@@ -39,14 +39,8 @@ public class Assignment1 {
 	 * @see CollectionTimer#DEFAULT_MUTATIONS
 	 */
 	public void benchmark() {
-		for (List<Integer> list : lists) {
-			ListTimer listTimer = new ListTimer(list);
-			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time() + "ms");
-		}
-		for (Queue<Integer> queue : queues) {
-			QueueTimer queueTimer = new QueueTimer(queue);
-			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time() + "ms");
-		}
+		benchmark(0,CollectionTimer.DEFAULT_MUTATIONS);
+		
 	}
 
 	/**
@@ -57,14 +51,7 @@ public class Assignment1 {
 	 * @see 				CollectionTimer#DEFAULT_MUTATIONS
 	 */
 	public void benchmark(long elemGenSeed) {
-		for (List<Integer> list : lists) {
-			ListTimer listTimer = new ListTimer(list, elemGenSeed);
-			System.out.println(list.getClass().getSimpleName() + ": " + listTimer.time() + "ms");
-		}
-		for (Queue<Integer> queue : queues) {
-			QueueTimer queueTimer = new QueueTimer(queue, elemGenSeed);
-			System.out.println(queue.getClass().getSimpleName() + ": " + queueTimer.time() + "ms");
-		}
+		benchmark(elemGenSeed, CollectionTimer.DEFAULT_MUTATIONS);
 	}
 
 	/**
