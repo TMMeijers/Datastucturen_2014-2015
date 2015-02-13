@@ -17,9 +17,13 @@ public class LinkedHashList {
         length++;
     }
 
+    public int size() {
+    	return length;
+    }
+
     public class HashNode {
-        HashNode next;
-        String word; 
+        private HashNode next;
+        private String word; 
 
         public HashNode(String word) {
             this.word = word;
