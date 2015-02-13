@@ -32,7 +32,7 @@ public class HashNode {
         if (next == null) {
             throw new IndexOutOfBoundsException();
         }
-    	return next;
+        return next;
     }
 
     /**

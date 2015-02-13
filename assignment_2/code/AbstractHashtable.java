@@ -11,7 +11,7 @@ public abstract class AbstractHashtable {
     /**
      * 
      */
-    protected int size;
+    protected int table_size;
 
     /**
      * 
@@ -33,7 +33,7 @@ public abstract class AbstractHashtable {
      * @return [description]
      */
     public int size() {
-        return size;
+        return table_size;
     }
 
     /**

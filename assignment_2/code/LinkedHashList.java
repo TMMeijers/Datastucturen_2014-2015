@@ -3,9 +3,9 @@
  */
 public class LinkedHashList {
 
-	/**
-	 * The first HashNode in the LinkedHashList
-	 */
+    /**
+     * The first HashNode in the LinkedHashList
+     */
     private HashNode head;
 
     /**
@@ -45,7 +45,7 @@ public class LinkedHashList {
      * @return the HashNode at the start of the list
      */
     public HashNode getHead() {
-    	return head;
+        return head;
     }
 
     /**
@@ -53,6 +53,6 @@ public class LinkedHashList {
      * @return size of the LinkedHashList
      */
     public int size() {
-    	return length;
+        return length;
     }
 }

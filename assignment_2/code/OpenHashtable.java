@@ -33,6 +33,7 @@ public class OpenHashtable extends AbstractHashtable {
         this.strategy = strategy;
         table_length = hash_size;
         table = new String[hash_size];
+        wordsCopy = new ArrayList<String>();
     }
 
     /**
@@ -41,27 +42,27 @@ public class OpenHashtable extends AbstractHashtable {
      * @param placeholder [description]
      */
     public void put(String word) {
-    	// If load factor > 0.75 increase size of table
-    	if (((double) size / table_length) > 0.75) {
-    		increaseSize();
-    	}
-    	// Copy word for size 
-    	wordsCopy.add(word);
+        // If load factor > 0.75 increase size of table
+        if (((double) table_size / table_length) > 0.75) {
+            increaseLength();
+        }
+        // Copy word for size 
+        wordsCopy.add(word);
 
         int index = function.calcIndex(word);
         // If empty fill index
         if (table[index] == null) {
-            size++;
+            table_size++;
             table[index] = word;
         // Else get next index based on chosen strategy
         } else {
-        	strategy.init();
+            strategy.init();
             index = strategy.execute(index);
             // Keep looking for empty index
             while (table[index] != null) {
                 index = strategy.execute(index);
             }
-            size++;
+            table_size++;
             table[index] = word;
         }
     }
@@ -85,25 +86,26 @@ public class OpenHashtable extends AbstractHashtable {
         return table[index];
     }
 
-    private void increaseSize() {
-    	// Double array size
-    	hash_size *= 2;
-    	table = new table[hash_size];
+    private void increaseLength() {
+        // Double array size
+        table_length *= 2;
+        table = new String[table_length];
 
-    	for (String copy : wordsCopy) {
-	        // If empty fill index
-	        if (table[index] == null) {
-	            table[index] = word;
-	        // Else get next index based on chosen strategy
-	        } else {
-	        	strategy.init();
-	            index = strategy.execute(index);
-	            // Keep looking for empty index
-	            while (table[index] != null) {
-	                index = strategy.execute(index);
-	            }
-	            table[index] = word;
-	        }
-    	}
+        for (String copy : wordsCopy) {
+            int index = function.calcIndex(copy);
+            // If empty fill index
+            if (table[index] == null) {
+                table[index] = copy;
+            // Else get next index based on chosen strategy
+            } else {
+                strategy.init();
+                index = strategy.execute(index);
+                // Keep looking for empty index
+                while (table[index] != null) {
+                    index = strategy.execute(index);
+                }
+                table[index] = copy;
+            }
+        }
     }
 } 
