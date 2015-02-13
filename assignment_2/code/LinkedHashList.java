@@ -19,7 +19,7 @@ public class LinkedHashList {
 
     public class HashNode {
         HashNode next;
-        String word;
+        String word; 
 
         public HashNode(String word) {
             this.word = word;
