@@ -25,6 +25,7 @@ public class DoubleHashProbing extends Strategy {
 	 * @return       [description]
 	 */
 	public int execute(int index, int j) {
-		return hasher.calcIndex(index);
+		// return hasher.calcIndex(index);
+		return 0;
 	}
 }
