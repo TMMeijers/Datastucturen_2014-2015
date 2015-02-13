@@ -23,6 +23,7 @@ public class LinkedHashList {
 
         public HashNode(String word) {
             this.word = word;
+            next = null;
         }
     }
 }

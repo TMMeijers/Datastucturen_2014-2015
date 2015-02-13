@@ -58,7 +58,7 @@ public class OpenHashtable extends AbstractHashtable {
         if (table[index] == null) {
             return null;
         }
-        int j = 0;
+        int j = 1;
         // While word doesn't match and we don't arrive at an empty element get new index
         while ((!word.equals(table[index])) && (table[index] != null)) {
             index = strategy.execute(index, j);
