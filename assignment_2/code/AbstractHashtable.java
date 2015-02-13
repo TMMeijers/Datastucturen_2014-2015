@@ -24,7 +24,7 @@ public abstract class AbstractHashtable {
      * @param  strategy [description]
      * @return          [description]
      */
-    public AbstractHashtable(Compressable function) {
+    protected AbstractHashtable(Compressable function) {
         this.function = function;
     }
 

@@ -44,7 +44,7 @@ public class OpenHashtable extends AbstractHashtable {
     public void put(String word) {
         // If load factor > 0.75 increase size of table
         if (((double) table_size / table_length) > 0.75) {
-            increaseLength();
+            resize();
         }
         // Copy word for size 
         wordsCopy.add(word);
@@ -86,11 +86,15 @@ public class OpenHashtable extends AbstractHashtable {
         return table[index];
     }
 
-    private void increaseLength() {
+    /**
+     * [increaseLength description]
+     */
+    private void resize() {
         // Double array size
         table_length *= 2;
         table = new String[table_length];
 
+        // Now rehash all the words and fill
         for (String copy : wordsCopy) {
             int index = function.calcIndex(copy);
             // If empty fill index

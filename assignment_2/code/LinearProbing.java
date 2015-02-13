@@ -5,8 +5,8 @@ public class LinearProbing extends Strategy {
 
 
     /**
-          * stepSize for linear probing. Defaults to 1
-          */
+     * stepSize for linear probing. Defaults to 1
+     */
     private int stepSize;
     
     /**
@@ -18,8 +18,8 @@ public class LinearProbing extends Strategy {
     }
 
     /**
-      * [LinearProbing description]
-      */
+     * [LinearProbing description]
+     */
     public LinearProbing(int length, int stepSize) {
         super(length);
         this.stepSize = stepSize;

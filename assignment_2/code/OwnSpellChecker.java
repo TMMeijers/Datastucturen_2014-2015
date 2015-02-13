@@ -20,8 +20,8 @@ class OwnSpellChecker {
         textfile = args[1];
         hash_size = Integer.parseInt(args[2]);
         System.out.printf("Selected table size: %d\n", hash_size);
-        function = new Division(hash_size);
-        strategy = new LinearProbing(hash_size);
+        function = new DivisionHasher(hash_size);
+        strategy = new DoubleHashProbing(hash_size);
         table = new OpenHashtable(hash_size, function, strategy);
        
         /* Read wordfile, and insert every word into the hash table. */

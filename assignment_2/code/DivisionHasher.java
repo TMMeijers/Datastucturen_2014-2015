@@ -1,7 +1,7 @@
 /**
  * 
  */
-public class Division implements Compressable {
+public class DivisionHasher implements Compressable {
     /**
      * 
      */
@@ -21,7 +21,7 @@ public class Division implements Compressable {
      * Constructor
      * @param  length length of the table
      */
-    public Division(int length) {
+    public DivisionHasher(int length) {
         table_length = length;
     }
 

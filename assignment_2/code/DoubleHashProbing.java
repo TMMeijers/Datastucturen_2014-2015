@@ -15,7 +15,7 @@ public class DoubleHashProbing extends Strategy {
      */
     public DoubleHashProbing(int length) {
         super(length);
-        hasher = new Hasher(length);
+        hasher = new BitShiftHasher(length);
     }
 
     /**
@@ -25,7 +25,6 @@ public class DoubleHashProbing extends Strategy {
      * @return       [description]
      */
     public int execute(int index) {
-        // return hasher.calcIndex(index);
-        return 0;
+        return hasher.calcIndex(index);
     }
 }
