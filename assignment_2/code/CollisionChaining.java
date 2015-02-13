@@ -17,4 +17,4 @@ public class CollisionChaining extends Strategy {
     public int execute(int index, int j) {
         return 0;
     }
-}
+} 
