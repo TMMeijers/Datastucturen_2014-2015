@@ -86,13 +86,19 @@ public class OpenHashtable extends AbstractHashtable {
         return table[index];
     }
 
+    public String printStrategy() {
+        return strategy.getClass().getSimpleName();
+    }
+
     /**
      * [increaseLength description]
      */
     private void resize() {
-        // Double array size
+        // Double size and update objects with new size
         table_length *= 2;
         table = new String[table_length];
+        strategy.setLength(table_length);
+        function.setLength(table_length);
 
         // Now rehash all the words and fill
         for (String copy : wordsCopy) {

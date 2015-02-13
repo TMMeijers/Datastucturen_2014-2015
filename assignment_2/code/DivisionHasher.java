@@ -38,6 +38,10 @@ public class DivisionHasher implements Compressable {
         return index;
     }
 
+    public void setLength(int length) {
+        table_length = length;
+    }
+
     /**
      * [hashCode description]
      * @param  key [description]

@@ -48,4 +48,6 @@ public abstract class AbstractHashtable {
      * @param word [description]
      */
     public abstract String get(String word);
+
+    public abstract String printStrategy();
 }

@@ -61,4 +61,8 @@ public class ChainHashtable extends AbstractHashtable {
         }
         return node.getWord();
     }
+
+    public String printStrategy() {
+        return "CollisionChaining";
+    }
 } 

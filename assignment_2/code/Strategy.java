@@ -16,6 +16,10 @@ public abstract class Strategy {
     public void init() {
     }
 
+    public void setLength(int length) {
+        table_length = length;
+    }
+
     /** 
      * Executes the strategy for the given class implementing this method.
      */
