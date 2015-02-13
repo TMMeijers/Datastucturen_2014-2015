@@ -11,11 +11,6 @@ public abstract class AbstractHashtable {
     /**
      * 
      */
-    protected Strategy strategy;
-
-    /**
-     * 
-     */
     protected int size;
 
     /**

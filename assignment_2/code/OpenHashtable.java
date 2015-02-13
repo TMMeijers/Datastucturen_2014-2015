@@ -17,7 +17,7 @@ public class OpenHashtable extends AbstractHashtable {
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
-    public OpenHashtable(int hash_size, Compressable function, Strategy strategy) {
+    public OpenHashtable(int hash_size, Compressable function) {
         super(function, strategy);
         table = new String[hash_size];
     }

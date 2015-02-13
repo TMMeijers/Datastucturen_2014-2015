@@ -8,6 +8,11 @@ public class ChainHashtable extends AbstractHashtable {
     private LinkedHashList table[];
 
     /**
+     * 
+     */
+    private Strategy strategy;
+
+    /**
      * [OpenHashTable description]
      * @param  hash_size the size that table should have.
      * @param  function  the hashing technique used.
