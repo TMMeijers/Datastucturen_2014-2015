@@ -13,7 +13,8 @@ public class Hasher implements Compressable {
      * @param  key [description]
      * @return     [description]
      */
-    public int calcIndex(String key) {
-    	return 0;
+    public int calcIndex(Object k) {
+        int key = (int) k;
+        return key;
     }
 }

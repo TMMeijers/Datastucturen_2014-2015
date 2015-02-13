@@ -8,5 +8,5 @@ public interface Compressable {
      * @param  key [description]
      * @return     [description]
      */
-    int calcIndex(String key);
+    int calcIndex(Object key);
 }
