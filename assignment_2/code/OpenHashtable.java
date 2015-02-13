@@ -35,7 +35,7 @@ public class OpenHashtable extends AbstractHashtable {
             table[index] = word;
         // Else get next index based on chosen strategy
         } else {
-            int j = 0;
+            int j = 1;
             index = strategy.execute(index, j);
             // Keep looking for empty index
             while (table[index] != null) {
