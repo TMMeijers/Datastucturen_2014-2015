@@ -1,4 +1,5 @@
 import java.lang.String;
+import java.util.ArrayList;
 
 /**
  * 
@@ -8,7 +9,17 @@ public class OpenHashtable extends AbstractHashtable {
     /**
      * 
      */
-    String table[];
+    private String table[];
+
+    /**
+     * 
+     */
+    private ArrayList<String> wordsCopy;
+
+    /**
+     * 
+     */
+    private Strategy strategy;
 
     /**
      * [OpenHashTable description]
@@ -17,8 +28,10 @@ public class OpenHashtable extends AbstractHashtable {
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
-    public OpenHashtable(int hash_size, Compressable function) {
-        super(function, strategy);
+    public OpenHashtable(int hash_size, Compressable function, Strategy strategy) {
+        super(function);
+        this.strategy = strategy;
+        table_length = hash_size;
         table = new String[hash_size];
     }
 
@@ -28,6 +41,13 @@ public class OpenHashtable extends AbstractHashtable {
      * @param placeholder [description]
      */
     public void put(String word) {
+    	// If load factor > 0.75 increase size of table
+    	if (((double) size / table_length) > 0.75) {
+    		increaseSize();
+    	}
+    	// Copy word for size 
+    	wordsCopy.add(word);
+
         int index = function.calcIndex(word);
         // If empty fill index
         if (table[index] == null) {
@@ -35,14 +55,13 @@ public class OpenHashtable extends AbstractHashtable {
             table[index] = word;
         // Else get next index based on chosen strategy
         } else {
-            int j = 1;
-            index = strategy.execute(index, j);
+        	strategy.init();
+            index = strategy.execute(index);
             // Keep looking for empty index
             while (table[index] != null) {
-                index = strategy.execute(index, j);
-                j++;
+                index = strategy.execute(index);
             }
-            size++; // temp
+            size++;
             table[index] = word;
         }
     }
@@ -58,12 +77,33 @@ public class OpenHashtable extends AbstractHashtable {
         if (table[index] == null) {
             return null;
         }
-        int j = 1;
+        strategy.init();
         // While word doesn't match and we don't arrive at an empty element get new index
         while ((!word.equals(table[index])) && (table[index] != null)) {
-            index = strategy.execute(index, j);
-            j++;
+            index = strategy.execute(index);
         }
         return table[index];
+    }
+
+    private void increaseSize() {
+    	// Double array size
+    	hash_size *= 2;
+    	table = new table[hash_size];
+
+    	for (String copy : wordsCopy) {
+	        // If empty fill index
+	        if (table[index] == null) {
+	            table[index] = word;
+	        // Else get next index based on chosen strategy
+	        } else {
+	        	strategy.init();
+	            index = strategy.execute(index);
+	            // Keep looking for empty index
+	            while (table[index] != null) {
+	                index = strategy.execute(index);
+	            }
+	            table[index] = word;
+	        }
+    	}
     }
 } 

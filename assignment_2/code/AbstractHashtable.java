@@ -14,14 +14,18 @@ public abstract class AbstractHashtable {
     protected int size;
 
     /**
+     * 
+     */
+    protected int table_length;
+
+    /**
      * [AbstractHashTable description]
      * @param  function [description]
      * @param  strategy [description]
      * @return          [description]
      */
-    public AbstractHashtable(Compressable function, Strategy strategy) {
+    public AbstractHashtable(Compressable function) {
         this.function = function;
-        this.strategy = strategy;
     }
 
     /**

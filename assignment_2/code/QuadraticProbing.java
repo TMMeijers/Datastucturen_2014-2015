@@ -10,8 +10,13 @@ public class QuadraticProbing extends Strategy {
      * H(k, i) = (h(k) + c1*i + c2*i^2) mod table_size
      * Note that if c2 = 0 than we get LinearProbing
      */
+    private int j;
     private int c1;
     private int c2;
+
+    public void init() {
+        j = 0;
+    }
 
     /**
      * [QuadraticProbing description]
@@ -39,7 +44,8 @@ public class QuadraticProbing extends Strategy {
     /**
      * [execute description]
      */
-    public int execute(int index, int j) {
+    public int execute(int index) {
+        j++;
         return (index + c1 * j + c2 * (j * j)) % table_length;
     }
 }

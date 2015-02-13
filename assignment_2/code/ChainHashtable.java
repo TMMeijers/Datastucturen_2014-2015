@@ -8,19 +8,15 @@ public class ChainHashtable extends AbstractHashtable {
     private LinkedHashList table[];
 
     /**
-     * 
-     */
-    private Strategy strategy;
-
-    /**
      * [OpenHashTable description]
      * @param  hash_size the size that table should have.
      * @param  function  the hashing technique used.
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
-    public ChainHashtable(int hash_size, Compressable function, Strategy strategy) {
-        super(function, strategy);
+    public ChainHashtable(int hash_size, Compressable function) {
+        super(function);
+        table_length = hash_size;
         table = new LinkedHashList[hash_size];
     }
 
@@ -36,7 +32,10 @@ public class ChainHashtable extends AbstractHashtable {
             size++;
             table[index] = new LinkedHashList(word);
         // Else get next index based on chosen strategy
-        } 
+        } else {
+        	size++;
+        	table[index].addHashNode(word);
+        }
     }
 
     /**
@@ -45,6 +44,21 @@ public class ChainHashtable extends AbstractHashtable {
      * @return      [description]
      */
     public String get(String word) {
-        return "test";
+        int index = function.calcIndex(word);
+        // If element is null word doesn't exist
+        if (table[index] == null) {
+            return null;
+        }
+        // If word not found get next word in list
+        HashNode node = table[index].getHead();
+        while (!node.getWord().equals(word)) {
+        	try {
+        		node = node.nextNode();
+        	} catch (IndexOutOfBoundsException e) {
+        		// If index out of bounds word not found
+        		return null;
+        	}
+        }
+        return node.getWord();
     }
 } 

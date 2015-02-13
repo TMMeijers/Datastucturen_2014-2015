@@ -10,8 +10,14 @@ public abstract class Strategy {
 		table_length = length;
 	}
 
+	/**
+	 * Placeholder function, only really used by QuadraticProbing
+	 */
+	public void init() {
+	}
+
 	/** 
 	 * Executes the strategy for the given class implementing this method.
 	 */
-	public abstract int execute(int index, int j);
+	public abstract int execute(int index);
 }

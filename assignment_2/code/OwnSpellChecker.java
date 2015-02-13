@@ -6,7 +6,7 @@ class OwnSpellChecker {
         int count = 0, typo = 0;
         long start = 0, end = 0;
         String wordfile, textfile;
-        OpenHashtable table;
+        AbstractHashtable table;
         Compressable function;
         Strategy strategy;
 
@@ -21,8 +21,7 @@ class OwnSpellChecker {
         hash_size = Integer.parseInt(args[2]);
         System.out.printf("Selected table size: %d\n", hash_size);
         function = new Division(hash_size);
-        strategy = new QuadraticProbing(hash_size);
-        table = new OpenHashtable(hash_size, function, strategy);
+        table = new ChainHashtable(hash_size, function);
        
         /* Read wordfile, and insert every word into the hash table. */
         try {
