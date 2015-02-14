@@ -1,5 +1,6 @@
 import java.lang.String;
 import java.util.ArrayList;
+import java.lang.IllegalArgumentException;
 
 /**
  * 
@@ -14,12 +15,11 @@ public class OpenHashtable extends AbstractHashtable {
     /**
      * 
      */
-    private ArrayList<String> wordsCopy;
-
-    /**
-     * 
-     */
     private Strategy strategy;
+
+    private double resizeFactor;
+
+    private double resizeThreshold;
 
     /**
      * [OpenHashTable description]
@@ -35,7 +35,40 @@ public class OpenHashtable extends AbstractHashtable {
         this.function.setLength(hash_size);
         this.table_length = hash_size;
         this.table = new String[hash_size];
-        this.wordsCopy = new ArrayList<String>();
+        this.resizeFactor = 1.75;
+        this.resizeThreshold = 0.75;
+    }
+
+    /**
+     * [OpenHashTable description]
+     * @param  hash_size the size that table should have.
+     * @param  function  the hashing technique used.
+     * @param  strategy  the strategy used to solve collisions.
+     * @return           [description]
+     */
+    public OpenHashtable(int hash_size, 
+                         double resizeFactor,
+                         double resizeThreshold,
+                         Compressable function, 
+                         Strategy strategy) {
+        super(function);
+        if (hash_size <= 0) {
+            throw new IllegalArgumentException("hash_size must be positive integer");
+        }
+        if (resizeFactor <= 1) {
+            throw new IllegalArgumentException("resizeFactor must be bigger than 1");
+        }
+        if (resizeThreshold <= 0 || resizeThreshold >= 1.0) {
+            throw new IllegalArgumentException("resizeThreshold must be between 0 and 1");
+        }
+
+        this.strategy = strategy;
+        this.strategy.setLength(hash_size);
+        this.function.setLength(hash_size);
+        this.table_length = hash_size;
+        this.table = new String[hash_size];
+        this.resizeFactor = resizeFactor;
+        this.resizeThreshold = resizeThreshold;
     }
 
     /**
@@ -45,12 +78,10 @@ public class OpenHashtable extends AbstractHashtable {
      */
     public void put(String word) {
         // If load factor > 0.75 increase size of table
-        if (((double) table_size / table_length) > 0.75) {
+        if (((double) table_size / table_length) > resizeThreshold) {
             resize();
         }
-        // Copy word for size 
-        wordsCopy.add(word);
-
+   
         int index = function.calcIndex(word);
         //System.out.println(index);
         // If empty fill index
@@ -100,13 +131,23 @@ public class OpenHashtable extends AbstractHashtable {
     private void resize() {
         System.out.println("resize");
         // Double size and update objects with new size
-        table_length *= 2;
+        
+        String[] storedWords = new String[table_size];
+        for (int i = 0, j = 0; i < table_length; i++) {
+            String word = table[i];
+            if (word != null) {
+                storedWords[j] = word;
+                j++;
+            }
+        }
+
+        table_length *= resizeFactor;
         table = new String[table_length];
         strategy.setLength(table_length);
         function.setLength(table_length);
 
         // Now rehash all the words and fill
-        for (String copy : wordsCopy) {
+        for (String copy : storedWords) {
             int index = function.calcIndex(copy);
             // If empty fill index
             if (table[index] == null) {

@@ -43,6 +43,8 @@ class OwnSpellChecker {
         ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>(4);
         // Hash table with Linear probing
         tables.add(new OpenHashtable(hash_size, 
+                                     2,
+                                     0.9,
                                      new DivisionHasher(), 
                                      new LinearProbing()));
         // Table with quadratic probing
