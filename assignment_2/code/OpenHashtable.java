@@ -135,7 +135,7 @@ public class OpenHashtable extends AbstractHashtable {
      * [increaseLength description]
      */
     private void resize() {
-        System.out.println("resize");
+        //        System.out.println("resize");
         // Double size and update objects with new size
         
         String[] storedWords = new String[table_size];
