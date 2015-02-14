@@ -14,6 +14,20 @@ public class ChainHashtable extends AbstractHashtable {
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
+    public ChainHashtable(int hash_size) {
+        super(new DivisionHasher());
+        function.setLength(hash_size);
+        table_length = hash_size;
+        table = new LinkedHashList[hash_size];
+    }
+
+    /**
+     * [OpenHashTable description]
+     * @param  hash_size the size that table should have.
+     * @param  function  the hashing technique used.
+     * @param  strategy  the strategy used to solve collisions.
+     * @return           [description]
+     */
     public ChainHashtable(int hash_size, Compressable function) {
         super(function);
         function.setLength(hash_size);

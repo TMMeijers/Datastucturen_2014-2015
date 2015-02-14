@@ -27,6 +27,24 @@ public class OpenHashtable extends AbstractHashtable {
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
+    public OpenHashtable(int hash_size, Strategy strategy) {
+        super(new DivisionHasher());
+        this.strategy = strategy;
+        this.strategy.setLength(hash_size);
+        this.function.setLength(hash_size);
+        this.table_length = hash_size;
+        this.table = new String[hash_size];
+        this.resizeFactor = 1.75;
+        this.resizeThreshold = 0.75;
+    }
+
+    /**
+     * [OpenHashTable description]
+     * @param  hash_size the size that table should have.
+     * @param  function  the hashing technique used.
+     * @param  strategy  the strategy used to solve collisions.
+     * @return           [description]
+     */
     public OpenHashtable(int hash_size, Compressable function, Strategy strategy) {
         super(function);
         this.strategy = strategy;

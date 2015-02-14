@@ -31,49 +31,30 @@ class OwnSpellChecker {
             System.err.println("<textfile> doesn't exist or is a directory\n");
             System.exit(1);
         }
-
-        // recommended
-        if (!((hash_size & -hash_size) == hash_size)) {
-            System.out.println("[WARNING] hash_size should be a power of 2");
-        }
         
         System.out.printf("Selected table size: %d\n", hash_size);                
-       
-        BitShiftHasher dh = new BitShiftHasher(37000);
-        //        int ni = dh.calcIndex(19179);
-        //System.out.println(ni);
-        //System.exit(0);
+        // It is recommended to use a hash size which is a power of 2, so lets Warn if the user
+        // doesn't provide it
+        if (!((hash_size & -hash_size) == hash_size)) {
+            System.out.println("[WARNING] hash_size should be a power of 2");
+        }  
 
-        // Make list to test all implementations
+        try {
+            // add all tables that we want to test
+            ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>();
+            tables.add(new OpenHashtable(hash_size, new LinearProbing()));
 
-        /* DONT REUSE THIS ONE. When you resize, then you modify it, thus the next hash table
-           will also use the resized one, while at the same time having still a non resized
-           size*/
-        //function = new DivisionHasher(hash_size);
-        ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>();
-        // Hash table with Linear probing
-        tables.add(new OpenHashtable(hash_size, 
-                                     2,
-                                     0.9,
-                                     new DivisionHasher(), 
-                                     new LinearProbing()));
-        // Table with quadratic probing
-        tables.add(new OpenHashtable(hash_size, 
-                                     4,
-                                     0.8,
-                                     new DivisionHasher(), 
-                                     new QuadraticProbing()));
-       
-        // Table with collision chaining
-        tables.add(new ChainHashtable(hash_size, 
-                                      new DivisionHasher()));
+            tables.add(new OpenHashtable(hash_size, new QuadraticProbing()));
 
-        // Table with double hashing
-        tables.add(new OpenHashtable(hash_size, 
-                                     new DivisionHasher(), 
-                                     new DoubleHashProbing()));
+            tables.add(new OpenHashtable(hash_size, new DoubleHashProbing()));
 
-        runExperiments(tables, wordfile, textfile);
+            tables.add(new ChainHashtable(hash_size));
+
+            runExperiments(tables, wordfile, textfile);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     /* Runs test on all hash tables in tables */
