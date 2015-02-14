@@ -34,6 +34,11 @@ class OwnSpellChecker {
         
         System.out.printf("Selected table size: %d\n", hash_size);                
        
+        BitShiftHasher dh = new BitShiftHasher(37000);
+        //        int ni = dh.calcIndex(19179);
+        //System.out.println(ni);
+        //System.exit(0);
+
         // Make list to test all implementations
 
         /* DONT REUSE THIS ONE. When you resize, then you modify it, thus the next hash table
@@ -54,8 +59,9 @@ class OwnSpellChecker {
                                      new DivisionHasher(), 
                                      new QuadraticProbing()));
         // Table with double hashing
-        //strategy = new DoubleHashProbing(hash_size);
-        //tables.add(new OpenHashtable(hash_size, function, strategy));
+        tables.add(new OpenHashtable(hash_size, 
+                                     new DivisionHasher(), 
+                                     new DoubleHashProbing()));
         // Table with collision chaining
         tables.add(new ChainHashtable(hash_size, 
                                       new DivisionHasher()));

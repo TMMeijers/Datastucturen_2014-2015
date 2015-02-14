@@ -24,4 +24,11 @@ public abstract class Strategy {
      * Executes the strategy for the given class implementing this method.
      */
     public abstract int execute(int index);
+
+    /**
+     * Executed when collison occurs. Defaults to execute
+     */
+    public int executeCollision(int index) {
+        return execute(index);
+    }
 }

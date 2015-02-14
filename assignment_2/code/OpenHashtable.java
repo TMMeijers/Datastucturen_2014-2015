@@ -1,7 +1,6 @@
 import java.lang.String;
-import java.util.ArrayList;
 import java.lang.IllegalArgumentException;
-
+import java.lang.IllegalStateException;
 /**
  * 
  */
@@ -76,7 +75,7 @@ public class OpenHashtable extends AbstractHashtable {
      * @param word        [description]
      * @param placeholder [description]
      */
-    public void put(String word) {
+    public void put(String word) throws IllegalStateException {
         // If load factor > 0.75 increase size of table
         if (((double) table_size / table_length) > resizeThreshold) {
             resize();
@@ -93,9 +92,16 @@ public class OpenHashtable extends AbstractHashtable {
         } else {
             strategy.init();
             index = strategy.execute(index);
-            // Keep looking for empty index
+
+            int ct = 0; // counter to keep track of how often we executed strategy
             while (table[index] != null) {
                 index = strategy.execute(index);
+                ct++;
+                // strategy executed too often, this shouldn't happen. throw exception
+                if (ct > table_length) {
+                    // shouldnt happen
+                    throw new IllegalStateException("The hash table grew full. This shouldn't happen. Hash function seems to end in an infinite loop");
+                }
             }
             table_size++;
             table[index] = word;

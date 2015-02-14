@@ -8,6 +8,8 @@ public class DoubleHashProbing extends Strategy {
      */
     Compressable hasher;
 
+    int last_index;
+
     /**
      * [DoubleHashProbing description]
      * @param  length [description]
@@ -30,6 +32,6 @@ public class DoubleHashProbing extends Strategy {
      * @return       [description]
      */
     public int execute(int index) {
-        return hasher.calcIndex(index) % table_length;
+        return hasher.calcIndex(index);
     }
 }
