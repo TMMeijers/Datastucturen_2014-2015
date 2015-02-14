@@ -31,6 +31,11 @@ class OwnSpellChecker {
             System.err.println("<textfile> doesn't exist or is a directory\n");
             System.exit(1);
         }
+
+        // recommended
+        if (!((hash_size & -hash_size) == hash_size)) {
+            System.out.println("[WARNING] hash_size should be a power of 2");
+        }
         
         System.out.printf("Selected table size: %d\n", hash_size);                
        
