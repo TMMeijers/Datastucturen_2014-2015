@@ -67,7 +67,7 @@ for dirname, dirnames, filenames in os.walk('output/'):
                 if exponent not in loads[method]:
                     loads[method][exponent] = []
                 loads[method][exponent].append(load)
-#%%
+
     
 for m in methods:
     accum = 0
@@ -84,7 +84,7 @@ for m in methods:
 #    build_times[m].sort(axis=0)
     loads[m] = np.matrix(sorted([[k, v] for k, v in loads[m].iteritems()]))
 
-#%%           
+         
 xs = range(0, len(np.array(run_times[m][0:,0]).flatten()))
 x_ticks = sorted([int(np.log(e)/np.log(2)) for e in exponents])
               
@@ -117,6 +117,20 @@ plt.clf()
 #plt.show()
 
 #%%
+#%%
+offset = 4
+for m in methods:
+    plt.plot(xs[:-offset], np.array(run_times[m][offset:,1]).flatten())
+plt.xticks(range(len(x_ticks[offset:])), x_ticks[offset:], size="small")#, rotation='vertical')
+plt.title('Hash Size vs. Runtime (Zoomed)')
+plt.xlabel('initial hash size ($log_2$)')
+plt.ylabel('runtime in ms')
+plt.legend(methods)
+plt.savefig('figs/runtime_narrow_all.png')
+#plt.show()
+plt.clf()
+
+#%%
     
 #%matplotlib inline
     
@@ -131,6 +145,36 @@ plt.legend(methods)
 plt.savefig('figs/buildtime_all.png')
 plt.clf()
 #plt.show()
+
+#%%
+    
+#%matplotlib inline
+    
+# plot build times
+for m in methods:
+    plt.plot(xs, np.array(build_times[m][0:,1]).flatten() + np.array(run_times[m][0:,1]).flatten())
+plt.xticks(range(len(x_ticks)), x_ticks, size="small")#, rotation='vertical')
+plt.title('Hash Size vs. Total Time (Run-Time + Build-Time)')
+plt.xlabel('initial hash size ($log_2$)')
+plt.ylabel('runtime in ms')
+plt.legend(methods)
+plt.savefig('figs/totaltime_all.png')
+#plt.show()
+plt.clf()
+
+#%%
+offset = 4
+for m in methods:
+    plt.plot(xs[:-offset], np.array(build_times[m][offset:,1]).flatten() + np.array(run_times[m][offset:,1]).flatten())
+plt.xticks(range(len(x_ticks[offset:])), x_ticks[offset:], size="small")#, rotation='vertical')
+plt.title('Hash Size vs. Total Time (Run-Time + Build-Time Zoomed)')
+plt.xlabel('initial hash size ($log_2$)')
+plt.ylabel('runtime in ms')
+plt.legend(methods)
+plt.savefig('figs/totaltime_narrow_all.png')
+#plt.show()
+plt.clf()
+
 
 #%%
     
