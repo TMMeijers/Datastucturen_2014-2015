@@ -40,7 +40,7 @@ class OwnSpellChecker {
            will also use the resized one, while at the same time having still a non resized
            size*/
         //function = new DivisionHasher(hash_size);
-        ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>(4);
+        ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>();
         // Hash table with Linear probing
         tables.add(new OpenHashtable(hash_size, 
                                      2,
@@ -49,6 +49,8 @@ class OwnSpellChecker {
                                      new LinearProbing()));
         // Table with quadratic probing
         tables.add(new OpenHashtable(hash_size, 
+                                     4,
+                                     0.8,
                                      new DivisionHasher(), 
                                      new QuadraticProbing()));
         // Table with double hashing
@@ -58,6 +60,11 @@ class OwnSpellChecker {
         tables.add(new ChainHashtable(hash_size, 
                                       new DivisionHasher()));
 
+        runExperiments(tables, wordfile, textfile);
+    }
+
+    /* Runs test on all hash tables in tables */
+    static void runExperiments(ArrayList<AbstractHashtable> tables, String wordfile, String textfile) {
         for (AbstractHashtable table : tables) {
             long start = 0;
             long end = 0;
@@ -111,7 +118,7 @@ class OwnSpellChecker {
 
             System.out.printf("Hash table contains %d words\n", table.size());
             System.out.printf("Hash table load factor %f\n",
-                   (double)table.size()/hash_size);
+                              (double)table.size()/table.hashSize());
 
             System.out.printf("Text contains %d words\n", count);
             System.out.printf("typo's %d\n", typo);

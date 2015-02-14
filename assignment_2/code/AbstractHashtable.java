@@ -36,6 +36,10 @@ public abstract class AbstractHashtable {
         return table_size;
     }
 
+    public int hashSize() {
+        return table_length;
+    }
+
     /**
      * [put description]
      * @param word        [description]
