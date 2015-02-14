@@ -10,7 +10,7 @@ MAX_EXPONENT=24
 for i in $(seq 8 $MAX_EXPONENT); do
     v=$((2**i));
     echo $v
-    java OwnSpellChecker \
+    java SpellChecker \
 	../data/british-english-insane.txt \
 	../data/war-and-peace-ascii.txt \
 	$v \
