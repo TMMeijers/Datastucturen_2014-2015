@@ -13,9 +13,14 @@ public class DoubleHashProbing extends Strategy {
      * @param  length [description]
      * @return        [description]
      */
-    public DoubleHashProbing(int length) {
-        super(length);
-        hasher = new BitShiftHasher(length);
+    public DoubleHashProbing() {
+        super(0);
+        hasher = new BitShiftHasher(0);
+    }
+
+    public void setLength(int length) {
+        this.table_length = length;
+        hasher.setLength(length);
     }
 
     /**

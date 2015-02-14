@@ -16,6 +16,7 @@ public class ChainHashtable extends AbstractHashtable {
      */
     public ChainHashtable(int hash_size, Compressable function) {
         super(function);
+        function.setLength(hash_size);
         table_length = hash_size;
         table = new LinkedHashList[hash_size];
     }

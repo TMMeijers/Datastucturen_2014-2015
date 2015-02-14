@@ -21,8 +21,8 @@ public class DivisionHasher implements Compressable {
      * Constructor
      * @param  length length of the table
      */
-    public DivisionHasher(int length) {
-        table_length = length;
+    public DivisionHasher() {
+        table_length = 0;
     }
 
     /**

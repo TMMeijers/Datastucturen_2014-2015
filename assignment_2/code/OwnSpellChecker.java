@@ -9,7 +9,7 @@ class OwnSpellChecker {
 
         /* Shared token to store for every word in the hash table. */
 
-        if (!(args.length == 3) ) {
+        if (args.length < 3) {
             System.err.println("Usage: java SpellChecker <wordfile> <textfile> <table_size>");
             System.exit(1); // on error
         }
@@ -35,19 +35,26 @@ class OwnSpellChecker {
         System.out.printf("Selected table size: %d\n", hash_size);                
        
         // Make list to test all implementations
-        function = new DivisionHasher(hash_size);
+
+        /* DONT REUSE THIS ONE. When you resize, then you modify it, thus the next hash table
+           will also use the resized one, while at the same time having still a non resized
+           size*/
+        //function = new DivisionHasher(hash_size);
         ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>(4);
         // Hash table with Linear probing
-        strategy = new LinearProbing(hash_size);
-        tables.add(new OpenHashtable(hash_size, function, strategy));
+        tables.add(new OpenHashtable(hash_size, 
+                                     new DivisionHasher(), 
+                                     new LinearProbing()));
         // Table with quadratic probing
-        strategy = new QuadraticProbing(hash_size);
-        tables.add(new OpenHashtable(hash_size, function, strategy));
+        tables.add(new OpenHashtable(hash_size, 
+                                     new DivisionHasher(), 
+                                     new QuadraticProbing()));
         // Table with double hashing
         //strategy = new DoubleHashProbing(hash_size);
         //tables.add(new OpenHashtable(hash_size, function, strategy));
         // Table with collision chaining
-        tables.add(new ChainHashtable(hash_size, function));
+        tables.add(new ChainHashtable(hash_size, 
+                                      new DivisionHasher()));
 
         for (AbstractHashtable table : tables) {
             long start = 0;

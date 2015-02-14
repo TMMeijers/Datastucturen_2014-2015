@@ -31,9 +31,11 @@ public class OpenHashtable extends AbstractHashtable {
     public OpenHashtable(int hash_size, Compressable function, Strategy strategy) {
         super(function);
         this.strategy = strategy;
-        table_length = hash_size;
-        table = new String[hash_size];
-        wordsCopy = new ArrayList<String>();
+        this.strategy.setLength(hash_size);
+        this.function.setLength(hash_size);
+        this.table_length = hash_size;
+        this.table = new String[hash_size];
+        this.wordsCopy = new ArrayList<String>();
     }
 
     /**
@@ -50,7 +52,9 @@ public class OpenHashtable extends AbstractHashtable {
         wordsCopy.add(word);
 
         int index = function.calcIndex(word);
+        //System.out.println(index);
         // If empty fill index
+        
         if (table[index] == null) {
             table_size++;
             table[index] = word;
@@ -94,6 +98,7 @@ public class OpenHashtable extends AbstractHashtable {
      * [increaseLength description]
      */
     private void resize() {
+        System.out.println("resize");
         // Double size and update objects with new size
         table_length *= 2;
         table = new String[table_length];

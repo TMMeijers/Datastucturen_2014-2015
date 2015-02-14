@@ -18,15 +18,18 @@ public class QuadraticProbing extends Strategy {
         j = 0;
     }
 
+   
+
     /**
      * [QuadraticProbing description]
      * @return [description]
      */
-    public QuadraticProbing(int length) {
-        super(length);
+    public QuadraticProbing() {
+        super(0);
         this.c1 = 0;
         this.c2 = 1;
     }
+
 
     /**
      * [QuadraticProbing description]
@@ -46,6 +49,9 @@ public class QuadraticProbing extends Strategy {
      */
     public int execute(int index) {
         j++;
-        return (index + c1 * j + c2 * (j * j)) % table_length;
+        int idx = (index + c1 * j + c2 * (j * j)) % this.table_length;
+        //System.out.println(idx);
+        //System.out.println(this.table_length);
+        return idx;
     }
 }

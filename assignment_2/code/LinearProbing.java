@@ -12,8 +12,8 @@ public class LinearProbing extends Strategy {
     /**
      * [LinearProbing description]
      */
-    public LinearProbing(int length) {
-        super(length);
+    public LinearProbing() {
+        super(0);
         stepSize = 1;
     }
 
