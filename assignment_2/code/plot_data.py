@@ -31,8 +31,9 @@ iterations = []
 exponents = []
 for dirname, dirnames, filenames in os.walk('output/'):
     for out_file in filenames:
+
         parts = out_file.split('.')
-        if parts[-1] is not 'txt':
+        if parts[-1] != 'txt':
             continue
         whole_path = dirname + out_file
         (iteration, exponent) = get_iteration_and_hash_size(out_file)
@@ -42,14 +43,18 @@ for dirname, dirnames, filenames in os.walk('output/'):
             exponents.append(exponent)
         #max_iteration = max(iteration, max_iteration)
         with open(whole_path) as in_file:
+            print 'parse: ' + out_file
             file_read = csv.reader(in_file, delimiter=',')
             for (i, row) in enumerate(file_read):
+                #print row
                 if not i: 
                     continue
                 method = row[0]
                 build_time = int(row[1])
                 run_time = int(row[2])
                 load = float(row[3])
+                #if method not in methods:
+                #    continue
                 
                 if exponent not in build_times[method]:
                     build_times[method][exponent] = []
