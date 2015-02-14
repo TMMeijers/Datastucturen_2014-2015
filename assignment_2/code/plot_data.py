@@ -31,6 +31,9 @@ iterations = []
 exponents = []
 for dirname, dirnames, filenames in os.walk('output/'):
     for out_file in filenames:
+        parts = out_file.split('.')
+        if parts[-1] is not 'txt':
+            continue
         whole_path = dirname + out_file
         (iteration, exponent) = get_iteration_and_hash_size(out_file)
         if iteration not in iterations:

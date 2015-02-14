@@ -35,8 +35,8 @@ public class QuadraticProbing extends Strategy {
      * [QuadraticProbing description]
      * @return [description]
      */
-    public QuadraticProbing(int length, int c1, int c2) throws IllegalArgumentException {
-        super(length);
+    public QuadraticProbing(int c1, int c2) throws IllegalArgumentException {
+        super(0);
         if (!(c1 >= 0 && c2 > 0)) {
             throw new IllegalArgumentException("invalid stepsizes given");
         }
