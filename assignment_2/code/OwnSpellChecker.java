@@ -68,7 +68,7 @@ class OwnSpellChecker {
     /* Runs test on all hash tables in tables */
     static void runExperiments(ArrayList<AbstractHashtable> tables, String wordfile, String textfile, boolean printOutputAsTable) {
         if (printOutputAsTable) {
-            System.out.println("Strategy, Build-Time, Nr. Elements, Load Factor, Word Count, Typos, Run-Time");
+            System.out.println("Strategy, Build-Time, Run-Time, Load");
         }
         for (AbstractHashtable table : tables) {
             try {
@@ -137,14 +137,12 @@ class OwnSpellChecker {
 
                     System.out.println("word search in " + (end - start) + " ms");
                 } else {
-                    System.out.printf("%s, %d, %d, %f, %d, %d, %d\n", 
+                    System.out.printf("%s, %d, %d, %f\n", 
                                       table.printStrategy(),
                                       built_time, 
-                                      table.size(),
-                                      (double)table.size()/table.hashSize(),
-                                      count,
-                                      typo,
-                                      (end - start));
+                                      (end-start),
+                                      (double)table.size()/table.hashSize());
+
                 }
             
             } catch (Exception e) {
@@ -152,7 +150,7 @@ class OwnSpellChecker {
                     e.printStackTrace();
                     System.err.println("error for table: " + table.printStrategy());
                 } else {
-                    System.err.printf("%s, -1, -1, -1.0, -1, -1, -1\n", table.printStrategy());
+                    System.err.printf("ignore %s\n", table.printStrategy());
                 }
             }
         }
