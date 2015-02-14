@@ -102,7 +102,8 @@ plt.xlabel('initial hash size ($log_2$)')
 plt.ylabel('runtime in ms')
 plt.legend(methods)
 plt.savefig('figs/runtime_all.png')
-plt.show()
+#plt.show()
+plt.clf()
 
 for m in ['LinearProbing', 'QuadraticProbing']:
     plt.plot(xs, np.array(run_times[m][0:,1]).flatten())
@@ -112,7 +113,8 @@ plt.xlabel('initial hash size ($log_2$)')
 plt.ylabel('runtime in ms')
 plt.legend(['LinearProbing', 'QuadraticProbing'])
 plt.savefig('figs/runtime_probing.png')
-plt.show()
+plt.clf()
+#plt.show()
 
 #%%
     
@@ -127,7 +129,8 @@ plt.xlabel('initial hash size ($log_2$)')
 plt.ylabel('runtime in ms')
 plt.legend(methods)
 plt.savefig('figs/buildtime_all.png')
-plt.show()
+plt.clf()
+#plt.show()
 
 #%%
     
@@ -142,7 +145,8 @@ plt.xlabel('initial hash size ($log_2$)')
 plt.ylabel('runtime in ms')
 plt.legend('Linear/Quadratic Probing')
 plt.savefig('figs/loads_probing.png')
-plt.show()
+plt.clf()
+#plt.show()
 
 plt.plot(xs, np.array(loads['CollisionChaining'][0:,1]).flatten())
 plt.xticks(range(len(x_ticks)), x_ticks, size="small")#, rotation='vertical')
@@ -151,4 +155,5 @@ plt.xlabel('initial hash size ($log_2$)')
 plt.ylabel('runtime in ms')
 plt.legend('CollisionChaining')
 plt.savefig('figs/loads_chaining.png')
-plt.show()
+plt.clf()
+#plt.show()

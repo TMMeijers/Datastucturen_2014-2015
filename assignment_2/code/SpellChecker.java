@@ -52,7 +52,7 @@ class SpellChecker {
             ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>();
             tables.add(new OpenHashtable(hash_size, new LinearProbing()));
 
-            tables.add(new OpenHashtable(hash_size, new QuadraticProbing(2, 5)));
+            tables.add(new OpenHashtable(hash_size, new QuadraticProbing(3, 5)));
 
             tables.add(new OpenHashtable(hash_size, new DoubleHashProbing()));
 
