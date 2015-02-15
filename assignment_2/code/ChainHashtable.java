@@ -5,7 +5,7 @@ public class ChainHashtable extends AbstractHashtable {
     /**
      * 
      */
-    private LinkedHashList table[];
+    private LinkedHashList[] table;
 
     /**
      * [OpenHashTable description]

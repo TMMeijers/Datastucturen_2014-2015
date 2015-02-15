@@ -9,7 +9,7 @@ public class OpenHashtable extends AbstractHashtable {
     /**
      * 
      */
-    private String table[];
+    private String[] table;
 
     /**
      * 

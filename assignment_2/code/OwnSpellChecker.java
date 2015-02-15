@@ -5,7 +5,7 @@ class OwnSpellChecker {
         int hash_size;
         boolean printOutputAsTable = false;
         String wordfile, textfile;
-        Compressable function;
+        Hasher function;
         Strategy strategy;
 
         /* Shared token to store for every word in the hash table. */
