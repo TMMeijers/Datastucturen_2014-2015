@@ -1,13 +1,13 @@
 /**
  * 
  */
-public class StringHasher implements Compressable {
+public class Djb2Hasher implements Hasher {
     /**
      * 
      */
     private int table_length;
 
-    public StringHasher(int length) {
+    public Djb2Hasher(int length) {
     	table_length = length;
     }
 
@@ -32,7 +32,7 @@ public class StringHasher implements Compressable {
      */
     private int hashCode(String key) {
         int h = 5381;
-        
+
         for (int i = 0; i < key.length(); i++) {
             h = ((h << 5) + h) + key.charAt(i);
         }

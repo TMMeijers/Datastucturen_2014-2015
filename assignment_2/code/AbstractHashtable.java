@@ -6,7 +6,7 @@ public abstract class AbstractHashtable {
     /**
      * 
      */
-    protected Compressable function;
+    protected Hasher function;
 
     /**
      * 
@@ -24,7 +24,7 @@ public abstract class AbstractHashtable {
      * @param  strategy [description]
      * @return          [description]
      */
-    protected AbstractHashtable(Compressable function) {
+    protected AbstractHashtable(Hasher function) {
         this.function = function;
     }
 
@@ -34,6 +34,10 @@ public abstract class AbstractHashtable {
      */
     public int size() {
         return table_size;
+    }
+
+    public int length() {
+        return table_length;
     }
 
     public int hashSize() {

@@ -6,7 +6,7 @@ public class DoubleHashProbing extends Strategy {
     /**
      * 
      */
-    private Compressable hasher;
+    private Hasher hasher;
 
     /**
      * Integer to keep track of iteration count
@@ -33,7 +33,7 @@ public class DoubleHashProbing extends Strategy {
      */
     public DoubleHashProbing() {
         super(0);
-        hasher = new StringHasher(0);
+        hasher = new Djb2Hasher(0);
     }
 
     public void setLength(int length) {

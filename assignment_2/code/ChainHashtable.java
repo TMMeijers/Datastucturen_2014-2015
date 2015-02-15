@@ -5,7 +5,7 @@ public class ChainHashtable extends AbstractHashtable {
     /**
      * 
      */
-    private LinkedHashList table[];
+    private LinkedHashList[] table;
 
     /**
      * [OpenHashTable description]
@@ -28,7 +28,7 @@ public class ChainHashtable extends AbstractHashtable {
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
-    public ChainHashtable(int hash_size, Compressable function) {
+    public ChainHashtable(int hash_size, Hasher function) {
         super(function);
         function.setLength(hash_size);
         table_length = hash_size;

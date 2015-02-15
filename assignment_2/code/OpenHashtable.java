@@ -9,7 +9,7 @@ public class OpenHashtable extends AbstractHashtable {
     /**
      * 
      */
-    private String table[];
+    private String[] table;
 
     /**
      * 
@@ -53,7 +53,7 @@ public class OpenHashtable extends AbstractHashtable {
      * @param  strategy  the strategy used to solve collisions.
      * @return           [description]
      */
-    public OpenHashtable(int hash_size, Compressable function, Strategy strategy) {
+    public OpenHashtable(int hash_size, Hasher function, Strategy strategy) {
         super(function);
         this.strategy = strategy;
         if (strategy.getClass().getSimpleName().equals("DoubleHashProbing") && hash_size < 64) {
@@ -82,7 +82,7 @@ public class OpenHashtable extends AbstractHashtable {
     public OpenHashtable(int hash_size, 
                          double resizeFactor,
                          double resizeThreshold,
-                         Compressable function, 
+                         Hasher function, 
                          Strategy strategy) {
         super(function);
         if (hash_size <= 0) {
