@@ -10,7 +10,7 @@ public class Djb2Hasher implements Hasher {
     private int table_length;
 
     /**
-     * Constructor for the hashing function (currently updated though setLength)
+     * Constructor for the hashing function
      * @param  length the initial length of the hash table
      */
     public Djb2Hasher(int length) {
@@ -27,7 +27,7 @@ public class Djb2Hasher implements Hasher {
     }
 
     /**
-     * Updates the length of the hash table (not used for this algorithm)
+     * Updates the length of the hash table
      * @param length the new length of the hash table
      */
     public void setLength(int length) {
