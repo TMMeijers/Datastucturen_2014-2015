@@ -12,7 +12,7 @@ import numpy as np
 
 #%%
 
-methods = ['LinearProbing', 'QuadraticProbing', 'CollisionChaining']
+methods = ['LinearProbing', 'QuadraticProbing', 'DoubleHashProbing', 'CollisionChaining']
 
 build_times = {}
 run_times = {}
@@ -105,13 +105,13 @@ plt.savefig('figs/runtime_all.png')
 #plt.show()
 plt.clf()
 
-for m in ['LinearProbing', 'QuadraticProbing']:
+for m in ['LinearProbing', 'QuadraticProbing', 'DoubleHashProbing']:
     plt.plot(xs, np.array(run_times[m][0:,1]).flatten())
 plt.xticks(range(len(x_ticks)), x_ticks, size="small")#, rotation='vertical')
 plt.title('Hash Size vs. Runtime')
 plt.xlabel('initial hash size ($log_2$)')
 plt.ylabel('runtime in ms')
-plt.legend(['LinearProbing', 'QuadraticProbing'])
+plt.legend(['LinearProbing', 'QuadraticProbing', 'DoubleHashProbing'])
 plt.savefig('figs/runtime_probing.png')
 plt.clf()
 #plt.show()
