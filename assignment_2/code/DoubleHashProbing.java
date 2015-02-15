@@ -33,7 +33,7 @@ public class DoubleHashProbing extends Strategy {
      */
     public DoubleHashProbing() {
         super(0);
-        hasher = new DJB2Hasher(0);
+        hasher = new Djb2Hasher(0);
     }
 
     public void setLength(int length) {

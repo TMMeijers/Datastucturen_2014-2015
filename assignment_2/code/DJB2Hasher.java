@@ -1,13 +1,13 @@
 /**
  * 
  */
-public class DJB2Hasher implements Hasher {
+public class Djb2Hasher implements Hasher {
     /**
      * 
      */
     private int table_length;
 
-    public DJB2Hasher(int length) {
+    public Djb2Hasher(int length) {
     	table_length = length;
     }
 
