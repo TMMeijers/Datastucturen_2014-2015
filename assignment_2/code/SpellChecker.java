@@ -16,8 +16,6 @@ class SpellChecker {
         int hash_size;
         boolean printOutputAsTable = false;
         String wordfile, textfile;
-        Hasher function;
-        Strategy strategy;
 
         /* Shared token to store for every word in the hash table. */
 

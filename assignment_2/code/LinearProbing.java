@@ -20,11 +20,10 @@ public class LinearProbing extends Strategy {
 
     /**
      * Constructor with user specified stepSize.
-     * @param  length   the initial length of the associated hash table
      * @param  stepSize the step size for generating the next index
      */
-    public LinearProbing(int length, int stepSize) {
-        super(length);
+    public LinearProbing(int stepSize) {
+        super(0);
         this.stepSize = stepSize;
     }
 
