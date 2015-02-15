@@ -128,6 +128,7 @@ class SpellChecker {
 
                 if (!printOutputAsTable) {
                     System.out.println("Hash table built in " + built_time + " ms");
+                    System.out.printf("Hash table total length: %d\n", table.length());
                     System.out.printf("Hash table contains %d words\n", table.size());
                     System.out.printf("Hash table load factor %f\n",
                                       (double)table.size()/table.hashSize());

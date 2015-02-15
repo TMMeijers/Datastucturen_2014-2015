@@ -36,6 +36,10 @@ public abstract class AbstractHashtable {
         return table_size;
     }
 
+    public int length() {
+        return table_length;
+    }
+
     public int hashSize() {
         return table_length;
     }
