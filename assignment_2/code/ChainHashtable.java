@@ -1,18 +1,19 @@
 import java.util.LinkedList;
 
+/**
+ * Implementation of a hash table using collision chaining as its collision resolution strategy.
+ * @author Markus Pfundstein and Thomas Meijers
+ */
 public class ChainHashtable extends AbstractHashtable {
 
     /**
-     * 
+     * The array containing all the LinkedHashList objects which store the words.
      */
     private LinkedHashList[] table;
 
     /**
-     * [OpenHashTable description]
-     * @param  hash_size the size that table should have.
-     * @param  function  the hashing technique used.
-     * @param  strategy  the strategy used to solve collisions.
-     * @return           [description]
+     * Constructor for the hash table which always uses the Division hashing algorithm.
+     * @param  hash_size initial size of the hash table
      */
     public ChainHashtable(int hash_size) {
         super(new DivisionHasher());
@@ -22,11 +23,9 @@ public class ChainHashtable extends AbstractHashtable {
     }
 
     /**
-     * [OpenHashTable description]
-     * @param  hash_size the size that table should have.
-     * @param  function  the hashing technique used.
-     * @param  strategy  the strategy used to solve collisions.
-     * @return           [description]
+     * Constructor for the hash table where the hashing algorithm can be specified.
+     * @param  hash_size the initial size of the hash table
+     * @param  function  the hashing algorithm used.
      */
     public ChainHashtable(int hash_size, Hasher function) {
         super(function);
@@ -36,9 +35,8 @@ public class ChainHashtable extends AbstractHashtable {
     }
 
     /**
-     * [put description]
-     * @param word        [description]
-     * @param placeholder [description]
+     * Method for storing a word in the hash table.
+     * @param  word  the String to be stored in the table
      */
     public void put(String word) {
         int index = function.calcIndex(word);
@@ -54,9 +52,9 @@ public class ChainHashtable extends AbstractHashtable {
     }
 
     /**
-     * [get description]
-     * @param  word [description]
-     * @return      [description]
+     * Method for retrieving a word from the hash table.
+     * @param  word the String to be retrieved from the table
+     * @return      the String retrieved, if the index was empty returns null
      */
     public String get(String word) {
         int index = function.calcIndex(word);
@@ -77,6 +75,10 @@ public class ChainHashtable extends AbstractHashtable {
         return node.getWord();
     }
 
+    /**
+     * Prints the associated strategy's class name. Static due to ChainHashtable having no Strategy object.
+     * @return the String containing the strategy's class name
+     */
     public String printStrategy() {
         return "CollisionChaining";
     }

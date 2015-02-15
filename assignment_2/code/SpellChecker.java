@@ -1,6 +1,17 @@
 import java.util.*;
 import java.io.*;
+
+/**
+ * The SpellChecker class uses a dictionary to check how many typo's there are in an input
+ * file. Used for checking efficiency of different AbstractHashtable implementations.
+ * @author Thomas Meijers and Markus Pfundstein
+ */
 class SpellChecker {
+
+    /**
+     * The main method for SpellChecker
+     * @param args The run arguments
+     */
     public static void main(String[] args) {
         int hash_size;
         boolean printOutputAsTable = false;
@@ -65,7 +76,13 @@ class SpellChecker {
         }
     }
 
-    /* Runs test on all hash tables in tables */
+    /**
+     * [runExperiments description]
+     * @param tables             An arraylist with AbstractHashtable containing all the hash tables to be tested.
+     * @param wordfile           Input file with dictionary words
+     * @param textfile           Input file with the text to be spell checked
+     * @param printOutputAsTable boolean if output should be in table form
+     */
     static void runExperiments(ArrayList<AbstractHashtable> tables, String wordfile, String textfile, boolean printOutputAsTable) {
         if (printOutputAsTable) {
             System.out.println("Strategy, Build-Time, Run-Time, Load");
@@ -131,7 +148,7 @@ class SpellChecker {
                     System.out.printf("Hash table total length: %d\n", table.length());
                     System.out.printf("Hash table contains %d words\n", table.size());
                     System.out.printf("Hash table load factor %f\n",
-                                      (double)table.size()/table.hashSize());
+                                      (double)table.size()/table.length());
 
                     System.out.printf("Text contains %d words\n", count);
                     System.out.printf("typo's %d\n", typo);
@@ -142,7 +159,7 @@ class SpellChecker {
                                       table.printStrategy(),
                                       built_time, 
                                       (end-start),
-                                      (double)table.size()/table.hashSize());
+                                      (double)table.size()/table.length());
 
                 }
             
@@ -157,8 +174,11 @@ class SpellChecker {
         }
     }
 
-    /* Checks is word contains digits. So it can be ignored for spell
-     * checking. */
+    /**
+     * Checks if word contains digits, if so it will be ignored for spell checking.
+     * @param  str the input string
+     * @return     boolean if string contains numbers
+     */
     static boolean contains_numbers(String str) {
         for (int i = 0 ; i < str.length() ; i++) 
             if (str.charAt(i) >= '0' && str.charAt(i) <= '9') 

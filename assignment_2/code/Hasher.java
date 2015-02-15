@@ -1,13 +1,19 @@
 /**
- * 
+ * Interface for hashing functions.
+ * @author Markus Pfundstein and Thomas Meijers
  */
 public interface Hasher {
 
     /**
-     * [calcIndex description]
-     * @param  key [description]
-     * @return     [description]
+     * Function that hashes the key to an index.
+     * @param  key The String containing the key to be hashed
+     * @return     The index obtained through hashing
      */
     public int calcIndex(String key);
+
+    /**
+     * Updates the length of the hash table for the hashing algorithm.
+     * @param length The new length of the table
+     */
     public void setLength(int length);
 }

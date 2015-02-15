@@ -1,31 +1,38 @@
 import java.lang.String;
 import java.lang.IllegalArgumentException;
 import java.lang.IllegalStateException;
+
 /**
- * 
+ * Implementation of a hash table using forms of open adressing as it's collision resolution
+ * strategy.
+ * @author Markus Pfundstein and Thomas Meijers
  */
 public class OpenHashtable extends AbstractHashtable {
 
     /**
-     * 
+     * The array holding all the stored values.
      */
     private String[] table;
 
     /**
-     * 
+     * The collision resolution strategy used.
      */
     private Strategy strategy;
 
+    /**
+     * The resizing factor if the load factor threshold is reached.
+     */
     private double resizeFactor;
 
+    /**
+     * The threshold the load factor should reach to resize the array.
+     */
     private double resizeThreshold;
 
     /**
-     * [OpenHashTable description]
-     * @param  hash_size the size that table should have.
-     * @param  function  the hashing technique used.
-     * @param  strategy  the strategy used to solve collisions.
-     * @return           [description]
+     * Constructor for an OpenHashtable object which always uses the Division hashing algorithm.
+     * @param  hash_size the initial size of the hash table
+     * @param  strategy  the strategy utilized for collision resolution
      */
     public OpenHashtable(int hash_size, Strategy strategy) {
         super(new DivisionHasher());
@@ -47,11 +54,10 @@ public class OpenHashtable extends AbstractHashtable {
     }
 
     /**
-     * [OpenHashTable description]
-     * @param  hash_size the size that table should have.
-     * @param  function  the hashing technique used.
-     * @param  strategy  the strategy used to solve collisions.
-     * @return           [description]
+     * Constructor for an OpenHashtable object where the hash function can be specified.
+     * @param  hash_size the initial size of the hash table
+     * @param  function  the hashing function to be used
+     * @param  strategy  the strategy utilized for collision resolution
      */
     public OpenHashtable(int hash_size, Hasher function, Strategy strategy) {
         super(function);
@@ -73,11 +79,12 @@ public class OpenHashtable extends AbstractHashtable {
     }
 
     /**
-     * [OpenHashTable description]
-     * @param  hash_size the size that table should have.
-     * @param  function  the hashing technique used.
-     * @param  strategy  the strategy used to solve collisions.
-     * @return           [description]
+     * Constructor for an OpenHashtable object where the hash function can be specified.
+     * @param  resizeFactor     the multiplier for increasing the tables size
+     * @param  resizeThreshold  the threshold for when to resize the table
+     * @param  hash_size        the initial size of the hash table
+     * @param  function         the hashing function to be used
+     * @param  strategy         the strategy utilized for collision resolution
      */
     public OpenHashtable(int hash_size, 
                          double resizeFactor,
@@ -110,9 +117,9 @@ public class OpenHashtable extends AbstractHashtable {
     }
 
     /**
-     * [put description]
-     * @param word        [description]
-     * @param placeholder [description]
+     * Method for storing a word in the hash table.
+     * @param  word                  the String to be stored in the table
+     * @throws IllegalStateException when an empty space cannot be found
      */
     public void put(String word) throws IllegalStateException {
         // If load factor > 0.75 increase size of table
@@ -155,9 +162,9 @@ public class OpenHashtable extends AbstractHashtable {
     }
 
     /**
-     * [get description]
-     * @param  word [description]
-     * @return      [description]
+     * Method for retrieving a word from the hash table.
+     * @param  word the String to be retrieved from the table
+     * @return      the String retrieved, if the index was empty returns null
      */
     public String get(String word) {
         int index = function.calcIndex(word);
@@ -178,17 +185,21 @@ public class OpenHashtable extends AbstractHashtable {
         return table[newIndex];
     }
 
+    /**
+     * Prints the associated strategy's class name.
+     * @return the String containing the strategy's class name
+     */
     public String printStrategy() {
         return strategy.getClass().getSimpleName();
     }
 
     /**
-     * [increaseLength description]
+     * Resizes the hash table. Needs to rehash and store all stored words in the
+     * hash table of the new array as the hashing algorithms are dependant on the
+     * size of the table.
      */
     private void resize() {
-        //        System.out.println("resize");
-        // Double size and update objects with new size
-        
+        // Copy stored words for resizing
         String[] storedWords = new String[table_size];
         for (int i = 0, j = 0; i < table_length; i++) {
             String word = table[i];

@@ -1,47 +1,52 @@
 /**
- * 
+ * Hashing function utilizing character values.
+ * @author Markus Pfundstein and Thomas Meijers
  */
 public class DivisionHasher implements Hasher {
+
     /**
-     * 
+     * The length of the associated hash table.
      */
     private int table_length;
 
     /**
-     * 
+     * The initial value for the hashing algorithm.
      */
-    int initial = 11;
+    private int initial = 11;
 
     /**
-     * m
+     * The multiplier for the hashing algorithm.
      */
-    int multiplier = 31;
+    private int multiplier = 31;
     
     /**
-     * Constructor
-     * @param  length length of the table
+     * Constructor for the hashing function (table_length currently updated though setLength)
      */
     public DivisionHasher() {
         table_length = 0;
     }
 
     /**
-     * [calcIndex description]
-     * @param  key [description]
-     * @return     [description]
+     * Calculates the new index through hashing the key with an algorithm utilizing char values
+     * @param  key the String to be hashed
+     * @return     the index obtained through hashing
      */
     public int calcIndex(String key) {
         return Math.abs(hashCode(key)) % table_length;
     }
 
+    /**
+     * Updates the length of the associated hash table.
+     * @param length the new length of the associated hash table.
+     */
     public void setLength(int length) {
         table_length = length;
     }
 
     /**
-     * [hashCode description]
-     * @param  key [description]
-     * @return     [description]
+     * Calculates the new index through hashing the key with an algorithm utilizing char values
+     * @param  key the String to be hashed
+     * @return     the index obtained through hashing
      */
     private int hashCode(String key) {
         int h = initial;

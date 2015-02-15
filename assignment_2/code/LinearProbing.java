@@ -1,16 +1,17 @@
 /**
- * 
+ * Collision resolution strategy for open adressing, utilizes linear probing.
+ * @author Markus Pfundstein and Thomas Meijers
  */
 public class LinearProbing extends Strategy {
 
 
     /**
-     * stepSize for linear probing. Defaults to 1
+     * Step size for linear probing. Defaults to 1
      */
     private int stepSize;
     
     /**
-     * [LinearProbing description]
+     * Constructor with default stepSize.
      */
     public LinearProbing() {
         super(0);
@@ -18,7 +19,9 @@ public class LinearProbing extends Strategy {
     }
 
     /**
-     * [LinearProbing description]
+     * Constructor with user specified stepSize.
+     * @param  length   the initial length of the associated hash table
+     * @param  stepSize the step size for generating the next index
      */
     public LinearProbing(int length, int stepSize) {
         super(length);
@@ -26,9 +29,9 @@ public class LinearProbing extends Strategy {
     }
 
     /**
-     * [execute description]
-     * @param  index [description]
-     * @return       [description]
+     * Executes the linear probing strategy for finding the next index
+     * @param  i Object used for finding the next index, Integer in this case.
+     * @return   the new index in the hash table
      */
     public int execute(Object i) {
         int index = (Integer) i;

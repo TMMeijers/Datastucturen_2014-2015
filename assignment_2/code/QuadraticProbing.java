@@ -1,29 +1,35 @@
 import java.lang.IllegalArgumentException;
 
 /**
- * 
+ * Collision resolution strategy for open adressing.
  */
 public class QuadraticProbing extends Strategy {
-
+    
     /**
-     * Stepsizes for quadratic probing. 
-     * H(k, i) = (h(k) + c1*i + c2*i^2) mod table_size
-     * Note that if c2 = 0 than we get LinearProbing
+     * Iteration count of finding a new index.
      */
     private int j;
+
+    /**
+     * Constant for multiplying step size (c1 * j)
+     */
     private int c1;
+
+    /**
+     * Constant for multiplying step size (c2 * j^2). 
+     * Note that if this is zero quadratic probing degrades to linear probing.
+     */
     private int c2;
 
     /**
-     * [init description]
+     * Resets the iteration count.
      */
     public void init() {
         j = 0;
     }
 
     /**
-     * [QuadraticProbing description]
-     * @return [description]
+     * Constructor with default values for constants (H(k, i) = index + c2 * j^2).
      */
     public QuadraticProbing() {
         super(0);
@@ -33,8 +39,10 @@ public class QuadraticProbing extends Strategy {
 
 
     /**
-     * [QuadraticProbing description]
-     * @return [description]
+     * Constructor with user specified values for the constants c1 and c2.
+     * @param  c1                       Constant for multiplying step size
+     * @param  c2                       Constant for multiplying squared step size
+     * @throws IllegalArgumentException when specified step sizes are invalid.
      */
     public QuadraticProbing(int c1, int c2) throws IllegalArgumentException {
         super(0);
@@ -46,7 +54,9 @@ public class QuadraticProbing extends Strategy {
     }
 
     /**
-     * [execute description]
+     * Executes the quadratic probing strategy for finding the next index
+     * @param  i Object used for finding the next index, Integer in this case.
+     * @return   the new index in the hash table
      */
     public int execute(Object i) {
         int index = (Integer) i;
