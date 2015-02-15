@@ -23,5 +23,5 @@ public abstract class Strategy {
     /** 
      * Executes the strategy for the given class implementing this method.
      */
-    public abstract int execute(int index);
+    public abstract int execute(Object index);
 }

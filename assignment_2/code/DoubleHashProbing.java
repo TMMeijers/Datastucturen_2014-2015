@@ -6,9 +6,25 @@ public class DoubleHashProbing extends Strategy {
     /**
      * 
      */
-    Compressable hasher;
+    private Compressable hasher;
 
-    int last_index;
+    /**
+     * Integer to keep track of iteration count
+     */
+    private int j;
+
+    /**
+     * Second hash index for keyword
+     */
+    private int secondHash;
+
+    /**
+     * Reset iteration count and hash key for new keyword
+     */
+    public void init() {
+        j = 0;
+        secondHash = -1;
+    }
 
     /**
      * [DoubleHashProbing description]
@@ -17,7 +33,7 @@ public class DoubleHashProbing extends Strategy {
      */
     public DoubleHashProbing() {
         super(0);
-        hasher = new BitShiftHasher(0);
+        hasher = new StringHasher(0);
     }
 
     public void setLength(int length) {
@@ -31,7 +47,13 @@ public class DoubleHashProbing extends Strategy {
      * @param  j     [description]
      * @return       [description]
      */
-    public int execute(int index) {
-        return hasher.calcIndex(index);
+    public int execute(Object k) {
+        String key = (String) k;
+        j++;
+        // If not hashed keyword with second hash function do so
+        if (secondHash < 0) {
+            secondHash = hasher.calcIndex(key);
+        }
+        return Math.abs(j * secondHash % table_length);
     }
 }

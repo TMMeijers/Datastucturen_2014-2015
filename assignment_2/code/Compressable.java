@@ -8,6 +8,6 @@ public interface Compressable {
      * @param  key [description]
      * @return     [description]
      */
-    public int calcIndex(Object key);
+    public int calcIndex(String key);
     public void setLength(int length);
 }

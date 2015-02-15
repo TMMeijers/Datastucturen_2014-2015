@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-class SpellChecker {
+class OwnSpellChecker {
     public static void main(String[] args) {
         int hash_size;
         boolean printOutputAsTable = false;
@@ -52,7 +52,7 @@ class SpellChecker {
             ArrayList<AbstractHashtable> tables = new ArrayList<AbstractHashtable>();
             tables.add(new OpenHashtable(hash_size, new LinearProbing()));
 
-            tables.add(new OpenHashtable(hash_size, new QuadraticProbing(3, 5)));
+            tables.add(new OpenHashtable(hash_size, new QuadraticProbing()));
 
             tables.add(new OpenHashtable(hash_size, new DoubleHashProbing()));
 
@@ -68,7 +68,7 @@ class SpellChecker {
     /* Runs test on all hash tables in tables */
     static void runExperiments(ArrayList<AbstractHashtable> tables, String wordfile, String textfile, boolean printOutputAsTable) {
         if (printOutputAsTable) {
-            System.out.println("Strategy, Build-Time, Run-Time, Load");
+            System.out.println("Strategy, Build-Time, Nr. Elements, Load Factor, Word Count, Typos, Run-Time");
         }
         for (AbstractHashtable table : tables) {
             try {
@@ -126,7 +126,7 @@ class SpellChecker {
                     System.exit(1);
                 }
 
-                if (!printOutputAsTable) {
+                if (printOutputAsTable == false) {
                     System.out.println("Hash table built in " + built_time + " ms");
                     System.out.printf("Hash table contains %d words\n", table.size());
                     System.out.printf("Hash table load factor %f\n",
@@ -137,12 +137,14 @@ class SpellChecker {
 
                     System.out.println("word search in " + (end - start) + " ms");
                 } else {
-                    System.out.printf("%s, %d, %d, %f\n", 
+                    System.out.printf("%s, %d, %d, %f, %d, %d, %d\n", 
                                       table.printStrategy(),
                                       built_time, 
-                                      (end-start),
-                                      (double)table.size()/table.hashSize());
-
+                                      table.size(),
+                                      (double)table.size()/table.hashSize(),
+                                      count,
+                                      typo,
+                                      (end - start));
                 }
             
             } catch (Exception e) {
@@ -150,7 +152,7 @@ class SpellChecker {
                     e.printStackTrace();
                     System.err.println("error for table: " + table.printStrategy());
                 } else {
-                    System.err.printf("ignore %s\n", table.printStrategy());
+                    System.err.printf("%s, -1, -1, -1.0, -1, -1, -1\n", table.printStrategy());
                 }
             }
         }

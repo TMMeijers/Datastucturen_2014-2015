@@ -14,11 +14,12 @@ public class QuadraticProbing extends Strategy {
     private int c1;
     private int c2;
 
+    /**
+     * [init description]
+     */
     public void init() {
         j = 0;
     }
-
-   
 
     /**
      * [QuadraticProbing description]
@@ -47,7 +48,8 @@ public class QuadraticProbing extends Strategy {
     /**
      * [execute description]
      */
-    public int execute(int index) {
+    public int execute(Object i) {
+        int index = (Integer) i;
         j++;
         int idx = (index + c1 * j + c2 * (j * j)) % this.table_length;
         //System.out.println(idx);

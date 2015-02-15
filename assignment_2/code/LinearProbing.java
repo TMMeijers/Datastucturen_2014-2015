@@ -30,7 +30,8 @@ public class LinearProbing extends Strategy {
      * @param  index [description]
      * @return       [description]
      */
-    public int execute(int index) {
-        return (index + 1) % table_length;
+    public int execute(Object i) {
+        int index = (Integer) i;
+        return (index + stepSize) % table_length;
     }
 }

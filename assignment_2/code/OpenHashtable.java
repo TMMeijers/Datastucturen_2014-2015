@@ -29,13 +29,21 @@ public class OpenHashtable extends AbstractHashtable {
      */
     public OpenHashtable(int hash_size, Strategy strategy) {
         super(new DivisionHasher());
-        this.strategy = strategy;
+        this.strategy = strategy;        
+        if (strategy.getClass().getSimpleName().equals("DoubleHashProbing") && hash_size < 64) {
+            System.out.println("[WARNING] Double hashing function can't handle too small sizes, set to minimum: 64.");
+            hash_size = 64;
+        }
         this.strategy.setLength(hash_size);
         this.function.setLength(hash_size);
         this.table_length = hash_size;
         this.table = new String[hash_size];
-        this.resizeFactor = 1.75;
+        this.resizeFactor = 2;
         this.resizeThreshold = 0.75;
+        // Quadratic probing and double hashing can fail finding empty index with load factor >= 0.5
+        if (strategy.getClass().getSimpleName().matches("QuadraticProbing|DoubleHashProbing")) {
+            this.resizeThreshold = 0.5;
+        }
     }
 
     /**
@@ -48,12 +56,20 @@ public class OpenHashtable extends AbstractHashtable {
     public OpenHashtable(int hash_size, Compressable function, Strategy strategy) {
         super(function);
         this.strategy = strategy;
+        if (strategy.getClass().getSimpleName().equals("DoubleHashProbing") && hash_size < 64) {
+            System.out.println("[WARNING] Double hashing function can't handle sizes below min, set to minimum: 64.");
+            hash_size = 64;
+        }
         this.strategy.setLength(hash_size);
         this.function.setLength(hash_size);
         this.table_length = hash_size;
         this.table = new String[hash_size];
-        this.resizeFactor = 1.75;
+        this.resizeFactor = 2;
         this.resizeThreshold = 0.75;
+        // Quadratic probing and double hashing can fail finding empty index with load factor >= 0.5
+        if (strategy.getClass().getSimpleName().matches("QuadraticProbing|DoubleHashProbing")) {
+            this.resizeThreshold = 0.5;
+        }
     }
 
     /**
@@ -85,7 +101,12 @@ public class OpenHashtable extends AbstractHashtable {
         this.table_length = hash_size;
         this.table = new String[hash_size];
         this.resizeFactor = resizeFactor;
-        this.resizeThreshold = resizeThreshold;
+        this.resizeThreshold = resizeThreshold;        
+        // Quadratic probing and double hashing can fail finding empty index with load factor >= 0.5
+        if (strategy.getClass().getSimpleName().matches("QuadraticProbing|DoubleHashProbing") && resizeThreshold > 0.5) {
+            System.out.println("[WARNING] Double hashing or quadratic probing resize factor set to max: 0.5.");
+            this.resizeThreshold = 0.5;
+        }
     }
 
     /**
@@ -95,25 +116,32 @@ public class OpenHashtable extends AbstractHashtable {
      */
     public void put(String word) throws IllegalStateException {
         // If load factor > 0.75 increase size of table
-        if (((double) table_size / table_length) > resizeThreshold) {
+        if (((double) table_size / table_length) >= resizeThreshold) {
             resize();
         }
-   
         int index = function.calcIndex(word);
-        //System.out.println(index);
         // If empty fill index
-        
         if (table[index] == null) {
             table_size++;
             table[index] = word;
-        // Else get next index based on chosen strategy
+        // Else get new index based on chosen strategy
         } else {
+            int newIndex = index;
             strategy.init();
-            index = strategy.execute(index);
+            // Double Hash probing requires key to be passed
+            if (!printStrategy().equals("DoubleHashProbing")) {
+                newIndex = strategy.execute(newIndex);
+            } else {
+                newIndex = (index + strategy.execute(word)) % table_length;
+            }
 
             int ct = 0; // counter to keep track of how often we executed strategy
-            while (table[index] != null) {
-                index = strategy.execute(index);
+            while (table[newIndex] != null) {
+                if (!printStrategy().equals("DoubleHashProbing")) {
+                    newIndex = strategy.execute(newIndex);
+                } else {
+                    newIndex = (index + strategy.execute(word)) % table_length;
+                }
                 ct++;
                 // strategy executed too often, this shouldn't happen. throw exception
                 if (ct > table_length) {
@@ -122,7 +150,7 @@ public class OpenHashtable extends AbstractHashtable {
                 }
             }
             table_size++;
-            table[index] = word;
+            table[newIndex] = word;
         }
     }
 
@@ -138,11 +166,16 @@ public class OpenHashtable extends AbstractHashtable {
             return null;
         }
         strategy.init();
+        int newIndex = index;
         // While word doesn't match and we don't arrive at an empty element get new index
-        while ((!word.equals(table[index])) && (table[index] != null)) {
-            index = strategy.execute(index);
+        while ((!word.equals(table[newIndex])) && (table[newIndex] != null)) {
+            if (!printStrategy().equals("DoubleHashProbing")) {
+                newIndex = strategy.execute(newIndex);
+            } else {
+                newIndex = (index + strategy.execute(word)) % table_length;
+            }
         }
-        return table[index];
+        return table[newIndex];
     }
 
     public String printStrategy() {
@@ -179,12 +212,21 @@ public class OpenHashtable extends AbstractHashtable {
             // Else get next index based on chosen strategy
             } else {
                 strategy.init();
-                index = strategy.execute(index);
-                // Keep looking for empty index
-                while (table[index] != null) {
-                    index = strategy.execute(index);
+                int newIndex = index;
+                if (!printStrategy().equals("DoubleHashProbing")) {
+                    newIndex = strategy.execute(newIndex);
+                } else {
+                    newIndex = (index + strategy.execute(copy)) % table_length;
                 }
-                table[index] = copy;
+                // Keep looking for empty index
+                while (table[newIndex] != null) {
+                    if (!printStrategy().equals("DoubleHashProbing")) {
+                        newIndex = strategy.execute(newIndex);
+                    } else {
+                        newIndex = (index + strategy.execute(copy)) % table_length;
+                    }
+                }
+                table[newIndex] = copy;
             }
         }
     }

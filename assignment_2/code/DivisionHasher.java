@@ -30,12 +30,8 @@ public class DivisionHasher implements Compressable {
      * @param  key [description]
      * @return     [description]
      */
-    public int calcIndex(Object k) {
-        String key = (String) k;
-        int index;
-
-        index = Math.abs(hashCode(key)) % table_length;
-        return index;
+    public int calcIndex(String key) {
+        return Math.abs(hashCode(key)) % table_length;
     }
 
     public void setLength(int length) {
