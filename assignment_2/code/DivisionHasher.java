@@ -1,7 +1,7 @@
 /**
  * 
  */
-public class DivisionHasher implements Compressable {
+public class DivisionHasher implements Hasher {
     /**
      * 
      */

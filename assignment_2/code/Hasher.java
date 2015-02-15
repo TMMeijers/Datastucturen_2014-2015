@@ -1,7 +1,7 @@
 /**
  * 
  */
-public interface Compressable {
+public interface Hasher {
 
     /**
      * [calcIndex description]
