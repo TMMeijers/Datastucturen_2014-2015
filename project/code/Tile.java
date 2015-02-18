@@ -19,7 +19,7 @@ public class Tile {
 	private Unit unit;
 
 	/**
-	 * The height of the tile.
+	 * The height of the tile, provides bonuses to ranged units
 	 */
 	private int height;
 
@@ -34,20 +34,21 @@ public class Tile {
 	private String type;
 
 	/**
-	 * Constructor which specifies column and row, other values are default.
+	 * Constructor which specifies column and row, uses explicit constructor invocation
+	 * to construct default field (a grass field).
 	 * @param  col column for this tile
 	 * @param  row row for this tile
 	 */
 	public Tile(int col, int row) {
-		this.col = col;
-		this.row = row;
+		this(col, row, "grass");
 	}
 
 	/**
-	 * [tile description]
-	 * @param  col  [description]
-	 * @param  row  [description]
-	 * @param  type [description]
+	 * Constructor for a tile which specifies type, this hen defines the bonuses the field
+	 * provides.
+	 * @param  col  column for this tile
+	 * @param  row  row for this tile
+	 * @param  type the type of the field which determines the bonuses
 	 */
 	public Tile(int col, int row, String type) throws IllegalArgumentException {
 		this.col = col;
@@ -97,6 +98,6 @@ public class Tile {
 	}
 
 	public String toString() {
-		return "type";
+		return type;
 	}
 }
