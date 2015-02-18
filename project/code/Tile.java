@@ -14,6 +14,11 @@ public class Tile {
 	private int row;
 
 	/**
+	 * Max row for the column the tile is in.
+	 */
+	private int maxRow;
+
+	/**
 	 * Unit on the tile.
 	 */
 	private Unit unit;
@@ -39,8 +44,8 @@ public class Tile {
 	 * @param  col column for this tile
 	 * @param  row row for this tile
 	 */
-	public Tile(int col, int row) {
-		this(col, row, "grass");
+	public Tile(int col, int row, int maxRow) {
+		this(col, row, maxRow, "grass");
 	}
 
 	/**
@@ -50,9 +55,10 @@ public class Tile {
 	 * @param  row  row for this tile
 	 * @param  type the type of the field which determines the bonuses
 	 */
-	public Tile(int col, int row, String type) throws IllegalArgumentException {
+	public Tile(int col, int row, int maxRow, String type) throws IllegalArgumentException {
 		this.col = col;
 		this.row = row;
+		this.maxRow = maxRow;
 		this.type = type;
 
 		// Maybe change this, first thought about abstract class Tile, and child classes
@@ -72,7 +78,9 @@ public class Tile {
 				height = 1;
 				bonus = 1;
 			default:
-				throw new IllegalArgumentException("Invalid tile type: " + type);
+				System.out.println("DEFAULT? Tried: " + type);
+				height = 0;
+				bonus = 0;
 		}
 	}
 
@@ -87,6 +95,30 @@ public class Tile {
 		}
 		this.unit = unit;
 		return true;
+	}
+
+	/**
+	 * Returns the column of the tile
+	 * @return the column
+	 */
+	public int getCol() {
+		return col;
+	}
+
+	/**
+	 * Returns the row of the tile
+	 * @return the row
+	 */
+	public int getRow() {
+		return row;
+	}
+
+	/**
+	 * Returns the maximum row possible for the column the tile is in
+	 * @return the maximum row for the column the tile is in
+	 */
+	public int maxRow() {
+		return maxRow;
 	}
 
 	/**
