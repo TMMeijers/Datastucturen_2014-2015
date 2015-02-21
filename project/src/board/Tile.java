@@ -1,3 +1,7 @@
+package board;
+
+import units.Unit;
+
 /**
  * Abstract class for the tiles on the board.
  */
@@ -68,19 +72,21 @@ public class Tile {
 			case "grass":
 				height = 0;
 				bonus = 0;
+				break;
 			case "wood":
 				height = 0;
 				bonus = 1;
+				break;
 			case "swamp":
 				height = 0;
 				bonus = -1;
+				break;
 			case "boulder":
 				height = 1;
 				bonus = 1;
+				break;
 			default:
-				System.out.println("DEFAULT? Tried: " + type);
-				height = 0;
-				bonus = 0;
+				throw new IllegalArgumentException("Type: " + type + " doesn't exist.");
 		}
 	}
 
@@ -120,6 +126,22 @@ public class Tile {
 	public int maxRow() {
 		return maxRow;
 	}
+	
+	/**
+	 * Returns the height of the tile
+	 * @return the height of the tile
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * Returns the bonus of the tile
+	 * @return the bonus of the tile
+	 */
+	public int getBonus() {
+		return bonus;
+	}
 
 	/**
 	 * Checks if the tile is empty
@@ -129,6 +151,18 @@ public class Tile {
 		return unit == null;
 	}
 
+	/**
+	 * Returns the unit at the tile.
+	 * @return the unit at the tile
+	 */
+	public Unit getUnit() {
+		return unit;
+	}
+
+	/**
+	 * Overrides toString from Object, prints the type of the unit
+	 * @return the String containing type
+	 */
 	public String toString() {
 		return type;
 	}

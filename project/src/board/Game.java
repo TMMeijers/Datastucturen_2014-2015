@@ -1,7 +1,8 @@
+package board;
 public class Game {
 
 	public static void main(String[] args) {
-		Board board = new Board(30);
+		Field board = new Field(30);
 
 		Tile current = board.getTile(30, 30);
 		Tile next = null;

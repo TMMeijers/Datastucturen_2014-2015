@@ -1,3 +1,4 @@
+package units;
 /**
  * Class which represents an orc soldier.
  */

@@ -1,7 +1,8 @@
+package board;
 /**
  * 
  */
-public class Board {
+public class Field {
 
 	/**
 	 * Array filled with all the board columns.
@@ -12,7 +13,7 @@ public class Board {
 	 * Generates the default board (5 x 5 x 5) with default units: 6 human soldiers,
 	 * 3 human generals, 8 orc soldiers and 2 orc generals.
 	 */
-	public Board() {
+	public Field() {
 		this(5);
 	}
 
@@ -21,7 +22,7 @@ public class Board {
 	 * 3 human generals, 8 orc soldiers and 2 orc generals.
 	 * @param  dimension the dimension of the board (dim x dim x dim)
 	 */
-	public Board(int dimension) {
+	public Field(int dimension) {
 		int totalCols = (dimension * 2) - 1;
 		columns = new Column[totalCols];
 
