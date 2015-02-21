@@ -28,7 +28,12 @@ public abstract class Unit {
 	 * Maximum tiles a unit can move.
 	 */
 	protected int move;
-
+	
+	/**
+	 * If unit is active or not (one move per turn, after that inactive).
+	 */
+	protected boolean active;
+	
 	/**
 	 * Constructor for a Unit which sets its stats
 	 * @param  attack    the attack weapon skill of the unit
@@ -43,6 +48,7 @@ public abstract class Unit {
 		this.support = support;
 		this.range = range;
 		this.move = move;
+		active = true;
 	}
 
 	/**
@@ -57,6 +63,18 @@ public abstract class Unit {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Checks if Unit is active or not
+	 * @return true if Unit can still make a move, false otherwise
+	 */
+	public boolean active() {
+		return active;
+	}
+	
+	public void setInactive() {
+		active = false;
 	}
 
 }
