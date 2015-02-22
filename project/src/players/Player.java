@@ -7,26 +7,26 @@ public abstract class Player {
 	/**
 	 * Array list holding all the units of the player
 	 */
-	ArrayList<Unit> units;
+	private ArrayList<Unit> units;
 
 	/**
 	 * Name of the player.
 	 */
-	String name;
+	private String name;
 	
 	/**
-	 * Default constructor passing default name.
+	 * The side the Player is playing, orc = true, human = false.
 	 */
-	public Player() {
-		this("DEFAULT");
-	}
+	private boolean orc;
 	
 	/**
-	 * Constructor for a player.
-	 * @param name
+	 * Constructor for player specifying both name and race
+	 * @param name the name of the player
+	 * @param race the race of the player
 	 */
-	public Player(String name) {
+	public Player(String name, boolean orc) {
 		this.name = name;
+		this.orc = orc;
 		units = new ArrayList<Unit>();
 	}
 	
@@ -57,5 +57,17 @@ public abstract class Player {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns the race of the player.
+	 * @return the race of the player
+	 */
+	public boolean playsOrc() {
+		return orc;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
