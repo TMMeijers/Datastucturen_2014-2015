@@ -34,5 +34,4 @@ public class OrcGeneral extends Unit {
 	public OrcGeneral() {
 		super(ATT, HP, SUP, RNG, MV);
 	}
-
 }
