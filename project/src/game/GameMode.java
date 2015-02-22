@@ -66,26 +66,23 @@ public abstract class GameMode {
 	 * @param humanUnits array holding number of units to be added for player playing human
 	 */
 	public void initUnits(int[] orcUnits, int[] humanUnits) {
-		int[] p1Units;
-		int[] p2Units;
+		int orc = 2;
+		int human = 1;
 		if (getPlayer(1).equals("Orc")) {
-			p1Units = orcUnits;
-			p2Units = humanUnits;
-		} else {
-			p1Units = humanUnits;
-			p2Units = orcUnits;
+			orc = 1;
+			human = 2;
 		}
-		for (int i = 0; i < p1Units[0]; i++) {
-			getPlayer(1).addUnit(new OrcSoldier());
+		for (int i = 0; i < orcUnits[0]; i++) {
+			getPlayer(orc).addUnit(new OrcSoldier());
 		}
-		for (int i = 0; i < p1Units[1]; i++) {
-			getPlayer(1).addUnit(new OrcGeneral());
+		for (int i = 0; i < orcUnits[1]; i++) {
+			getPlayer(orc).addUnit(new OrcGeneral());
 		}
-		for (int i = 0; i < p2Units[0]; i++) {
-			getPlayer(2).addUnit(new HumanSoldier());
+		for (int i = 0; i < humanUnits[0]; i++) {
+			getPlayer(human).addUnit(new HumanSoldier());
 		}
-		for (int i = 0; i < p2Units[1]; i++) {
-			getPlayer(2).addUnit(new HumanGeneral());
+		for (int i = 0; i < humanUnits[1]; i++) {
+			getPlayer(human).addUnit(new HumanGeneral());
 		}	
 	}
 	

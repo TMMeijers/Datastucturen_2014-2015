@@ -3,13 +3,35 @@ package units;
  * Class which represents an orc soldier.
  */
 public class HumanSoldier extends Unit {
+	/**
+	 * Attack stat of the Unit.
+	 */
+	static final int ATT = 6;
 
 	/**
-	 * Constructor for a human soldier: 6 ATT, 4 HP, 1 SUPPORT, 1 RANGE, 
-	 * 1 MOVE.
+	 * Health stat of the Unit.
+	 */
+	static final int HP = 4;
+
+	/**
+	 * Support stat of the Unit.
+	 */
+	static final int SUP = 1;
+
+	/**
+	 * Ranged stat of the Unit.
+	 */
+	static final int RNG = 1;
+	
+	/**
+	 * Movement stat of the Unit.
+	 */
+	static final int MV = 1;
+	
+	/**
+	 * Constructor for human soldier.
 	 */
 	public HumanSoldier() {
-		super(6, 4, 1, 1, 1);
+		super(ATT, HP, SUP, RNG, MV);
 	}
-
 }
