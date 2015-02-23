@@ -1,6 +1,6 @@
-package board;
+package game.board;
 
-import units.Unit;
+import game.units.Unit;
 
 /**
  * Abstract class for the tiles on the board.
@@ -83,20 +83,7 @@ public class Tile {
 				throw new IllegalArgumentException("Type: " + type + " doesn't exist.");
 		}
 	}
-
-	/**
-	 * Fills the tile with the specified unit.
-	 * @param  unit the unit to be placed on the tile
-	 * @return      false if the tile was occupied, true otherwise
-	 */
-	public boolean fill(Unit unit) {
-		if (!empty()) {
-			return false;
-		}
-		this.unit = unit;
-		return true;
-	}
-
+	
 	/**
 	 * Returns the column of the tile
 	 * @return the column
@@ -138,12 +125,25 @@ public class Tile {
 	}
 
 	/**
+	 * Fills the tile with the specified unit.
+	 * @param  unit the unit to be placed on the tile
+	 * @return      false if the tile was occupied, true otherwise
+	 */
+	public boolean fill(Unit unit) {
+		if (!empty()) {
+			return false;
+		}
+		this.unit = unit;
+		return true;
+	}
+
+	/**
 	 * Returns the unit at the tile.
 	 * @return the unit at the tile
 	 */
 	public Unit getUnit() {
 		return unit;
-	} 
+	}
 	
 	/**
 	 * Removes the unit from the tile

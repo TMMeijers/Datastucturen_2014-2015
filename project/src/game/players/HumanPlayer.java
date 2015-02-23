@@ -1,9 +1,6 @@
-package players;
-
+package game.players;
 
 public class HumanPlayer extends Player {
-
-	
 	/**
 	 * Constructor for player specifying both name and race
 	 * @param name the name of the player

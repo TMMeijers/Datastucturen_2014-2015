@@ -1,7 +1,8 @@
-package players;
+package game.players;
+
+import game.units.Unit;
 
 import java.util.ArrayList;
-import units.Unit;
 
 public abstract class Player {
 	/**
@@ -31,6 +32,16 @@ public abstract class Player {
 	}
 	
 	/**
+	 * Initializes this players turn, setting all units move and attack
+	 * status to active.
+	 */
+	public void initTurn() {
+		for (Unit u : units) {
+			u.activate();
+		}
+	}
+	
+	/**
 	 * Adds the specified unit to the players units.
 	 * @param unit the unit to be added to this players units
 	 */
@@ -52,7 +63,7 @@ public abstract class Player {
 	 */
 	public boolean anyActive() {
 		for (Unit u : units) {
-			if (u.active()) {
+			if (u.canAttack() || u.canMove()) {
 				return true;
 			}
 		}

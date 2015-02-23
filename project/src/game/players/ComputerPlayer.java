@@ -1,4 +1,4 @@
-package players;
+package game.players;
 
 import ai.Ai;
 

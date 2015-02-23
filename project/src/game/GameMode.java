@@ -1,8 +1,13 @@
 package game;
 
-import players.*;
-import units.*;
-import board.Board;
+import game.board.Board;
+import game.players.ComputerPlayer;
+import game.players.HumanPlayer;
+import game.players.Player;
+import game.units.HumanGeneral;
+import game.units.HumanSoldier;
+import game.units.OrcGeneral;
+import game.units.OrcSoldier;
 
 public abstract class GameMode {
 	

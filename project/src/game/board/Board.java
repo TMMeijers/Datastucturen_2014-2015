@@ -1,7 +1,8 @@
-package board;
+package game.board;
+
+import game.units.Unit;
 
 import java.util.ArrayList;
-import units.Unit;
 
 /**
  * 
@@ -72,22 +73,43 @@ public class Board {
 	}
 	
 	/**
-	 * Returns all the Tiles surrounding tile
-	 * @param tile the tile for which the surrounding tiles are obtained
-	 * @return ArrayList with all the surrounding tiles
+	 * Returns all the Tiles surrounding this tile and are empty
+	 * @param tile the tile for which the surrounding empty tiles are obtained
+	 * @return ArrayList with all the surrounding empty tiles
 	 */
-	public ArrayList<Tile> getSurroundingTiles(Tile tile, int range) {
-		ArrayList<Tile> surroundingTiles = new ArrayList<Tile>(6);
+	public ArrayList<Tile> getSurroundingEmptyTiles(Tile tile, int range) {
+		ArrayList<Tile> surroundingEmptyTiles = new ArrayList<Tile>();
 		// Go through all surrounding tiles
 		for (int i = -range; i < range + 1; i++) {
 			for (int j = -range; j < range + 1; j++) {
-				// If on board add to list
-				if (tileOnBoard(tile.getCol() + i, tile.getRow() + j)) {
-					surroundingTiles.add(getTile(tile.getCol() + i, tile.getRow() + j));
+				// If on board and empty add to list
+				if (tileOnBoard(tile.getCol() + i, tile.getRow() + j) && 
+					getTile(tile.getCol() + i, tile.getRow() + j).empty()) {
+					surroundingEmptyTiles.add(getTile(tile.getCol() + i, tile.getRow() + j));
 				}
 			}
 		}
-		return surroundingTiles;
+		return surroundingEmptyTiles;
+	}
+	
+	/**
+	 * Returns all the Tiles surrounding this tile and have a unit
+	 * @param tile the tile for which the surrounding filled tiles are obtained
+	 * @return ArrayList with all the surrounding filled tiles
+	 */
+	public ArrayList<Tile> getSurroundingUnitTiles(Tile tile, int range) {
+		ArrayList<Tile> surroundingUnitTiles = new ArrayList<Tile>();
+		// Go through all surrounding tiles
+		for (int i = -range; i < range + 1; i++) {
+			for (int j = -range; j < range + 1; j++) {
+				// If on board and not empty add to list
+				if (tileOnBoard(tile.getCol() + i, tile.getRow() + j) && 
+					!getTile(tile.getCol() + i, tile.getRow() + j).empty()) {
+					surroundingUnitTiles.add(getTile(tile.getCol() + i, tile.getRow() + j));
+				}
+			}
+		}
+		return surroundingUnitTiles;
 	}
 	
 	/**
@@ -96,19 +118,17 @@ public class Board {
 	 * @return 	   ArrayList with all the surrounding units
 	 */
 	public ArrayList<Unit> getSurroundingUnits(Tile tile, int range) {
-		ArrayList<Tile> surroundingTiles = getSurroundingTiles(tile, range);
-		ArrayList<Unit> surroundingUnits = new ArrayList<Unit>(6);
-		// Loop through tiles, if not empty add unit
+		ArrayList<Tile> surroundingTiles = getSurroundingUnitTiles(tile, range);
+		ArrayList<Unit> surroundingUnits = new ArrayList<Unit>();
+		// Loop through tiles and add units
 		for (Tile t : surroundingTiles) {
-			if (!t.empty()) {
-				surroundingUnits.add(t.getUnit());
-			}
+			surroundingUnits.add(t.getUnit());
 		}
 		return surroundingUnits;
 	}
 	
 	/**
-	 * Checks wether a given column and row correspond to a tile on the board
+	 * Checks whether a given column and row correspond to a tile on the board
 	 * @param col the column of the tile
 	 * @param row the row of the tile
 	 * @return true if tile is on the board, false otherwise
