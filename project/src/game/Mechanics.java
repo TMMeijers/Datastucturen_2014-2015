@@ -23,7 +23,7 @@ public class Mechanics {
 	public static boolean hit(Board board, Unit attacker, Unit defender) {
 		// If P(hit) is larger than value generated deal damage
 		if (Math.random() < hitChance(board, attacker, defender)) {
-			defender.damaged(attacker.getPower());
+			defender.damaged(attacker.pwr);
 			attacker.hasAttacked();
 			return true;
 		}
@@ -39,17 +39,17 @@ public class Mechanics {
 	 * @return 			double with 0 < value < 1 
 	 */
 	private static double hitChance(Board board, Unit attacker, Unit defender) {
-		int aws = attacker.getAttack();
-		int dws = defender.getAttack();
+		int aws = attacker.att;
+		int dws = defender.att;
 		
 		// Get surrounding units and calculate final aws
 		ArrayList<Unit> surrounding = board.getSurroundingUnits(attacker.getPosition(), 
-																attacker.getRange());
+																attacker.rng);
 		for (Unit u : surrounding) {
-			if (attacker.getRace() == u.getRace()) {
-				aws += u.getSupport();
+			if (attacker.race == u.race) {
+				aws += u.sup;
 			} else {
-				aws -= u.getSupport();
+				aws -= u.sup;
 			}
 		}
 		// Return P(hit)

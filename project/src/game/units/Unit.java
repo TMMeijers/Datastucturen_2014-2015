@@ -2,145 +2,79 @@ package game.units;
 
 import game.board.Tile;
 
-/**
- * Abstract class for all the units on the board.
- */
 public abstract class Unit {
+	/**
+	 * Race of the unit, orc is true, human is false.
+	 */
+	public final boolean race;
 	
 	/**
-	 * Race of the unit, true for orc, false for human.
+	 * Attack stat of the unit.
 	 */
-	protected boolean race;
-
-	/**
-	 * Attack value of the unit.
-	 */
-	protected int attack;
+	public final int att;
 	
 	/**
-	 * Damage value of the unit.
+	 * Power stat of the unit, determines damage dealed.
 	 */
-	protected int power;
-
+	public final int pwr;
+	
 	/**
-	 * The hitpoints of the unit.
+	 * Support stat of the unit, determines weapon skill assist.
 	 */
-	protected int hitpoints;
-
+	public final int sup;
+	
 	/**
-	 * The range of the unit.
+	 * Range stat of the unit, how many tiles the Unit can reach with an attack.
 	 */
-	protected int range;
-
+	public final int rng;
+	
 	/**
-	 * Value for support lended to attacking/attacked adjecent units.
+	 * Speed stat of the unit, how many tiles the unit can move.
 	 */
-	protected int support;
-
+	public final int spd;
+	
 	/**
-	 * Maximum tiles a unit can move.
+	 * Health stat for the unit.
 	 */
-	protected int speed;
+	private int hitpoints;
 	
 	/**
 	 * If unit can still move.
 	 */
-	protected boolean activeMove;
+	private boolean activeMove;
 	
 	/**
 	 * If unit can still attack.
 	 */
-	protected boolean activeAttack;
+	private boolean activeAttack;
 	
 	/**
 	 * The position of the Unit.
 	 */
-	protected Tile position;
+	private Tile position;
 	
 	/**
-	 * Constructor for a Unit which sets its stats.
-	 * @param  race 	 the race of the unit, true for orc, false for human
-	 * @param  attack    the attack weapon skill of the unit
-	 * @param  hitpoints the hitpoints of the unit
-	 * @param  support   the amount of weapon skill added as support
-	 * @param  range     the range of the unit
-	 * @param  speed     the movement speed of a unit
+	 * Constructor for Unit, sets status to inactive, no position specified.
 	 */
-	public Unit(boolean race, int attack, int power, int hitpoints, int support, int range, int speed) {
+	public Unit(boolean race, int att, int pwr, int sup, int hitpoints, int rng, int spd) {
 		this.race = race;
-		this.attack = attack;
-		this.power = power;
+		this.att = att;
+		this.pwr = pwr;
+		this.sup = sup;
 		this.hitpoints = hitpoints;
-		this.support = support;
-		this.range = range;
-		this.speed = speed;
+		this.rng = rng;
+		this.spd = spd;
 		activeMove = false;
 		activeAttack = false;
 		position = null;
 	}
 	
 	/**
-	 * Sets the position for the Unit.
-	 * @param tile the new position
+	 * Returns the hitpoints of the Unit.
+	 * @return the hitpoints of the Unit
 	 */
-	public void moveTo(Tile tile) {
-		position = tile;
-	}
-	
-	/**
-	 * Returns the race of the unit.
-	 * @return true for orc, false for human
-	 */
-	public boolean getRace() {
-		return race;
-	}
-	
-	/**
-	 * Returns the attack stat of the Unit.
-	 * @return the attack stat
-	 */
-	public int getAttack() {
-		return attack;
-	}
-	
-	/**
-	 * Returns the power stat of the Unit.
-	 * @return the power that
-	 */
-	public int getPower() {
-		return power;
-	}
-	
-	/**
-	 * Returns the health stat of the Unit.
-	 * @return the health stat
-	 */
-	public int getHitpoints() {
+	public int getHp() {
 		return hitpoints;
-	}
-	
-	/**
-	 * Returns the support stat of the Unit.
-	 * @return the support stat
-	 */
-	public int getSupport() {
-		return support;
-	}
-	
-	/**
-	 * Returns the range stat of the Unit.
-	 * @return the range stat
-	 */
-	public int getRange() {
-		return range;
-	}
-	
-	/**
-	 * Returns the movement speed stat of the Unit.
-	 * @return the movement speed stat
-	 */
-	public int getSpeed() {
-		return speed;
 	}
 	
 	/**
@@ -150,6 +84,14 @@ public abstract class Unit {
 	public Tile getPosition() {
 		return position;
 	}
+	
+	/**
+	 * Sets the position for the Unit.
+	 * @param tile the new position
+	 */
+	public void moveTo(Tile tile) {
+		position = tile;
+	}
 
 	/**
 	 * When unit gets damaged, subtract a hitpoint.
@@ -158,7 +100,7 @@ public abstract class Unit {
 	 */
 	public boolean damaged(int dmg) {
 		hitpoints -= dmg;
-		if (hitpoints < 1) {
+		if (hitpoints <= 0) {
 			// Unit has 0 hp, is killed
 			return true;
 		}

@@ -1,15 +1,14 @@
 package main;
 
 import game.DefaultGame;
-import game.Mechanics;
-import gui.GraphicEngine;
+import gui.GraphicsEngine;
 
 
 public class LegendsOfArborea {
 	
 	private DefaultGame game;
 	
-	private GraphicEngine graphics;
+	private GraphicsEngine graphics;
 	
 
 	public static void main(String[] args) {
