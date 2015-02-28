@@ -1,13 +1,9 @@
-package game;
+package game.mode;
 
 import game.board.Board;
-import game.players.ComputerPlayer;
-import game.players.HumanPlayer;
-import game.players.Player;
-import game.units.HumanGeneral;
-import game.units.HumanSoldier;
-import game.units.OrcGeneral;
-import game.units.OrcSoldier;
+import game.board.Tile;
+import game.players.*;
+import game.units.*;
 
 public abstract class GameMode {
 	
@@ -53,7 +49,7 @@ public abstract class GameMode {
 	 */
 	public void initPlayers(String nameP1, String nameP2, boolean orcP1) {
 		players[0] = new HumanPlayer(nameP1, orcP1);
-		players[0] = new HumanPlayer(nameP2, !orcP1);		
+		players[1] = new HumanPlayer(nameP2, !orcP1);		
 	}
 	
 	/**
@@ -73,7 +69,7 @@ public abstract class GameMode {
 	public void initUnits(int[] orcUnits, int[] humanUnits) {
 		int orc = 2;
 		int human = 1;
-		if (getPlayer(1).equals("Orc")) {
+		if (getPlayer(1).playsOrc()) {
 			orc = 1;
 			human = 2;
 		}
@@ -89,6 +85,37 @@ public abstract class GameMode {
 		for (int i = 0; i < humanUnits[1]; i++) {
 			getPlayer(human).addUnit(new HumanGeneral());
 		}	
+	}
+
+	/**
+	 * Places the units on the board according to the positions passed
+	 * as arguments. 
+	 * @param orcPositions    integer array with [Unit][col, row] for orcs
+	 * @param humanPositions  integer array with [Unit][col, row] for humans
+	 */
+	public void placeUnits(int[][] orcPositions, int[][] humanPositions) {
+		int orc = 2;
+		int human = 1;
+		if (getPlayer(1).playsOrc()) {
+			orc = 1;
+			human = 2;
+		}
+		Unit u;
+		Tile t;
+		
+		// Loop through orc and human units and place on field
+		for (int i = 0; i < getPlayer(orc).unitsAlive(); i++) {
+			u = getPlayer(orc).getUnit(i);
+			t = board.getTile(orcPositions[i][0], orcPositions[i][1]);
+			u.moveTo(t);
+			t.fill(u);
+		}
+		for (int i = 0; i < getPlayer(human).unitsAlive(); i++) {
+			u = getPlayer(human).getUnit(i);
+			t = board.getTile(humanPositions[i][0], humanPositions[i][1]);
+			u.moveTo(t);
+			t.fill(u);
+		}
 	}
 	
 	/**

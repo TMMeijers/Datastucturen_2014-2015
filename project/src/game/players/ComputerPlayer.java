@@ -1,6 +1,6 @@
 package game.players;
 
-import ai.Ai;
+import game.ai.Ai;
 
 public class ComputerPlayer extends Player {
 	/**

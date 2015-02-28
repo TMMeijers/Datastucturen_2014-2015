@@ -41,6 +41,14 @@ public abstract class Player {
 		}
 	}
 	
+	public Unit getUnit(int index) {
+		return units.get(index);
+	}
+	
+	public int unitsAlive() {
+		return units.size();
+	}
+	
 	/**
 	 * Adds the specified unit to the players units.
 	 * @param unit the unit to be added to this players units

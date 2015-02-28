@@ -1,21 +1,33 @@
-package game;
+package game.mode;
 
 public class DefaultGame extends GameMode {
 
 	/**
 	 * Array holding values for all orc units.
 	 */
-	static final int[] ORC_UNITS = {8, 2};
+	private static final int[] ORC_UNITS = {8, 2};
+	
+	/**
+	 * Positions for the orcs in this setup.
+	 */
+	private static final int[][] ORC_POSITIONS = {{0,1},{1,1},{1,2},{1,3},{1,4},{1,5},{2,1},{2,6}, // Soldiers
+										  		  {0,4},{1,0}};									   // Generals
 	
 	/**
 	 * Array holding values for all human units.
 	 */
-	static final int[] HUMAN_UNITS = {6, 3};
+	private static final int[] HUMAN_UNITS = {6, 3};
+	
+	/**
+	 * Positions for the humans in this setup.
+	 */
+	private static final int[][] HUMAN_POSITIONS = {{7,0},{7,1},{7,2},{7,3},{7,4},{8,1}, // Soldiers
+										    		{7,5},{8,0},{8,3}};					 // Generals
 	
 	/**
 	 * Size of the board
 	 */
-	static final int SIZE = 5;
+	private static final int SIZE = 5;
 	
 	/**
 	 * Constructor for a game with default setup. Human versus computer.
@@ -25,6 +37,8 @@ public class DefaultGame extends GameMode {
 	public DefaultGame(String nameP1, boolean orcP1) {
 		super(SIZE);
 		initPlayers(nameP1, orcP1);
+		initUnits(ORC_UNITS, HUMAN_UNITS);
+		placeUnits(ORC_POSITIONS, HUMAN_POSITIONS);
 	}
 	
 	/**
@@ -37,5 +51,6 @@ public class DefaultGame extends GameMode {
 		super(SIZE);
 		initPlayers(nameP1, nameP2, orcP1);
 		initUnits(ORC_UNITS, HUMAN_UNITS);
+		placeUnits(ORC_POSITIONS, HUMAN_POSITIONS);
 	}
 }
