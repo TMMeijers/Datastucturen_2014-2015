@@ -18,8 +18,8 @@ public class LegendsOfArborea extends StateBasedGame {
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
 	
-	public static String nameP1;
-	public static String nameP2;
+	public static String NAME_P1;
+	public static String NAME_P2;
 	
 	private static final String NAME = "Legends of Arobrea";
 	
@@ -37,13 +37,14 @@ public class LegendsOfArborea extends StateBasedGame {
 	}
 	
 	public static void main(String[] args) {
-		nameP1 = "Truub Deluxe";
-		nameP2 = "Crappy AI";
+		NAME_P1 = "Truub Deluxe";
+		NAME_P2 = "Crappy AI";
 		
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new LegendsOfArborea(NAME));
 			app.setDisplayMode(WIDTH, HEIGHT, FULLSCREEN);
+			app.setTargetFrameRate(60);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -55,7 +56,7 @@ public class LegendsOfArborea extends StateBasedGame {
 		// Choose versus human or AI.
 		// Give in name(s) and who is playing which side
 		boolean orcP1 = true;
-		GameMode game = new DefaultGame(nameP1, nameP2, orcP1);
+		GameMode game = new DefaultGame(NAME_P1, NAME_P2, orcP1);
 
 		// GraphicsEngine engine = new GraphicsEngine(game)
 		
