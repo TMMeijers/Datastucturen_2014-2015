@@ -10,8 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LegendsOfArborea extends StateBasedGame {
 	
-	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 720;
+	public static final int WIDTH = 1600;
+	public static final int HEIGHT = 900;
 	public static final boolean FULLSCREEN = false;
 	public static final int MENU = 0;
 	public static final int PLAY = 1;

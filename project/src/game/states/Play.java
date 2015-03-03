@@ -47,34 +47,36 @@ public class Play extends BasicGameState {
 		float x;
 		float y;
 		float startX = 100.0f;
-		float startY = 100.0f;
+		float startY = 50.0f;
 		
 		for (int i = 0; i < totalCols; i++) {
-			x = startX + i * horDist;
-			System.out.println(x);
+			x = startX + i * (horDist+2);
 			// Increasing length columns
 			if (i < dim) {
-				y = startY + side * vertDist/2 * (dim - i);
-				
+				y = startY + vertDist/2 * (dim - (i + 1));
+
+				System.out.println(y);
+				System.out.println(true);
 				length = dim + i;
 				gTiles[i] = new Polygon[length];
 				for (int j = 0; j < length; j++) {
 					// Columns with increasing tile count
 					gTiles[i][j] = new Polygon(points);
 					gTiles[i][j].setX(x);
-					gTiles[i][j].setY(startY + j * height);
+					gTiles[i][j].setY(y + j * (height+2));
 				}
 
 			// Decreasing length columns
 			} else {
-				y = startY + side * vertDist/2 * (i % dim); 
+				y = startY + vertDist/2 * ((i + 1) % dim); 
+				System.out.println(y);
 				length = -i % dim + 2 * dim - 2;
 				gTiles[i] = new Polygon[length];
 				for (int j = 0; j < length; j++) {
 					// From the middle column start decreasing size
 					gTiles[i][j] = new Polygon(points);
 					gTiles[i][j].setX(x);
-					gTiles[i][j].setY(y + j * height);
+					gTiles[i][j].setY(y + j * (height+2));
 				}
 			}
 		}
@@ -87,6 +89,18 @@ public class Play extends BasicGameState {
 				g.texture(p, grassTexture);
 			}
 		}
+//		g.texture(gTiles[0][0], grassTexture);
+//		g.texture(gTiles[0][1], grassTexture);
+//		g.texture(gTiles[0][2], grassTexture);
+//		g.texture(gTiles[0][3], grassTexture);
+//		g.texture(gTiles[0][4], grassTexture);
+//		g.texture(gTiles[1][0], grassTexture);
+//		g.texture(gTiles[1][1], grassTexture);
+//		g.texture(gTiles[1][2], grassTexture);
+//		g.texture(gTiles[1][3], grassTexture);
+//		g.texture(gTiles[1][4], grassTexture);
+//		g.texture(gTiles[1][5], grassTexture);
+//		g.texture(gTiles[2][1], grassTexture);
 	}
 
 	@Override
