@@ -151,6 +151,14 @@ public class Tile {
 	public void removeUnit() {
 		unit = null;
 	}
+	
+	/**
+	 * Returns the type of the tile.
+	 * @return the type of the tile
+	 */
+	public String getType() {
+		return type;
+	}
 
 	/**
 	 * Overrides toString from Object, prints the type of the unit

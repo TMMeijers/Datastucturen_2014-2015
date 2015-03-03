@@ -1,12 +1,15 @@
 package game.states;
 
 import game.LegendsOfArborea;
+import game.board.Tile;
 import game.mode.GameMode;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.BasicGameState;
@@ -24,21 +27,29 @@ public class Play extends BasicGameState {
 	
 	private Image grassTexture;
 	
+	static final float POLY_SIDE = 50.0f;
+	static final float POLY_HORSIDE = POLY_SIDE * 1.5f;
+	static final float POLY_XPAD = 3;
+	static final float POLY_YPAD = 5;
+	
+	// Input device
+	Mouse mouse;
+	
 	public Play(int state) {
 		
 	}
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
+		// Load textures
 		grassTexture = new Image("res/tiles/grass.png");
 		
 		// Make Polygon array
-		float side = 50.0f;
-		float horDist = 1.5f * side;
-		float height = (float)Math.sqrt(3) * side;
-		float vertDist = height;
+		float horSpace = 1.5f * POLY_HORSIDE;
+		float height = (float)Math.sqrt(3) * POLY_SIDE;
+		float vertSpace = height;
 
-		float[] points = {0, height/2, side/2, 0, side*1.5f, 0, side*2, height/2, side*1.5f, height, side/2, height};
+		float[] points = {0, height/2, POLY_HORSIDE/2f, 0, POLY_HORSIDE*1.5f, 0, POLY_HORSIDE*2f, height/2, POLY_HORSIDE*1.5f, height, POLY_HORSIDE/2f, height};
 
 		int dim = gameMode.board.getDimension();
 		int totalCols = (dim * 2) - 1;
@@ -46,14 +57,14 @@ public class Play extends BasicGameState {
 		int length;
 		float x;
 		float y;
-		float startX = 100.0f;
-		float startY = 50.0f;
+		float startX = width/2 - (dim*2) * horSpace/2;
+		float startY = height/2;
 		
 		for (int i = 0; i < totalCols; i++) {
-			x = startX + i * (horDist+2);
+			x = startX + i * (horSpace+POLY_XPAD);
 			// Increasing length columns
 			if (i < dim) {
-				y = startY + vertDist/2 * (dim - (i + 1));
+				y = startY + vertSpace/2 * (dim - (i + 1));
 
 				System.out.println(y);
 				System.out.println(true);
@@ -63,12 +74,12 @@ public class Play extends BasicGameState {
 					// Columns with increasing tile count
 					gTiles[i][j] = new Polygon(points);
 					gTiles[i][j].setX(x);
-					gTiles[i][j].setY(y + j * (height+2));
+					gTiles[i][j].setY(y + j * (height+POLY_YPAD));
 				}
 
 			// Decreasing length columns
 			} else {
-				y = startY + vertDist/2 * ((i + 1) % dim); 
+				y = startY + vertSpace/2 * ((i + 1) % dim); 
 				System.out.println(y);
 				length = -i % dim + 2 * dim - 2;
 				gTiles[i] = new Polygon[length];
@@ -76,41 +87,78 @@ public class Play extends BasicGameState {
 					// From the middle column start decreasing size
 					gTiles[i][j] = new Polygon(points);
 					gTiles[i][j].setX(x);
-					gTiles[i][j].setY(y + j * (height+2));
+					gTiles[i][j].setY(y + j * (height+POLY_YPAD));
 				}
 			}
 		}
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-		for (Polygon[] pArray : gTiles) {
-			for (Polygon p : pArray) {
-				g.texture(p, grassTexture);
+	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException, IllegalArgumentException {
+		for (int i = 0; i < gTiles.length; i++) {
+			for (int j = 0; j < gTiles[i].length; j++) {		
+				switch (gameMode.board.getTile(i, j).getType()) {
+				case "grass":	
+					g.texture(gTiles[i][j], grassTexture);
+					break;
+				case "wood":
+					break;
+				case "swamp":
+					break;
+				case "boulder":
+					break;
+				default:
+					throw new IllegalArgumentException("Type: " + gameMode.board.getTile(i, j).getType() + " doesn't exist.");
+			}
 			}
 		}
-//		g.texture(gTiles[0][0], grassTexture);
-//		g.texture(gTiles[0][1], grassTexture);
-//		g.texture(gTiles[0][2], grassTexture);
-//		g.texture(gTiles[0][3], grassTexture);
-//		g.texture(gTiles[0][4], grassTexture);
-//		g.texture(gTiles[1][0], grassTexture);
-//		g.texture(gTiles[1][1], grassTexture);
-//		g.texture(gTiles[1][2], grassTexture);
-//		g.texture(gTiles[1][3], grassTexture);
-//		g.texture(gTiles[1][4], grassTexture);
-//		g.texture(gTiles[1][5], grassTexture);
-//		g.texture(gTiles[2][1], grassTexture);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
-
+		int xPos = Mouse.getX();
+		int yPos = Mouse.getY();
+		
+		Tile test = xyToTile(xPos, yPos);
+		System.out.println(test);
+		if (test != null) {
+			System.out.println("Col: " + test.getCol() + ", Row: " + test.getRow());
+		}
 	}
 
 	@Override
 	public int getID() {
 		return LegendsOfArborea.PLAY;
+	}
+	
+	public Tile xyToTile(int mx, int my) {
+		int dim = gameMode.board.getDimension();
+		float horSpace = 1.5f * POLY_HORSIDE;
+		float polyHeight = (float)Math.sqrt(3) * POLY_SIDE;
+		float vertSpace = height;
+		
+		// Remove padding
+		float xBorder = width/2f - (dim*2f) * (horSpace + POLY_XPAD)/2f;
+		float yBorder = (height - ((dim*2f - 1) * (vertSpace + POLY_YPAD))) / 2f; // HHMmmmm
+		float x = mx - xBorder;
+		float y = my - yBorder;
+		
+		System.out.println("X: " + x + ", Y: " + y);
+		float temp1 = width - 2*xBorder;
+		float temp2 = height - 2*yBorder;
+		System.out.println("X max: " + temp1 + ", Y max: " + temp2);
+		
+		// If we didn't click on the field
+		if (x < 0 || y < 0 || x > width - 2*xBorder || y > height - 2*yBorder) {
+			return null;
+		}
+		int col = (int)(x / (horSpace + POLY_XPAD));
+		int row = (int)(y / (vertSpace + POLY_YPAD));
+		if (col >= dim * 2 - 1) {
+			return null;
+		}
+		
+		return gameMode.board.getTile(col, row);
 	}
 
 }
