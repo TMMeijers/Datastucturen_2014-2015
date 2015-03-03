@@ -1,6 +1,7 @@
 package game.states;
 
 import game.LegendsOfArborea;
+import game.mode.DefaultGame;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -15,30 +16,33 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Menu extends BasicGameState {
 
+	private int width = LegendsOfArborea.WIDTH;
+	private int height = LegendsOfArborea.HEIGHT;
+	private String match;
+	
+	// Fonts
 	UnicodeFont fontSmall;
 	UnicodeFont fontNormal;
 	UnicodeFont fontLarge;
-
-	private int width = LegendsOfArborea.WIDTH;
-	private int height = LegendsOfArborea.HEIGHT;
 	
-	private String match;
-	
+	// Buttons
 	Image OptionButton;
 	Image PlayButton;
 	
+	// Input device
 	Mouse mouse;
 	
 	public Menu(int state) {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
-		// Load custom font	
-		fontSmall = new UnicodeFont("sprites/ui/fonts/DARK11__.ttf", 25, false, false);
-		fontNormal = new UnicodeFont("sprites/ui/fonts/DARK11__.ttf", 40, false, false);
-		fontLarge = new UnicodeFont("sprites/ui/fonts/DARK11__.ttf", 60, false, false);
+		// Load custom font	with different sizes
+		fontSmall = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 25, false, false);
+		fontNormal = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 40, false, false);
+		fontLarge = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 60, false, false);
 		fontSmall.addAsciiGlyphs();
 		fontSmall.getEffects().add(new ColorEffect());
 		fontSmall.loadGlyphs();
@@ -49,8 +53,10 @@ public class Menu extends BasicGameState {
 		fontLarge.getEffects().add(new ColorEffect());
 		fontLarge.loadGlyphs();
 		
-		PlayButton = new Image("sprites/ui/PNG/red_button11.png");
+		PlayButton = new Image("res/ui/png/red_button11.png");
 		match = LegendsOfArborea.NAME_P1 + " VS " + LegendsOfArborea.NAME_P2;
+		
+		Play.gameMode = new DefaultGame(LegendsOfArborea.NAME_P1, LegendsOfArborea.NAME_P2, true);
 	}
 
 	@Override

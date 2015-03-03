@@ -13,6 +13,11 @@ public class Board {
 	 * Two dimensional array with all the tiles, first dimension are columns second the tile
 	 */
 	private Tile[][] tiles;
+	
+	/**
+	 * The dimension of the board.
+	 */
+	private int dimension;
 
 	/**
 	 * Generates the default board (dimensions: 5 x 5 x 5)
@@ -26,6 +31,7 @@ public class Board {
 	 * @param  dimension the dimension of the board (dim x dim x dim)
 	 */
 	public Board(int dimension) {
+		this.dimension = dimension;
 		int totalCols = (dimension * 2) - 1;
 		tiles = new Tile[totalCols][];
 		int length;
@@ -149,5 +155,9 @@ public class Board {
 	 */
 	public Tile getTile(int col, int row)  {
 		return tiles[col][row];
+	}
+	
+	public int getDimension() {
+		return dimension;
 	}
 }
