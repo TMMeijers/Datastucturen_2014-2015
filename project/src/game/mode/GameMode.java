@@ -20,8 +20,7 @@ public abstract class GameMode {
 	/**
 	 * The board of this specific game.
 	 */
-	public final Board board;
-
+	public Board board;
 
 	public GameMode(int size) {
 		players = new Player[2];

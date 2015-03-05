@@ -6,6 +6,12 @@ import game.units.Unit;
  * Abstract class for the tiles on the board.
  */
 public class Tile {
+	
+	public static final int DEFAULT = 0;
+	public static final int ACTIVE = 1;
+	public static final int REACHABLE = 2;
+	public static final int ATTACKABLE = 3;
+	
 
 	/**
 	 * Column the tile is in.
@@ -35,8 +41,12 @@ public class Tile {
 	/**
 	 * The type of the tile (e.g. grass, forest).
 	 */
-	private String type;
+	private String name;
+	
+	private int type;
 
+	private int status;
+	
 	/**
 	 * Constructor which specifies column and row, uses explicit constructor invocation
 	 * to construct default field (a grass field).
@@ -54,33 +64,38 @@ public class Tile {
 	 * @param  row  row for this tile
 	 * @param  type the type of the field which determines the bonuses
 	 */
-	public Tile(int col, int row, String type) throws IllegalArgumentException {
+	public Tile(int col, int row, String name) throws IllegalArgumentException {
 		this.col = col;
 		this.row = row;
-		this.type = type;
+		this.name = name;
+		status = 0;
 
 		// Maybe change this, first thought about abstract class Tile, and child classes
 		// GrassTile, WoodTile etc. But too difficult for only things that differ are three
 		// variables?
-		switch (type) {
+		switch (name) {
 			case "grass":
 				height = 0;
 				bonus = 0;
+				type = 0;
 				break;
 			case "wood":
 				height = 0;
 				bonus = 1;
+				type = 1;
 				break;
 			case "swamp":
 				height = 0;
 				bonus = -1;
+				type = 2;
 				break;
 			case "boulder":
 				height = 1;
 				bonus = 1;
+				type = 3;
 				break;
 			default:
-				throw new IllegalArgumentException("Type: " + type + " doesn't exist.");
+				throw new IllegalArgumentException("Type: " + name + " doesn't exist.");
 		}
 	}
 	
@@ -152,12 +167,16 @@ public class Tile {
 		unit = null;
 	}
 	
-	/**
-	 * Returns the type of the tile.
-	 * @return the type of the tile
-	 */
-	public String getType() {
+	public int getType() {
 		return type;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+	
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	/**
@@ -165,6 +184,28 @@ public class Tile {
 	 * @return the String containing type
 	 */
 	public String toString() {
-		return type;
+		return name;
 	}
+	
+	/**
+	 * Overrides the equals method.
+	 */
+	@Override
+	public boolean equals(Object tile) {
+        if (tile instanceof Tile){
+            Tile other = (Tile) tile;
+    	    if ((this.col == other.col && this.row == other.row)) {
+    	        return true;
+    	    }
+        }
+        return false;
+	}
+	
+	/**
+	 * Support boards up to dimension of 20 x 20 x 20
+	 */
+    @Override
+    public int hashCode() {
+        return 41 * col + 2 * row;
+    }
 }

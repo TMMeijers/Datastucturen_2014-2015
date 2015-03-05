@@ -1,5 +1,6 @@
 package game.players;
 
+import game.board.Board;
 import game.units.Unit;
 
 import java.util.ArrayList;
@@ -41,12 +42,22 @@ public abstract class Player {
 		}
 	}
 	
+	public void endTurn() {
+		for (Unit u : units) {
+			u.deactivate();
+		}
+	}
+	
 	public Unit getUnit(int index) {
 		return units.get(index);
 	}
 	
 	public int unitsAlive() {
 		return units.size();
+	}
+	
+	public boolean anyAlive() {
+		return unitsAlive() != 0;
 	}
 	
 	/**
@@ -69,9 +80,14 @@ public abstract class Player {
 	 * Checks whether the player has any units that can still move or attack.
 	 * @return true if Player has any unit that can still move or attack
 	 */
-	public boolean anyActive() {
+	public boolean anyActive(Board board) {
 		for (Unit u : units) {
-			if (u.canAttack() || u.canMove()) {
+			if (u.canMove()) {
+				return true;
+			}
+		}
+		for (Unit u : units) {
+			if (u.canAttack() && u.anyAttackable(board)) {
 				return true;
 			}
 		}

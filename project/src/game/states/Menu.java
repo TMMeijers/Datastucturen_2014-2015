@@ -21,9 +21,9 @@ public class Menu extends BasicGameState {
 	private String match;
 	
 	// Fonts
-	UnicodeFont fontSmall;
-	UnicodeFont fontNormal;
-	UnicodeFont fontLarge;
+	public static UnicodeFont FONT_SMALL;
+	public static UnicodeFont FONT_NORMAL;
+	public static UnicodeFont FONT_LARGE;
 	
 	// Buttons
 	Image OptionButton;
@@ -38,44 +38,44 @@ public class Menu extends BasicGameState {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void init(GameContainer gc, StateBasedGame game) throws SlickException {
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// Load custom font	with different sizes
-		fontSmall = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 25, false, false);
-		fontNormal = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 40, false, false);
-		fontLarge = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 60, false, false);
-		fontSmall.addAsciiGlyphs();
-		fontSmall.getEffects().add(new ColorEffect());
-		fontSmall.loadGlyphs();
-		fontNormal.addAsciiGlyphs();
-		fontNormal.getEffects().add(new ColorEffect());
-		fontNormal.loadGlyphs();
-		fontLarge.addAsciiGlyphs();
-		fontLarge.getEffects().add(new ColorEffect());
-		fontLarge.loadGlyphs();
+		FONT_SMALL = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 30, false, false);
+		FONT_NORMAL = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 40, false, false);
+		FONT_LARGE = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 60, false, false);
+		FONT_SMALL.addAsciiGlyphs();
+		FONT_SMALL.getEffects().add(new ColorEffect());
+		FONT_SMALL.loadGlyphs();
+		FONT_NORMAL.addAsciiGlyphs();
+		FONT_NORMAL.getEffects().add(new ColorEffect());
+		FONT_NORMAL.loadGlyphs();
+		FONT_LARGE.addAsciiGlyphs();
+		FONT_LARGE.getEffects().add(new ColorEffect());
+		FONT_LARGE.loadGlyphs();
 		
 		PlayButton = new Image("res/ui/png/red_button11.png");
 		match = LegendsOfArborea.NAME_P1 + " VS " + LegendsOfArborea.NAME_P2;
 		
-		Play.gameMode = new DefaultGame(LegendsOfArborea.NAME_P1, LegendsOfArborea.NAME_P2, true);
+		Play.game = new DefaultGame(LegendsOfArborea.NAME_P1, LegendsOfArborea.NAME_P2, true);
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException {
-		fontLarge.drawString(width / 2 - 225, height / 10, "Legends of Arborea");
-		fontNormal.drawString(width / 2 - 225, height / 4, match);
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+		FONT_LARGE.drawString(width / 2 - 225, height / 10, "Legends of Arborea");
+		FONT_NORMAL.drawString(width / 2 - 225, height / 4, match);
 		g.drawImage(PlayButton, width / 2 - PlayButton.getWidth() / 2, height / 2 - PlayButton.getHeight() / 2);
-		fontSmall.drawString(width / 2 - 30, height / 2 - 15, "PLAY");
+		FONT_SMALL.drawString(width / 2 - 30, height / 2 - 15, "PLAY");
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 		int xPos = Mouse.getX();
 		int yPos = Mouse.getY();
 		if ((xPos > width / 2 - PlayButton.getWidth() / 2 && xPos < width / 2 + PlayButton.getWidth() / 2) &&
 			(yPos > height / 2 - PlayButton.getHeight() / 2 && yPos < height / 2 + PlayButton.getHeight() / 2)) {
 			if (input.isMousePressed(0)) {
-				game.enterState(LegendsOfArborea.PLAY);
+				sbg.enterState(LegendsOfArborea.PLAY);
 			}
 		}
 	}

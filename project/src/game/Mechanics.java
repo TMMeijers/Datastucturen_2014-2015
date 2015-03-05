@@ -23,11 +23,16 @@ public class Mechanics {
 	public static boolean hit(Board board, Unit attacker, Unit defender) {
 		// If P(hit) is larger than value generated deal damage
 		if (Math.random() < hitChance(board, attacker, defender)) {
-			defender.damaged(attacker.pwr);
 			attacker.hasAttacked();
-			return true;
+			defender.damaged(attacker.pwr);
+			System.out.println("HIT! HP remaining: " + defender.getHp());
+			if (defender.getHp() <= 0) {
+				return true;
+			}
+			return false;
 		}
 		attacker.hasAttacked();
+		System.out.println("MISS! HP remaining: " + defender.getHp());
 		return false;
 	}
 	
@@ -61,9 +66,13 @@ public class Mechanics {
 	 * @param unit  the Unit to be moved
 	 * @param goal  the Tile the unit is moving to
 	 */
-	public static void move(Unit unit, Tile goal) {
+	public static void move(Board board, Unit unit, Tile goal) {
 		unit.getPosition().removeUnit();
 		unit.moveTo(goal);
 		goal.fill(unit);
+		if (!unit.anyAttackable(board)) {
+			unit.hasAttacked();
+		}
+		unit.hasMoved();
 	}
 }

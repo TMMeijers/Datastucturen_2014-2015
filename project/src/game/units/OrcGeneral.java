@@ -5,7 +5,8 @@ public class OrcGeneral extends Unit {
 	 * Constructor for orc general.
 	 */
 	public OrcGeneral() {
-		// Race, att, pwr, sup, hp, rng, spd
-		super(true, 8, 1, 2, 10, 1, 1);
+		// Race, type, att, pwr, sup, hp, rng, spd
+		super(1, 0, 8, 1, 2, 10, 1, 1);
+		name = "Orc General";
 	}
 }

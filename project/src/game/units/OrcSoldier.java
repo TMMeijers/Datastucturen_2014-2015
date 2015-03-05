@@ -5,7 +5,8 @@ public class OrcSoldier extends Unit {
 	 * Constructor for orc soldier.
 	 */
 	public OrcSoldier() {
-		// Race, att, pwr, sup, hp, rng, spd
-		super(true, 4, 1, 1, 3, 1, 1);
+		// Race, type, att, pwr, sup, hp, rng, spd
+		super(1, 1, 4, 1, 1, 3, 1, 1);
+		name = "Orc Soldier";
 	}
 }

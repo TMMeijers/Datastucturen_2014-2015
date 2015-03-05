@@ -83,15 +83,25 @@ public class Board {
 	 * @param tile the tile for which the surrounding empty tiles are obtained
 	 * @return ArrayList with all the surrounding empty tiles
 	 */
-	public ArrayList<Tile> getSurroundingEmptyTiles(Tile tile, int range) {
+	public ArrayList<Tile> getSurroundingEmptyTiles(Tile tile, int speed) {
+		int col = tile.getCol();
+		int row = tile.getRow();
 		ArrayList<Tile> surroundingEmptyTiles = new ArrayList<Tile>();
 		// Go through all surrounding tiles
-		for (int i = -range; i < range + 1; i++) {
-			for (int j = -range; j < range + 1; j++) {
-				// If on board and empty add to list
-				if (tileOnBoard(tile.getCol() + i, tile.getRow() + j) && 
-					getTile(tile.getCol() + i, tile.getRow() + j).empty()) {
-					surroundingEmptyTiles.add(getTile(tile.getCol() + i, tile.getRow() + j));
+		for (int i = -speed; i < speed + 1; i++) {
+			for (int j = -speed; j < speed + 1; j++) {
+				// Don't add tiles out of reach
+				if (col < dimension-1 && ((i == -1 && j == 1) || i == 1 && j == -1)) {
+					continue;
+				} else if (col > dimension-1 && ((i == 1 && j == 1) || i == -1 && j == -1)) {
+					continue;
+				} else if (col == dimension-1 && j == 1 && (i == -1 || i == 1)) {
+					continue;
+				}
+				// If on board and empty add to list, don't add self
+				if (tileOnBoard(col+i, row+j) && getTile(col+i, row+j).empty() &&
+					tile != getTile(col+i, row+j)) {
+						surroundingEmptyTiles.add(getTile(col+i, row+j));
 				}
 			}
 		}
@@ -104,14 +114,51 @@ public class Board {
 	 * @return ArrayList with all the surrounding filled tiles
 	 */
 	public ArrayList<Tile> getSurroundingUnitTiles(Tile tile, int range) {
+		int col = tile.getCol();
+		int row = tile.getRow();
 		ArrayList<Tile> surroundingUnitTiles = new ArrayList<Tile>();
 		// Go through all surrounding tiles
 		for (int i = -range; i < range + 1; i++) {
 			for (int j = -range; j < range + 1; j++) {
-				// If on board and not empty add to list
-				if (tileOnBoard(tile.getCol() + i, tile.getRow() + j) && 
-					!getTile(tile.getCol() + i, tile.getRow() + j).empty()) {
-					surroundingUnitTiles.add(getTile(tile.getCol() + i, tile.getRow() + j));
+				// Don't add tiles out of reach
+				if (col < dimension-1 && ((i == -1 && j == 1) || i == 1 && j == -1)) {
+					continue;
+				} else if (col > dimension-1 && ((i == 1 && j == 1) || i == -1 && j == -1)) {
+					continue;
+				} else if (col == dimension-1 && j == 1 && (i == -1 || i == 1)) {
+					continue;
+				}
+				// If on board and not empty add to list, don't add self
+				if (tileOnBoard(col+i, row+j) && !getTile(col+i, row+j).empty() &&
+					tile != getTile(col+i, row+j)) {
+						surroundingUnitTiles.add(getTile(col+i, row+j));
+				}
+			}
+		}
+		return surroundingUnitTiles;
+	}
+	
+	public ArrayList<Tile> getSurroundingEnemyTiles(Tile tile, int range, int race) {
+		int col = tile.getCol();
+		int row = tile.getRow();
+		ArrayList<Tile> surroundingUnitTiles = new ArrayList<Tile>();
+		// Go through all surrounding tiles
+		for (int i = -range; i < range + 1; i++) {
+			for (int j = -range; j < range + 1; j++) {
+				// Don't add tiles out of reach
+				if (col < dimension-1 && ((i == -1 && j == 1) || i == 1 && j == -1)) {
+					continue;
+				} else if (col > dimension-1 && ((i == 1 && j == 1) || i == -1 && j == -1)) {
+					continue;
+				} else if (col == dimension-1 && j == 1 && (i == -1 || i == 1)) {
+					continue;
+				}
+				System.out.println("Were here v0.0");
+				// If on board and tile contains enemy unit add, don't add self
+				if (tileOnBoard(col+i, row+j) && !getTile(col+i, row+j).empty() &&
+					tile != getTile(col+i, row+j) && getTile(col+i, row+j).getUnit().race != race) {
+						System.out.println("Were here");
+						surroundingUnitTiles.add(getTile(col+i, row+j));
 				}
 			}
 		}
@@ -133,6 +180,25 @@ public class Board {
 		return surroundingUnits;
 	}
 	
+	public ArrayList<Unit> getSurroundingEnemies(Tile tile, int range, boolean race) {
+		if (race) {
+			return getSurroundingEnemies(tile, range, 1);
+		}
+		return getSurroundingEnemies(tile, range, 0);
+	}
+	
+	public ArrayList<Unit> getSurroundingEnemies(Tile tile, int range, int race) {
+		ArrayList<Tile> surroundingTiles = getSurroundingUnitTiles(tile, range);
+		ArrayList<Unit> surroundingUnits = new ArrayList<Unit>();
+		// Loop through tiles and add units
+		for (Tile t : surroundingTiles) {
+			if (t.getUnit().race != race) {
+				surroundingUnits.add(t.getUnit());
+			}
+		}
+		return surroundingUnits;
+	}
+	
 	/**
 	 * Checks whether a given column and row correspond to a tile on the board
 	 * @param col the column of the tile
@@ -140,7 +206,7 @@ public class Board {
 	 * @return true if tile is on the board, false otherwise
 	 */
 	public boolean tileOnBoard(int col, int row) {
-		if (col >= tiles.length || row >= tiles[col].length) {
+		if (col < 0 || row < 0 || col >= tiles.length || row >= tiles[col].length) {
 			return false;
 		}
 		return true;
@@ -154,10 +220,26 @@ public class Board {
 	 * @return the corresponding Tile
 	 */
 	public Tile getTile(int col, int row)  {
-		return tiles[col][row];
+		if (tileOnBoard(col, row)) {
+			return tiles[col][row];
+		}
+		return null;
 	}
 	
+	/**
+	 * Returns the dimension of the board
+	 * @return the dimension of the board
+	 */
 	public int getDimension() {
 		return dimension;
+	}
+	
+	/**
+	 * Returns the number of Tiles in the specified column.
+	 * @param col the specified column
+	 * @return    the number of tiles in the specified column
+	 */
+	public int getColLength(int col) {
+		return tiles[col].length;
 	}
 }

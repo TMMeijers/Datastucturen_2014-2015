@@ -12,9 +12,15 @@ public class LegendsOfArborea extends StateBasedGame {
 	
 	public static final int WIDTH = 1600;
 	public static final int HEIGHT = 900;
-	public static final boolean FULLSCREEN = false;
+	public static final boolean FULLSCREEN = true;
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
+	
+	public static final int TILE_TYPES = 1;
+	public static final int TILE_STATES = 4;
+	public static final String[] TILE_NAMES = {"grass"};
+	public static final int UNIT_TYPES = 2;
+	public static final int RACES = 2;
 	
 	public static String NAME_P1;
 	public static String NAME_P2;
@@ -30,7 +36,7 @@ public class LegendsOfArborea extends StateBasedGame {
 	public void initStatesList(GameContainer app) throws SlickException {
 		this.getState(MENU).init(app, this);
 		this.getState(PLAY).init(app, this);
-		this.enterState(PLAY);
+		this.enterState(MENU);
 	}
 	
 	public static void main(String[] args) {

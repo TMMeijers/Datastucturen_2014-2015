@@ -1,12 +1,18 @@
 package game.units;
 
+import game.board.Board;
 import game.board.Tile;
 
 public abstract class Unit {
 	/**
-	 * Race of the unit, orc is true, human is false.
+	 * Race of the unit, orc is true (1), human is false (0).
 	 */
-	public final boolean race;
+	public final int race;
+
+	/**
+	 * The type of the unit, i.e. General, Soldier etc.
+	 */
+	public final int type;
 	
 	/**
 	 * Attack stat of the unit.
@@ -54,10 +60,16 @@ public abstract class Unit {
 	private Tile position;
 	
 	/**
+	 * The name of the unit.
+	 */
+	protected String name;
+	
+	/**
 	 * Constructor for Unit, sets status to inactive, no position specified.
 	 */
-	public Unit(boolean race, int att, int pwr, int sup, int hitpoints, int rng, int spd) {
+	public Unit(int race, int type, int att, int pwr, int sup, int hitpoints, int rng, int spd) {
 		this.race = race;
+		this.type = type;
 		this.att = att;
 		this.pwr = pwr;
 		this.sup = sup;
@@ -112,6 +124,15 @@ public abstract class Unit {
 		activeAttack = true;
 	}
 	
+	public void deactivate() {
+		activeMove = false;
+		activeAttack = false;
+	}
+	
+	public boolean active() {
+		return activeAttack || activeMove;
+	}
+	
 	/**
 	 * Checks if Unit can still make an attack.
 	 * @return true if Unit can still attack, false otherwise
@@ -120,11 +141,26 @@ public abstract class Unit {
 		return activeAttack;
 	}
 	
+	public boolean anyMovable(Board board) {
+		return board.getSurroundingEmptyTiles(position, spd).size() > 0;
+	}
+	
+	public boolean anyAttackable(Board board) {
+		if (board.getSurroundingEnemies(position, rng, race).size() == 0) {
+			// If we can't move set attack to false anyway
+			if (!canMove()) {
+				activeAttack = false;
+			}
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * Sets attack status to inactive.
 	 */
 	public void hasAttacked() {
-		activeAttack = true;
+		activeAttack = false;
 	}
 
 	
@@ -140,7 +176,11 @@ public abstract class Unit {
 	 * Sets move status to inactive.
 	 */
 	public void hasMoved() {
-		activeMove = true;
+		activeMove = false;
+	}
+
+	public String toString() {
+		return name;
 	}
 
 }
