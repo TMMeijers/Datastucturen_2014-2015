@@ -91,11 +91,11 @@ public class Board {
 		for (int i = -speed; i < speed + 1; i++) {
 			for (int j = -speed; j < speed + 1; j++) {
 				// Don't add tiles out of reach
-				if (col < dimension-1 && ((i == -1 && j == 1) || i == 1 && j == -1)) {
+				if (col < dimension-speed && ((i == -speed && j == speed) || i == speed && j == -speed)) {
 					continue;
-				} else if (col > dimension-1 && ((i == 1 && j == 1) || i == -1 && j == -1)) {
+				} else if (col > dimension-speed && ((i == speed && j == speed) || i == -speed && j == -speed)) {
 					continue;
-				} else if (col == dimension-1 && j == 1 && (i == -1 || i == 1)) {
+				} else if (col == dimension-speed && j == speed && (i == -speed || i == speed)) {
 					continue;
 				}
 				// If on board and empty add to list, don't add self
@@ -121,11 +121,11 @@ public class Board {
 		for (int i = -range; i < range + 1; i++) {
 			for (int j = -range; j < range + 1; j++) {
 				// Don't add tiles out of reach
-				if (col < dimension-1 && ((i == -1 && j == 1) || i == 1 && j == -1)) {
+				if (col < dimension-range && ((i == -range && j == range) || i == range && j == -range)) {
 					continue;
-				} else if (col > dimension-1 && ((i == 1 && j == 1) || i == -1 && j == -1)) {
+				} else if (col > dimension-range && ((i == range && j == range) || i == -range && j == -range)) {
 					continue;
-				} else if (col == dimension-1 && j == 1 && (i == -1 || i == 1)) {
+				} else if (col == dimension-range && j == range && (i == -range || i == range)) {
 					continue;
 				}
 				// If on board and not empty add to list, don't add self
@@ -146,18 +146,16 @@ public class Board {
 		for (int i = -range; i < range + 1; i++) {
 			for (int j = -range; j < range + 1; j++) {
 				// Don't add tiles out of reach
-				if (col < dimension-1 && ((i == -1 && j == 1) || i == 1 && j == -1)) {
+				if (col < dimension-range && ((i == -range && j == range) || i == range && j == -range)) {
 					continue;
-				} else if (col > dimension-1 && ((i == 1 && j == 1) || i == -1 && j == -1)) {
+				} else if (col > dimension-range && ((i == range && j == range) || i == -range && j == -range)) {
 					continue;
-				} else if (col == dimension-1 && j == 1 && (i == -1 || i == 1)) {
+				} else if (col == dimension-range && j == range && (i == -range || i == range)) {
 					continue;
 				}
-				System.out.println("Were here v0.0");
 				// If on board and tile contains enemy unit add, don't add self
 				if (tileOnBoard(col+i, row+j) && !getTile(col+i, row+j).empty() &&
 					tile != getTile(col+i, row+j) && getTile(col+i, row+j).getUnit().race != race) {
-						System.out.println("Were here");
 						surroundingUnitTiles.add(getTile(col+i, row+j));
 				}
 			}

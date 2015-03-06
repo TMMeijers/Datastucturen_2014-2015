@@ -4,6 +4,22 @@ import game.board.Board;
 import game.board.Tile;
 
 public abstract class Unit {
+	
+	/**
+	 * Number of stances unit has (up, upright, upleft, downright, downleft, down)
+	 */
+	public final static int ORIENTATIONS = 6;
+	
+	public final static int WALK_DURATION = 5;
+	
+	public final static int ATT_DURATION = 4;
+	
+	public final static int SPRITE_SIZE = 80;
+	
+	/**
+	 * 
+	 */
+	
 	/**
 	 * Race of the unit, orc is true (1), human is false (0).
 	 */

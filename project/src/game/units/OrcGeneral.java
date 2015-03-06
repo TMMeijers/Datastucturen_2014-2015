@@ -1,6 +1,9 @@
 package game.units;
 
 public class OrcGeneral extends Unit {
+	
+	public static final int DIE_DURATION = 4;
+	
 	/**
 	 * Constructor for orc general.
 	 */

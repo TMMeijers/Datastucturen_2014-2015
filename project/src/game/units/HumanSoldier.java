@@ -3,6 +3,9 @@ package game.units;
  * Class which represents a human soldier.
  */
 public class HumanSoldier extends Unit {
+	
+	public static final int DIE_DURATION = 6;
+	
 	/**
 	 * Constructor for human soldier.
 	 */

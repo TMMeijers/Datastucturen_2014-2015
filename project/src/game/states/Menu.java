@@ -56,7 +56,7 @@ public class Menu extends BasicGameState {
 		PlayButton = new Image("res/ui/png/red_button11.png");
 		match = LegendsOfArborea.NAME_P1 + " VS " + LegendsOfArborea.NAME_P2;
 		
-		Play.game = new DefaultGame(LegendsOfArborea.NAME_P1, LegendsOfArborea.NAME_P2, true);
+		LegendsOfArborea.GAME = new DefaultGame(LegendsOfArborea.NAME_P1, LegendsOfArborea.NAME_P2, true);
 	}
 
 	@Override
