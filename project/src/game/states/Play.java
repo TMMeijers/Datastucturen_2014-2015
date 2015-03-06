@@ -252,10 +252,8 @@ public class Play extends BasicGameState {
 			selectedUnit = selectedTile.getUnit();
 			// Get attackable tiles
 			if (selectedUnit.canAttack() && selectedUnit.anyAttackable(game.board)) {
-				System.out.println("I can still attack!?: " + selectedUnit.anyAttackable(game.board));
 				selectedTile.setStatus(Tile.ACTIVE);
 				attackableTiles = game.board.getSurroundingEnemyTiles(selectedTile, selectedUnit.rng, selectedUnit.race);
-				System.out.println(attackableTiles);
 				for (Tile t : attackableTiles) {
 					t.setStatus(Tile.ATTACKABLE);
 				}

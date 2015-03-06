@@ -41,7 +41,7 @@ public class LegendsOfArborea extends StateBasedGame {
 	
 	public static void main(String[] args) {
 		NAME_P1 = "Truub Deluxe";
-		NAME_P2 = "Crappy AI";
+		NAME_P2 = "Jonas sukkellll";
 		
 		try {
 			AppGameContainer app = new AppGameContainer(new LegendsOfArborea(NAME));
