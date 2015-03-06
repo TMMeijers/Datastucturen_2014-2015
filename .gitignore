@@ -1,6 +1,5 @@
 *.txt
 *.class
 *.sublime*
-*.png
 *~
 *DS_Store
