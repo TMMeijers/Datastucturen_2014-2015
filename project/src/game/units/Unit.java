@@ -16,7 +16,7 @@ public abstract class Unit {
 	
 	public final static int WALK_FRAMES = 5;
 	
-	public final static int WALK_DURATION = 225;
+	public final static int WALK_DURATION = 200;
 	
 	public final static int ATT_DURATION = 4;
 	

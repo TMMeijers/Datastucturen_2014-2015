@@ -24,8 +24,8 @@ public class Play extends BasicGameState {
 
 	static final int WIDTH = LegendsOfArborea.WIDTH;
 	static final int HEIGHT = LegendsOfArborea.HEIGHT;
-	static final float POLY_SIDE = 50.0f;
-	static final float POLY_HORSIDE = POLY_SIDE * 1.5f;
+	static float POLY_SIDE = 50.0f;
+	static float POLY_HORSIDE = POLY_SIDE * 1.5f;
 	static final float POLY_XPAD = 2;
 	static final float POLY_YPAD = 2;
 	
@@ -66,6 +66,8 @@ public class Play extends BasicGameState {
 		// Initialise variables
 		selectedTile = null;
 		goal = null;
+		POLY_SIDE = 50f / (LegendsOfArborea.GAME.board.getDimension() / 5f);
+		POLY_HORSIDE = POLY_SIDE * 1.5f;
 		
 		// Set active player (Player playing human) and initialise units
 		if (!LegendsOfArborea.GAME.getPlayer(1).playsOrc()) {
@@ -168,22 +170,22 @@ public class Play extends BasicGameState {
 				// Render tile
 				Tile tile = LegendsOfArborea.GAME.board.getTile(i, j);
 				g.texture(gTiles[i][j], tileTextures[tile.getType()][tile.getStatus()]);
-				
+				float resize = 1 / (LegendsOfArborea.GAME.board.getDimension() / 5f);
 				// Render unit
 				if (!tile.empty()) {
 					Unit unit = tile.getUnit();
 					float tileX = gTiles[i][j].getCenterX();
 					float tileY = gTiles[i][j].getCenterY();
-					float unitX = tileX - Unit.SPRITE_SIZE / 1.5f;
-					float unitY = tileY - Unit.SPRITE_SIZE / 1.5f;
-					unitMoveAnimations[unit.race][unit.type][unit.getDirection()].draw(unitX, unitY, Unit.SPRITE_SIZE*1.25f, Unit.SPRITE_SIZE*1.25f);
+					float unitX = tileX - Unit.SPRITE_SIZE / 1.5f * resize;
+					float unitY = tileY - Unit.SPRITE_SIZE / 1.5f * resize;
+					unitMoveAnimations[unit.race][unit.type][unit.getDirection()].draw(unitX, unitY, resize*Unit.SPRITE_SIZE*1.25f, resize*Unit.SPRITE_SIZE*1.25f);
 					float iconY = tileY - POLY_SIDE;
 					float attIconX = tileX + POLY_HORSIDE/6f;
 					float moveIconX = tileX - POLY_HORSIDE/3f;
 					if (unit.canAttack()) {
-						attackIconTexture.draw(attIconX, iconY, 1.5f);
+						attackIconTexture.draw(attIconX, iconY, resize*1.5f);
 					} if (unit.canMove()) {
-						moveIconTexture.draw(moveIconX, iconY, 1.5f);
+						moveIconTexture.draw(moveIconX, iconY, resize*1.5f);
 					}
 				}
 			}
