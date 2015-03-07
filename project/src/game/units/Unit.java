@@ -4,13 +4,19 @@ import game.board.Board;
 import game.board.Tile;
 
 public abstract class Unit {
+
+	public final static int FACE_UP = 0;
+	public final static int FACE_UR = 1;
+	public final static int FACE_DR = 2;
+	public final static int FACE_DOWN = 3;
+	public final static int FACE_DL = 4;
+	public final static int FACE_UL = 5;
 	
-	/**
-	 * Number of stances unit has (up, upright, upleft, downright, downleft, down)
-	 */
 	public final static int ORIENTATIONS = 6;
 	
-	public final static int WALK_DURATION = 5;
+	public final static int WALK_FRAMES = 5;
+	
+	public final static int WALK_DURATION = 225;
 	
 	public final static int ATT_DURATION = 4;
 	
@@ -19,6 +25,7 @@ public abstract class Unit {
 	/**
 	 * 
 	 */
+	protected int direction;
 	
 	/**
 	 * Race of the unit, orc is true (1), human is false (0).
@@ -95,6 +102,7 @@ public abstract class Unit {
 		activeMove = false;
 		activeAttack = false;
 		position = null;
+		direction = FACE_DOWN;
 	}
 	
 	/**
@@ -197,6 +205,14 @@ public abstract class Unit {
 
 	public String toString() {
 		return name;
+	}
+	
+	public int getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 }

@@ -35,7 +35,6 @@ public class Play extends BasicGameState {
 	
 	// Textures
 	private Image[][] tileTextures;
-	private Image[][] unitTextures;
 	private Image attackIconTexture;
 	private Image moveIconTexture;
 	
@@ -92,29 +91,19 @@ public class Play extends BasicGameState {
 			}
 		}
 		
-		// Load unit textures (Specified in LegendsOfArborea)
-		unitTextures = new Image[LegendsOfArborea.RACES][];
-		String unitRootLoc = "res/units/static/";
-		for (int i = 0; i < LegendsOfArborea.RACES; i++) {
-			unitTextures[i] = new Image[LegendsOfArborea.UNIT_TYPES];
-			for (int j = 0; j < LegendsOfArborea.UNIT_TYPES; j++) {
-				unitTextures[i][j] = new Image(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + ".png");
-			}
-		}
-		
 		// Load unit movement animations		
 		unitMoveAnimations = new Animation[LegendsOfArborea.RACES][][];
-		unitRootLoc = "res/units/";
-		SpriteSheet temp = null;
+		String unitRootLoc = "res/units/";
+		SpriteSheet sheet = null;
 		for (int i = 0; i < LegendsOfArborea.RACES; i++) {
 			unitMoveAnimations[i] = new Animation[LegendsOfArborea.UNIT_TYPES][];
 			for (int j = 0; j < LegendsOfArborea.UNIT_TYPES; j++) {
 				unitMoveAnimations[i][j] = new Animation[Unit.ORIENTATIONS];
-				temp = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + ".png", 
+				sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_move.png", 
 						Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
-				for (int k = 0; k < Unit.WALK_DURATION; k++) {
-					unitMoveAnimations[i][j][k] = null;
-				}
+						for (int k = 0; k < Unit.ORIENTATIONS; k++) {
+							unitMoveAnimations[i][j][k] = new Animation(sheet, k, 0, k, Unit.WALK_FRAMES-1, false, Unit.WALK_DURATION, true);
+						}
 			}
 		}
 		
@@ -185,9 +174,9 @@ public class Play extends BasicGameState {
 					Unit unit = tile.getUnit();
 					float tileX = gTiles[i][j].getCenterX();
 					float tileY = gTiles[i][j].getCenterY();
-					float unitX = tileX - unitTextures[unit.race][unit.type].getWidth()/1.5f;
-					float unitY = tileY - unitTextures[unit.race][unit.type].getHeight()/1.25f;
-					unitTextures[unit.race][unit.type].draw(unitX, unitY, 1.5f);
+					float unitX = tileX - Unit.SPRITE_SIZE / 1.5f;
+					float unitY = tileY - Unit.SPRITE_SIZE / 1.5f;
+					unitMoveAnimations[unit.race][unit.type][unit.getDirection()].draw(unitX, unitY, Unit.SPRITE_SIZE*1.25f, Unit.SPRITE_SIZE*1.25f);
 					float iconY = tileY - POLY_SIDE;
 					float attIconX = tileX + POLY_HORSIDE/6f;
 					float moveIconX = tileX - POLY_HORSIDE/3f;
@@ -307,7 +296,7 @@ public class Play extends BasicGameState {
 			if (reachableTiles != null && reachableTiles.contains(goal)) {
 				Mechanics.move(LegendsOfArborea.GAME.board, selectedUnit, goal);
 				deselect();
-			// If we can attack the goalé
+			// If we can attack the goal
 			} else if (attackableTiles != null && attackableTiles.contains(goal)) {
 				if (Mechanics.hit(LegendsOfArborea.GAME.board, selectedUnit, goal.getUnit())) {
 					goal.getUnit().getPosition().removeUnit();

@@ -22,6 +22,8 @@ public class Mechanics {
 	 */
 	public static boolean hit(Board board, Unit attacker, Unit defender) {
 		// If P(hit) is larger than value generated deal damage
+		attacker.setDirection(findNewDirection(board.getDimension(), attacker.getPosition(), defender.getPosition()));
+		defender.setDirection(findNewDirection(board.getDimension(), defender.getPosition(), attacker.getPosition()));
 		if (Math.random() < hitChance(board, attacker, defender)) {
 			attacker.hasAttacked();
 			defender.damaged(attacker.pwr);
@@ -67,12 +69,59 @@ public class Mechanics {
 	 * @param goal  the Tile the unit is moving to
 	 */
 	public static void move(Board board, Unit unit, Tile goal) {
-		unit.getPosition().removeUnit();
+		Tile current = unit.getPosition();
+		current.removeUnit();
 		unit.moveTo(goal);
+		unit.setDirection(findNewDirection(board.getDimension(), current, goal));
 		goal.fill(unit);
 		if (!unit.anyAttackable(board)) {
 			unit.hasAttacked();
 		}
 		unit.hasMoved();
+	}
+	
+	public static int findNewDirection(int dim, Tile current, Tile goal) {
+		int curCol = current.getCol();
+		int curRow = current.getRow();
+		int goalCol = goal.getCol();
+		int goalRow = goal.getRow();
+		// If we're moving right
+		if (curCol < goalCol) {
+			if (curCol < dim-1) {
+				if (curRow == goalRow) {
+					return Unit.FACE_UR;
+				} else {
+					return Unit.FACE_DR;
+				}
+			} else {
+				if (curRow == goalRow) {
+					return Unit.FACE_DR;
+				} else {
+					return Unit.FACE_UR;
+				}
+			}
+		// If we're moving left
+		} else if (curCol > goalCol) {
+			if (curCol < dim) {
+				if (curRow == goalRow) {
+					return Unit.FACE_DL;
+				} else {
+					return Unit.FACE_UL;
+				}
+			} else {
+				if (curRow == goalRow) {
+					return Unit.FACE_UL;
+				} else {
+					return Unit.FACE_DL;
+				}
+			}
+		// If we're moving vertical
+		} else {
+			if (curRow > goalRow) {
+				return Unit.FACE_UP;
+			} else {
+				return Unit.FACE_DOWN;
+			}
+		}
 	}
 }
