@@ -12,15 +12,25 @@ public abstract class Unit {
 	public final static int FACE_DL = 4;
 	public final static int FACE_UL = 5;
 	
+	public final static int ANIM_WALKING = 0;
+	public final static int ANIM_ATTACKING = 1;
+	public final static int ANIM_DYING = 2;
+	
+	public final static int ANIM_STATES = 3;
+	
 	public final static int ORIENTATIONS = 6;
 	
 	public final static int WALK_FRAMES = 5;
 	
 	public final static int WALK_DURATION = 200;
 	
-	public final static int ATT_DURATION = 4;
+	public final static int ATT_FRAMES = 4;
+	
+	public final static int ATT_DURATION = 250;
 	
 	public final static int SPRITE_SIZE = 80;
+	
+	protected int state;
 	
 	/**
 	 * 
@@ -103,6 +113,7 @@ public abstract class Unit {
 		activeAttack = false;
 		position = null;
 		direction = FACE_DOWN;
+		state = ANIM_WALKING;
 	}
 	
 	/**
@@ -213,6 +224,14 @@ public abstract class Unit {
 	
 	public void setDirection(int direction) {
 		this.direction = direction;
+	}
+	
+	public int getState() {
+		return state;
+	}
+	
+	public void setState(int state) {
+		this.state = state;
 	}
 
 }

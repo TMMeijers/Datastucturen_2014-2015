@@ -4,6 +4,10 @@ import game.LegendsOfArborea;
 import game.Mechanics;
 import game.board.Tile;
 import game.players.Player;
+import game.units.HumanGeneral;
+import game.units.HumanSoldier;
+import game.units.OrcGeneral;
+import game.units.OrcSoldier;
 import game.units.Unit;
 
 import java.util.ArrayList;
@@ -31,7 +35,7 @@ public class Play extends BasicGameState {
 	
 	// Array for graphical tiles
 	private Polygon[][] gTiles;
-	private Animation[][][] unitMoveAnimations;
+	private Animation[][][][] unitAnimations;
 	
 	// Textures
 	private Image[][] tileTextures;
@@ -93,19 +97,68 @@ public class Play extends BasicGameState {
 			}
 		}
 		
+//		// Load unit movement animations OLD		
+//		unitAnimations = new Animation[LegendsOfArborea.RACES][][];
+//		String unitRootLoc = "res/units/";
+//		SpriteSheet sheet = null;
+//		for (int i = 0; i < LegendsOfArborea.RACES; i++) {
+//			unitAnimations[i] = new Animation[LegendsOfArborea.UNIT_TYPES][];
+//			for (int j = 0; j < LegendsOfArborea.UNIT_TYPES; j++) {
+//				unitAnimations[i][j] = new Animation[Unit.ORIENTATIONS];
+//				sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_move.png", 
+//						Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
+//						for (int k = 0; k < Unit.ORIENTATIONS; k++) {
+//							unitAnimations[i][j][k] = new Animation(sheet, k, 0, k, Unit.WALK_FRAMES-1, false, Unit.WALK_DURATION, true);
+//						}
+//			}
+//		}
+		
 		// Load unit movement animations		
-		unitMoveAnimations = new Animation[LegendsOfArborea.RACES][][];
+		unitAnimations = new Animation[LegendsOfArborea.RACES][][][];
 		String unitRootLoc = "res/units/";
 		SpriteSheet sheet = null;
 		for (int i = 0; i < LegendsOfArborea.RACES; i++) {
-			unitMoveAnimations[i] = new Animation[LegendsOfArborea.UNIT_TYPES][];
+			unitAnimations[i] = new Animation[LegendsOfArborea.UNIT_TYPES][][];
 			for (int j = 0; j < LegendsOfArborea.UNIT_TYPES; j++) {
-				unitMoveAnimations[i][j] = new Animation[Unit.ORIENTATIONS];
-				sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_move.png", 
-						Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
-						for (int k = 0; k < Unit.ORIENTATIONS; k++) {
-							unitMoveAnimations[i][j][k] = new Animation(sheet, k, 0, k, Unit.WALK_FRAMES-1, false, Unit.WALK_DURATION, true);
+				unitAnimations[i][j] = new Animation[Unit.ANIM_STATES][];
+				for (int k = 0; k < Unit.ANIM_STATES; k++) {
+					// Walking animations
+					if (k == Unit.ANIM_WALKING) {
+						unitAnimations[i][j][k] = new Animation[Unit.ORIENTATIONS];
+						sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_move.png", 
+												Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
+						for (int l = 0; l < Unit.ORIENTATIONS; l++) {
+							unitAnimations[i][j][k][l] = new Animation(sheet, l, 0, l, Unit.WALK_FRAMES-1, false, Unit.WALK_DURATION, true);
 						}
+					// Attacking animations
+					} else if (k == Unit.ANIM_ATTACKING) {
+						unitAnimations[i][j][k] = new Animation[Unit.ORIENTATIONS];
+						sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_attack.png", 
+												Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
+						for (int l = 0; l < Unit.ORIENTATIONS; l++) {
+							unitAnimations[i][j][k][l] = new Animation(sheet, l, 0, l, Unit.ATT_FRAMES-1, false, Unit.ATT_DURATION, true);
+						}
+					// Dying animations (only 1 direction yet)
+					} else {
+						int dyingOrientations = 1;
+						unitAnimations[i][j][k] = new Animation[dyingOrientations];
+						sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_die.png", 
+												Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
+						for (int l = 0; l < dyingOrientations; l++) {
+							int frames = 0;
+							if (i == 0 && j == 0) {
+								frames = HumanGeneral.DIE_DURATION;
+							} else if (i == 0 && j == 1) {
+								frames = HumanSoldier.DIE_DURATION;
+							} else if (i == 1 && j == 0) {
+								frames = OrcGeneral.DIE_DURATION;
+							} else if (i == 1 && j == 1) {
+								frames = OrcSoldier.DIE_DURATION;
+							}
+							unitAnimations[i][j][k][l] = new Animation(sheet, 0, 0, frames-1, 0, true, Unit.ATT_DURATION, true);
+						}
+					}
+				}
 			}
 		}
 		
@@ -178,7 +231,7 @@ public class Play extends BasicGameState {
 					float tileY = gTiles[i][j].getCenterY();
 					float unitX = tileX - Unit.SPRITE_SIZE / 1.5f * resize;
 					float unitY = tileY - Unit.SPRITE_SIZE / 1.5f * resize;
-					unitMoveAnimations[unit.race][unit.type][unit.getDirection()].draw(unitX, unitY, resize*Unit.SPRITE_SIZE*1.25f, resize*Unit.SPRITE_SIZE*1.25f);
+					unitAnimations[unit.race][unit.type][unit.getState()][unit.getDirection()].draw(unitX, unitY, resize*Unit.SPRITE_SIZE*1.25f, resize*Unit.SPRITE_SIZE*1.25f);
 					float iconY = tileY - POLY_SIDE;
 					float attIconX = tileX + POLY_HORSIDE/6f;
 					float moveIconX = tileX - POLY_HORSIDE/3f;
@@ -301,8 +354,8 @@ public class Play extends BasicGameState {
 			// If we can attack the goal
 			} else if (attackableTiles != null && attackableTiles.contains(goal)) {
 				if (Mechanics.hit(LegendsOfArborea.GAME.board, selectedUnit, goal.getUnit())) {
-					goal.getUnit().getPosition().removeUnit();
 					inactivePlayer.removeUnit(goal.getUnit());
+					goal.getUnit().getPosition().removeUnit();
 				}
 				deselect();
 			}
