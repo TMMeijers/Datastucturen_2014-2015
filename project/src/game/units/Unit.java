@@ -28,6 +28,8 @@ public abstract class Unit {
 	
 	public final static int ATT_DURATION = 250;
 	
+	public final static int DIE_DURATION = 250;
+	
 	public final static int SPRITE_SIZE = 80;
 	
 	protected int state;
@@ -97,10 +99,12 @@ public abstract class Unit {
 	 */
 	protected String name;
 	
+	public final int deathFrames;
+	
 	/**
 	 * Constructor for Unit, sets status to inactive, no position specified.
 	 */
-	public Unit(int race, int type, int att, int pwr, int sup, int hitpoints, int rng, int spd) {
+	public Unit(int race, int type, int att, int pwr, int sup, int hitpoints, int rng, int spd, int deathFrames) {
 		this.race = race;
 		this.type = type;
 		this.att = att;
@@ -109,6 +113,7 @@ public abstract class Unit {
 		this.hitpoints = hitpoints;
 		this.rng = rng;
 		this.spd = spd;
+		this.deathFrames = deathFrames;
 		activeMove = false;
 		activeAttack = false;
 		position = null;

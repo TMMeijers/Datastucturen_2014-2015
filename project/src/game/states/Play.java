@@ -61,6 +61,17 @@ public class Play extends BasicGameState {
 	private String playerTurn;
 	private String options;
 	
+	// Check animations needed
+	private boolean attackingActive;
+	private Unit attackingUnit;
+	private int attTime;
+	private int attElapsed;
+	private boolean dyingActive;
+	private Unit dyingUnit;
+	private int dieTime;
+	private int dieElapsed;
+	private Player ownerDyingUnit;
+	
 	public Play(int state) {
 		
 	}
@@ -68,6 +79,13 @@ public class Play extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// Initialise variables
+		attackingActive = false;
+		attackingUnit = null;
+		attElapsed = 0;
+		dyingActive = false;
+		dyingUnit = null;
+		dieElapsed = 0;
+		ownerDyingUnit = null;
 		selectedTile = null;
 		goal = null;
 		POLY_SIDE = 50f / (LegendsOfArborea.GAME.board.getDimension() / 5f);
@@ -96,22 +114,6 @@ public class Play extends BasicGameState {
 				tileTextures[i][j] = new Image(tilesRootLoc + LegendsOfArborea.TILE_NAMES[i] + j + ".png");
 			}
 		}
-		
-//		// Load unit movement animations OLD		
-//		unitAnimations = new Animation[LegendsOfArborea.RACES][][];
-//		String unitRootLoc = "res/units/";
-//		SpriteSheet sheet = null;
-//		for (int i = 0; i < LegendsOfArborea.RACES; i++) {
-//			unitAnimations[i] = new Animation[LegendsOfArborea.UNIT_TYPES][];
-//			for (int j = 0; j < LegendsOfArborea.UNIT_TYPES; j++) {
-//				unitAnimations[i][j] = new Animation[Unit.ORIENTATIONS];
-//				sheet = new SpriteSheet(unitRootLoc + LegendsOfArborea.RACE_NAMES[i] + "_" + LegendsOfArborea.UNIT_NAMES[j] + "_move.png", 
-//						Unit.SPRITE_SIZE, Unit.SPRITE_SIZE);
-//						for (int k = 0; k < Unit.ORIENTATIONS; k++) {
-//							unitAnimations[i][j][k] = new Animation(sheet, k, 0, k, Unit.WALK_FRAMES-1, false, Unit.WALK_DURATION, true);
-//						}
-//			}
-//		}
 		
 		// Load unit movement animations		
 		unitAnimations = new Animation[LegendsOfArborea.RACES][][][];
@@ -147,15 +149,15 @@ public class Play extends BasicGameState {
 						for (int l = 0; l < dyingOrientations; l++) {
 							int frames = 0;
 							if (i == 0 && j == 0) {
-								frames = HumanGeneral.DIE_DURATION;
+								frames = HumanGeneral.DEATH_FRAMES;
 							} else if (i == 0 && j == 1) {
-								frames = HumanSoldier.DIE_DURATION;
+								frames = HumanSoldier.DEATH_FRAMES;
 							} else if (i == 1 && j == 0) {
-								frames = OrcGeneral.DIE_DURATION;
+								frames = OrcGeneral.DEATH_FRAMES;
 							} else if (i == 1 && j == 1) {
-								frames = OrcSoldier.DIE_DURATION;
+								frames = OrcSoldier.DEATH_FRAMES;
 							}
-							unitAnimations[i][j][k][l] = new Animation(sheet, 0, 0, frames-1, 0, true, Unit.ATT_DURATION, true);
+							unitAnimations[i][j][k][l] = new Animation(sheet, 0, 0, frames-1, 0, true, Unit.DIE_DURATION, true);
 						}
 					}
 				}
@@ -231,6 +233,10 @@ public class Play extends BasicGameState {
 					float tileY = gTiles[i][j].getCenterY();
 					float unitX = tileX - Unit.SPRITE_SIZE / 1.5f * resize;
 					float unitY = tileY - Unit.SPRITE_SIZE / 1.5f * resize;
+					if (unit.getState() == Unit.ANIM_DYING) {
+						// Temporary because of only one dying direction
+						unit.setDirection(0);
+					}
 					unitAnimations[unit.race][unit.type][unit.getState()][unit.getDirection()].draw(unitX, unitY, resize*Unit.SPRITE_SIZE*1.25f, resize*Unit.SPRITE_SIZE*1.25f);
 					float iconY = tileY - POLY_SIDE;
 					float attIconX = tileX + POLY_HORSIDE/6f;
@@ -257,22 +263,44 @@ public class Play extends BasicGameState {
 		// Get input
 		Input input = gc.getInput();
 		boolean leftMousePressed = input.isMousePressed(0);
-//		System.out.println("Unit: " + selectedUnit + ", Tile: " + selectedTile);
+		
 		// Check if game ends
 		if (!LegendsOfArborea.GAME.getPlayer(1).anyAlive() || !LegendsOfArborea.GAME.getPlayer(2).anyAlive()) {
 			winMessage = activePlayer.getName() + " wins the game!";
 			LegendsOfArborea.GAME.gameOver();
 		}
+		
 		// Check if turn ends and give turn to other player
 		if (!activePlayer.anyActive(LegendsOfArborea.GAME.board)) {
 			switchTurn();
+		}
+		
+		// Check if dying or attacking animations need to be stopped
+		if (attackingActive) {
+			attElapsed += delta;
+			if (attElapsed > attTime) {
+				attackingUnit.setState(Unit.ANIM_WALKING);
+				attackingUnit = null;
+				attackingActive = false;
+				attElapsed = 0;
+			}
+		}
+		if (dyingActive) {
+			dieElapsed += delta;
+			if (dieElapsed > dieTime) {
+				ownerDyingUnit.removeUnit(dyingUnit);
+				dyingUnit.getPosition().removeUnit();
+				dyingUnit = null;
+				dyingActive = false;
+				dieElapsed = 0;
+			}
 		}
 		
 		// Select active tile
 		if (leftMousePressed && selectedTile == null) {
 			selectUnit();
 		} else if (leftMousePressed) {
-			unitAction();
+			unitAction(delta);
 		}
 		
 		// Deselect tile
@@ -340,7 +368,7 @@ public class Play extends BasicGameState {
 		}
 	}
 	
-	private void unitAction() {
+	private void unitAction(int delta) {
 		goal = xyToTile(Mouse.getX(), Mouse.getY());
 		// Maybe we want to make the switch to a friendly active unit
 		if (goal != null && !goal.empty() && goal.getUnit().race == selectedUnit.race && goal.getUnit().active()) {
@@ -352,10 +380,17 @@ public class Play extends BasicGameState {
 				Mechanics.move(LegendsOfArborea.GAME.board, selectedUnit, goal);
 				deselect();
 			// If we can attack the goal
-			} else if (attackableTiles != null && attackableTiles.contains(goal)) {
-				if (Mechanics.hit(LegendsOfArborea.GAME.board, selectedUnit, goal.getUnit())) {
-					inactivePlayer.removeUnit(goal.getUnit());
-					goal.getUnit().getPosition().removeUnit();
+			} else if (attackingUnit == null && attackableTiles != null && attackableTiles.contains(goal) && goal.getUnit() != dyingUnit) {
+				attackingActive = true;
+				attackingUnit = selectedUnit;
+				attackingUnit.setState(Unit.ANIM_ATTACKING);
+				attTime = Unit.ATT_FRAMES * Unit.ATT_DURATION;
+				if (Mechanics.hit(LegendsOfArborea.GAME.board, attackingUnit, goal.getUnit())) {
+					dyingActive = true;
+					ownerDyingUnit = inactivePlayer;
+					dyingUnit = goal.getUnit();
+					dyingUnit.setState(Unit.ANIM_DYING);
+					dieTime = dyingUnit.deathFrames * Unit.DIE_DURATION;
 				}
 				deselect();
 			}
