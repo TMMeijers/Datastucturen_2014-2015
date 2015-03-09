@@ -21,7 +21,7 @@ public class RandomAI extends Ai {
 		
 		for (Unit u : this.computerPlayer.get().GetUnits()) {
 			// get Tile unit is standing on
-			Tile t = u.getTile_Slow();
+			Tile t = u.getPosition();
 			if (t != null) {
 				System.out.println("got tile for unit");
 			}

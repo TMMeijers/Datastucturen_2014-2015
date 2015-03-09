@@ -240,16 +240,5 @@ public class Unit {
 	public void setState(int state) {
 		this.state = state;
 	}
-	
-	public Tile getTile_Slow() {
-		for (Tile[] t1 : LegendsOfArborea.GAME.board.getTiles()) {
-			for (Tile t2 : t1) {
-				if (t2.getUnit() == this) {
-					return t2;
-				}
-			}
-		}
-		return null;
-	}
 
 }
