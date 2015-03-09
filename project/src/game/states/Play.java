@@ -3,6 +3,8 @@ package game.states;
 import game.LegendsOfArborea;
 import game.Mechanics;
 import game.board.Tile;
+import game.players.ComputerPlayer;
+import game.players.HumanPlayer;
 import game.players.Player;
 import game.units.HumanGeneral;
 import game.units.HumanSoldier;
@@ -260,9 +262,6 @@ public class Play extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		// Get input
-		Input input = gc.getInput();
-		boolean leftMousePressed = input.isMousePressed(0);
 		
 		// Check if game ends
 		if (!LegendsOfArborea.GAME.getPlayer(1).anyAlive() || !LegendsOfArborea.GAME.getPlayer(2).anyAlive()) {
@@ -275,6 +274,36 @@ public class Play extends BasicGameState {
 			switchTurn();
 		}
 		
+		if (activePlayer instanceof HumanPlayer) {
+			
+			// Get input
+			Input input = gc.getInput();
+			boolean leftMousePressed = input.isMousePressed(0);
+			
+			// Select active tile
+			if (leftMousePressed && selectedTile == null) {
+				selectUnit();
+			} else if (leftMousePressed) {
+				unitAction(delta);
+			}
+			
+			// Deselect tile
+			if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+				deselect();
+			}
+			
+			// End turn
+			if (input.isKeyPressed(Input.KEY_E)) {
+				deselect();
+				activePlayer.endTurn();
+			}
+		} else {
+			
+			ComputerPlayer cp = (ComputerPlayer)activePlayer;
+			
+		}
+			
+			
 		// Check if dying or attacking animations need to be stopped
 		if (attackingActive) {
 			attElapsed += delta;
@@ -294,24 +323,6 @@ public class Play extends BasicGameState {
 				dyingActive = false;
 				dieElapsed = 0;
 			}
-		}
-		
-		// Select active tile
-		if (leftMousePressed && selectedTile == null) {
-			selectUnit();
-		} else if (leftMousePressed) {
-			unitAction(delta);
-		}
-		
-		// Deselect tile
-		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-			deselect();
-		}
-		
-		// End turn
-		if (input.isKeyPressed(Input.KEY_E)) {
-			deselect();
-			activePlayer.endTurn();
 		}
 	}
 	

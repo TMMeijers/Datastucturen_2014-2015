@@ -1,8 +1,11 @@
 package game.ai;
 
-public class Ai {
+public abstract class Ai {
 
 	public Ai() {
 		//TODO
 	}
+	
+	public abstract void planMoves();
+	
 }

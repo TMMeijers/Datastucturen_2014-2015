@@ -1,5 +1,6 @@
 package game.mode;
 
+import game.ai.RandomAI;
 import game.board.Board;
 import game.board.Tile;
 import game.players.*;
