@@ -4,6 +4,41 @@ import game.board.Board;
 import game.board.Tile;
 
 public abstract class Unit {
+
+	public final static int FACE_UP = 0;
+	public final static int FACE_UR = 1;
+	public final static int FACE_DR = 2;
+	public final static int FACE_DOWN = 3;
+	public final static int FACE_DL = 4;
+	public final static int FACE_UL = 5;
+	
+	public final static int ANIM_WALKING = 0;
+	public final static int ANIM_ATTACKING = 1;
+	public final static int ANIM_DYING = 2;
+	
+	public final static int ANIM_STATES = 3;
+	
+	public final static int ORIENTATIONS = 6;
+	
+	public final static int WALK_FRAMES = 5;
+	
+	public final static int WALK_DURATION = 200;
+	
+	public final static int ATT_FRAMES = 4;
+	
+	public final static int ATT_DURATION = 250;
+	
+	public final static int DIE_DURATION = 250;
+	
+	public final static int SPRITE_SIZE = 80;
+	
+	protected int state;
+	
+	/**
+	 * 
+	 */
+	protected int direction;
+	
 	/**
 	 * Race of the unit, orc is true (1), human is false (0).
 	 */
@@ -64,10 +99,12 @@ public abstract class Unit {
 	 */
 	protected String name;
 	
+	public final int deathFrames;
+	
 	/**
 	 * Constructor for Unit, sets status to inactive, no position specified.
 	 */
-	public Unit(int race, int type, int att, int pwr, int sup, int hitpoints, int rng, int spd) {
+	public Unit(int race, int type, int att, int pwr, int sup, int hitpoints, int rng, int spd, int deathFrames) {
 		this.race = race;
 		this.type = type;
 		this.att = att;
@@ -76,9 +113,12 @@ public abstract class Unit {
 		this.hitpoints = hitpoints;
 		this.rng = rng;
 		this.spd = spd;
+		this.deathFrames = deathFrames;
 		activeMove = false;
 		activeAttack = false;
 		position = null;
+		direction = FACE_DOWN;
+		state = ANIM_WALKING;
 	}
 	
 	/**
@@ -181,6 +221,22 @@ public abstract class Unit {
 
 	public String toString() {
 		return name;
+	}
+	
+	public int getDirection() {
+		return direction;
+	}
+	
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+	
+	public int getState() {
+		return state;
+	}
+	
+	public void setState(int state) {
+		this.state = state;
 	}
 
 }
