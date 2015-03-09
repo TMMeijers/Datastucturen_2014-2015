@@ -300,7 +300,15 @@ public class Play extends BasicGameState {
 		} else {
 			
 			ComputerPlayer cp = (ComputerPlayer)activePlayer;
-			
+			cp.getAI().think((moves) -> {
+				System.out.println("Ai finished thinking");
+				
+				// for aimove step in moves:
+				// 	   select unit
+				//     unitAction 
+				
+				activePlayer.endTurn();
+			});
 		}
 			
 			
