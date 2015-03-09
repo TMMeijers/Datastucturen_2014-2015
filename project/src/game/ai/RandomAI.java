@@ -1,6 +1,7 @@
 package game.ai;
 
 //import game.LegendsOfArborea;
+import game.LegendsOfArborea;
 import game.board.Tile;
 import game.players.ComputerPlayer;
 import game.units.Unit;
@@ -23,7 +24,12 @@ public class RandomAI extends Ai {
 			// get Tile unit is standing on
 			Tile t = u.getPosition();
 			if (t != null) {
-				System.out.println("got tile for unit");
+				ArrayList<Tile> attackableTiles = 
+						LegendsOfArborea.GAME.board.getSurroundingEnemyTiles(t, u.rng, u.race);
+				ArrayList<Tile> reachableTiles = 
+						LegendsOfArborea.GAME.board.getSurroundingEmptyTiles(t, u.spd);
+				
+				// do something with it
 			}
 		}
 		

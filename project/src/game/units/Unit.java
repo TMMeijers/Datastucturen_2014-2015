@@ -1,7 +1,6 @@
 package game.units;
 
 
-import game.LegendsOfArborea;
 import game.board.Board;
 import game.board.Tile;
 
