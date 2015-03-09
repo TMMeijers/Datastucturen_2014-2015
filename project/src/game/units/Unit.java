@@ -1,9 +1,11 @@
 package game.units;
 
+
+import game.LegendsOfArborea;
 import game.board.Board;
 import game.board.Tile;
 
-public abstract class Unit {
+public class Unit {
 
 	public final static int FACE_UP = 0;
 	public final static int FACE_UR = 1;
@@ -237,6 +239,17 @@ public abstract class Unit {
 	
 	public void setState(int state) {
 		this.state = state;
+	}
+	
+	public Tile getTile_Slow() {
+		for (Tile[] t1 : LegendsOfArborea.GAME.board.getTiles()) {
+			for (Tile t2 : t1) {
+				if (t2.getUnit() == this) {
+					return t2;
+				}
+			}
+		}
+		return null;
 	}
 
 }

@@ -1,8 +1,17 @@
 package game.ai;
 
+//import game.LegendsOfArborea;
+import game.board.Tile;
+import game.players.ComputerPlayer;
+import game.units.Unit;
+
 import java.util.ArrayList;
 
 public class RandomAI extends Ai {
+
+	public RandomAI(ComputerPlayer cp) {
+		super(cp);
+	}
 
 	@Override
 	public ArrayList<AIMove> doThinking() {
@@ -10,12 +19,12 @@ public class RandomAI extends Ai {
 		
 		ArrayList<AIMove> moves = new ArrayList<AIMove>();
 		
-		try {
-			Thread.sleep(4000);
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (Unit u : this.computerPlayer.get().GetUnits()) {
+			// get Tile unit is standing on
+			Tile t = u.getTile_Slow();
+			if (t != null) {
+				System.out.println("got tile for unit");
+			}
 		}
 		
 		return moves;

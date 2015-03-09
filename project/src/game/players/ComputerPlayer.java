@@ -15,7 +15,7 @@ public class ComputerPlayer extends Player {
 	 */
 	public ComputerPlayer(boolean orc) {
 		super("1337AI", orc);
-		ai = new RandomAI(); // Doesn't do anything yet
+		ai = new RandomAI(this);
 	}
 	
 	public Ai getAI() {

@@ -240,4 +240,8 @@ public class Board {
 	public int getColLength(int col) {
 		return tiles[col].length;
 	}
+	
+	public Tile[][] getTiles() {
+		return tiles;
+	}
 }
