@@ -263,6 +263,9 @@ public class Play extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		
+		// Hoever information
+		if (LegendsOfArborea.GAME.board.getTile(Mouse.getX(), Mouse.getY()).getUnit() != null)
+		
 		// Check if game ends
 		if (!LegendsOfArborea.GAME.getPlayer(1).anyAlive() || !LegendsOfArborea.GAME.getPlayer(2).anyAlive()) {
 			winMessage = activePlayer.getName() + " wins the game!";
