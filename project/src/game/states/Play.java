@@ -287,9 +287,11 @@ public class Play extends BasicGameState {
 		}
 		if (dyingActive) {
 			dieElapsed += delta;
+			System.out.println(dieElapsed);
 			if (dieElapsed > dieTime) {
 				ownerDyingUnit.removeUnit(dyingUnit);
 				dyingUnit.getPosition().removeUnit();
+				System.out.println(dyingUnit);
 				dyingUnit = null;
 				dyingActive = false;
 				dieElapsed = 0;
@@ -391,6 +393,7 @@ public class Play extends BasicGameState {
 					dyingUnit = goal.getUnit();
 					dyingUnit.setState(Unit.ANIM_DYING);
 					dieTime = dyingUnit.deathFrames * Unit.DIE_DURATION;
+					System.out.println(dieTime);
 				}
 				deselect();
 			}

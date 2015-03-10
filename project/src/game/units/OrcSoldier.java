@@ -9,7 +9,7 @@ public class OrcSoldier extends Unit {
 	 */
 	public OrcSoldier() {
 		// Race, type, att, pwr, sup, hp, rng, spd, death frames
-		super(1, 1, 4, 1, 1, 3, 1, 1, DIE_DURATION);
+		super(1, 1, 4, 1, 1, 3, 1, 1, DEATH_FRAMES);
 		name = "Orc Soldier";
 	}
 }
