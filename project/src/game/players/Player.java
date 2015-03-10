@@ -52,6 +52,10 @@ public abstract class Player {
 		return units.get(index);
 	}
 	
+	public ArrayList<Unit> GetUnits() {
+		return units;
+	}
+	
 	public int unitsAlive() {
 		return units.size();
 	}

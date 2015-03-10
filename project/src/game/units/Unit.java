@@ -1,9 +1,10 @@
 package game.units;
 
+
 import game.board.Board;
 import game.board.Tile;
 
-public abstract class Unit {
+public class Unit {
 
 	public final static int FACE_UP = 0;
 	public final static int FACE_UR = 1;
