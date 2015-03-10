@@ -1,6 +1,7 @@
 package game.ai;
 
 //import game.LegendsOfArborea;
+import game.Helpers;
 import game.LegendsOfArborea;
 import game.board.Tile;
 import game.players.ComputerPlayer;
@@ -29,7 +30,33 @@ public class RandomAI extends Ai {
 				ArrayList<Tile> reachableTiles = 
 						LegendsOfArborea.GAME.board.getSurroundingEmptyTiles(t, u.spd);
 				
-				// do something with it
+				int attackableTileSize = attackableTiles.size();
+				int reachableTileSize = reachableTiles.size();
+				
+				int max = attackableTileSize + reachableTileSize - 1;
+				
+				AIMove.TYPE mt = null;
+				
+				if (max > 0) {
+					int targetTileIndex = Helpers.randInt(0, max);
+					Tile targetTile = null;
+					if (targetTileIndex < attackableTileSize) {
+						targetTile = attackableTiles.get(targetTileIndex);
+						mt = AIMove.TYPE.ATTACK;
+						System.out.println("ATTACK");
+					} else {
+						mt = AIMove.TYPE.MOVE;
+						targetTile = reachableTiles.get(Math.abs(targetTileIndex - attackableTileSize));
+						System.out.println("MOVE");
+					}
+					if (targetTile != null && mt != null) {
+						System.out.println("got a target tile: " + targetTileIndex);
+						moves.add(new AIMove(targetTile, u, mt));
+					}
+				}
+				
+				
+				// otherwise move
 			}
 		}
 		
