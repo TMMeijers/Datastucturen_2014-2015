@@ -2,6 +2,7 @@ package game.states;
 
 import game.LegendsOfArborea;
 import game.Mechanics;
+import game.ai.AIMove;
 import game.board.Tile;
 import game.players.ComputerPlayer;
 import game.players.HumanPlayer;
@@ -13,6 +14,7 @@ import game.units.OrcSoldier;
 import game.units.Unit;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Animation;
@@ -50,6 +52,7 @@ public class Play extends BasicGameState {
 	private Tile goal;
 	private ArrayList<Tile> reachableTiles;
 	private ArrayList<Tile> attackableTiles;
+	private LinkedList<AIMove> aiMoves;
 	
 	// Input device
 	Mouse mouse;
@@ -74,6 +77,8 @@ public class Play extends BasicGameState {
 	private int dieElapsed;
 	private Player ownerDyingUnit;
 	
+	
+	
 	public Play(int state) {
 		
 	}
@@ -90,6 +95,7 @@ public class Play extends BasicGameState {
 		ownerDyingUnit = null;
 		selectedTile = null;
 		goal = null;
+		aiMoves = new LinkedList<AIMove>();
 		POLY_SIDE = 50f / (LegendsOfArborea.GAME.board.getDimension() / 5f);
 		POLY_HORSIDE = POLY_SIDE * 1.5f;
 		
@@ -299,16 +305,53 @@ public class Play extends BasicGameState {
 			}
 		} else {
 			
-			ComputerPlayer cp = (ComputerPlayer)activePlayer;
-			cp.getAI().think((moves) -> {
-				System.out.println("Ai finished thinking");
-				
-				// for aimove step in moves:
-				// 	   select unit
-				//     unitAction 
-				
-				activePlayer.endTurn();
-			});
+			boolean aiMustThink = false;
+			synchronized(aiMoves) {
+				// no moves stored, AI Must think (further down)
+				if (aiMoves.size() == 0) {
+					aiMustThink = true;
+				} else {
+					// pop all moves that are stored and execute them
+					// THIS is not nice yet. it does everything and then redraws
+					// hence NO animations get played
+					// but it  works :P
+					while (!aiMoves.isEmpty()) {
+				        AIMove m = aiMoves.removeFirst();
+				        System.out.println("Do move");
+				        if (m.type == AIMove.TYPE.MOVE) {
+				        	// this should be checked in the ai itself, but here we check again
+				        	// 'voor de zekerheid'
+				        	if (m.tile.empty()) {
+				        		Mechanics.move(LegendsOfArborea.GAME.board, m.unit, m.tile);
+				        	}
+				        } else if (m.type == AIMove.TYPE.ATTACK) {
+				        	// should also be checked in the ai itself
+				        	if (m.tile.getUnit().getHp() > 0) {
+					        	if (Mechanics.hit(LegendsOfArborea.GAME.board, m.unit, m.tile.getUnit())) {
+									handleDying();
+								}
+				        	}
+				        }
+				    }
+					// ai is done with moves
+					activePlayer.endTurn();
+				}
+			}
+			
+			// ai must think, thus tart thinking. on callback we fill aiMoves
+			if (aiMustThink) {
+				ComputerPlayer cp = (ComputerPlayer)activePlayer;
+				cp.getAI().think((moves) -> {
+					System.out.println("Ai finished thinking");
+	
+					// fill move queue
+					synchronized(aiMoves) {
+						for (AIMove m : moves) {
+							aiMoves.add(m);
+						}
+					}
+				});
+			}
 		}
 			
 			
@@ -339,6 +382,15 @@ public class Play extends BasicGameState {
 	@Override
 	public int getID() {
 		return LegendsOfArborea.PLAY;
+	}
+	
+	public void handleDying() {
+		dyingActive = true;
+		ownerDyingUnit = inactivePlayer;
+		dyingUnit = goal.getUnit();
+		dyingUnit.setState(Unit.ANIM_DYING);
+		dieTime = dyingUnit.deathFrames * Unit.DIE_DURATION;
+		System.out.println(dieTime);
 	}
 	
 	private void switchTurn() {
@@ -407,12 +459,7 @@ public class Play extends BasicGameState {
 				attackingUnit.setState(Unit.ANIM_ATTACKING);
 				attTime = Unit.ATT_FRAMES * Unit.ATT_DURATION;
 				if (Mechanics.hit(LegendsOfArborea.GAME.board, attackingUnit, goal.getUnit())) {
-					dyingActive = true;
-					ownerDyingUnit = inactivePlayer;
-					dyingUnit = goal.getUnit();
-					dyingUnit.setState(Unit.ANIM_DYING);
-					dieTime = dyingUnit.deathFrames * Unit.DIE_DURATION;
-					System.out.println(dieTime);
+					handleDying();
 				}
 				deselect();
 			}
