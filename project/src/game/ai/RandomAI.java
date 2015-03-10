@@ -51,7 +51,7 @@ public class RandomAI extends Ai {
 					}
 					if (targetTile != null && mt != null) {
 						System.out.println("got a target tile: " + targetTileIndex);
-						moves.add(new AIMove(targetTile, u, mt));
+						moves.add(new AIMove(targetTile, u, mt, attackableTiles, reachableTiles));
 					}
 				}
 				
