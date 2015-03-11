@@ -45,7 +45,7 @@ public class Mechanics {
 	 * @param defender  the defending Unit
 	 * @return 			double with 0 < value < 1 
 	 */
-	private static double hitChance(Board board, Unit attacker, Unit defender) {
+	public static double hitChance(Board board, Unit attacker, Unit defender) {
 		int aws = attacker.att;
 		int dws = defender.att;
 		

@@ -17,7 +17,6 @@ public class RandomAI extends Ai {
 
 	@Override
 	public ArrayList<AIMove> doThinking() {
-		System.out.println("think in random ai");
 		
 		ArrayList<AIMove> moves = new ArrayList<AIMove>();
 		ArrayList<Tile> takenTiles = new ArrayList<Tile>();
@@ -51,18 +50,12 @@ public class RandomAI extends Ai {
 						targetTile = reachableTiles.get(Math.abs(targetTileIndex - attackableTileSize));
 					}
 					if (targetTile != null && mt != null) {
-						System.out.println(u + " moving from col: " + u.getPosition().getCol() + ", row: " + u.getPosition().getRow());
-						System.out.println("got a target tile, col: " + targetTile.getCol() + ", row: " + targetTile.getRow());
 						moves.add(new AIMove(targetTile, u, mt, attackableTiles, reachableTiles));
 						takenTiles.add(targetTile);
 					}
 				}
-				
-				
-				// otherwise move
 			}
 		}
-		
 		return moves;
 	}
 

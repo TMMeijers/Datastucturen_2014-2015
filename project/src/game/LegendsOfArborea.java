@@ -29,7 +29,7 @@ public class LegendsOfArborea extends StateBasedGame {
 	// Strings
 	public static String NAME_P1;
 	public static String NAME_P2;
-	private static final String NAME = "Legends of Arobrea";
+	private static final String NAME = "Legends of Arborea";
 
 	// The game mode loaded
 	public static GameMode GAME;
@@ -48,7 +48,7 @@ public class LegendsOfArborea extends StateBasedGame {
 	
 	public static void main(String[] args) {
 		NAME_P1 = "Truub Deluxe";
-		NAME_P2 = "Jonas sukkellll";
+		NAME_P2 = "1337AI";
 		GAME = null;
 		
 		try {

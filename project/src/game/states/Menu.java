@@ -40,7 +40,7 @@ public class Menu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// Load custom font	with different sizes
-		FONT_SMALL = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 30, false, false);
+		FONT_SMALL = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 28, false, false);
 		FONT_NORMAL = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 40, false, false);
 		FONT_LARGE = new UnicodeFont("res/ui/fonts/DARK11__.ttf", 60, false, false);
 		FONT_SMALL.addAsciiGlyphs();

@@ -38,7 +38,7 @@ public class Play extends BasicGameState {
 	static final float POLY_XPAD = 2;
 	static final float POLY_YPAD = 2;
 	
-	// Array for graphical tiles
+	// Graphics
 	private Polygon[][] gTiles;
 	private Animation[][][][] unitAnimations;
 	
@@ -47,6 +47,7 @@ public class Play extends BasicGameState {
 	private Image attackIcon;
 	private Image moveIcon;
 	private Image healthPoint;
+	private Image infoBox;
 	
 	// Game variables for playing
 	private Tile selectedTile;
@@ -61,8 +62,8 @@ public class Play extends BasicGameState {
 	private AIMove m;
 	private boolean startTurn;
 	
-	// Input device
-	Mouse mouse;
+	// Unit for hover information
+	private Unit hoverUnit;
 	
 	// Players
 	private Player activePlayer;
@@ -89,6 +90,7 @@ public class Play extends BasicGameState {
 		selectedTile = null;
 		selectedUnit = null;
 		animatedUnits = new AnimationLinkedList();
+		hoverUnit = null;
 		aiMoves = new LinkedList<AIMove>();
 		aiPauseTimer = 0;
 		m = null;
@@ -174,6 +176,7 @@ public class Play extends BasicGameState {
 		attackIcon = new Image("res/icons/active_attack.png");
 		moveIcon = new Image("res/icons/active_move.png");
 		healthPoint = new Image("res/icons/health_point.png");
+		infoBox = new Image("res/ui/png/red_panel.png");
 		
 		// Polygon sizes
 		float horSpace = 1.5f * POLY_HORSIDE;
@@ -285,6 +288,28 @@ public class Play extends BasicGameState {
 			}
 		}
 		
+		if (hoverUnit != null) {
+			int offSet = 30;
+			float size = 2f;
+			float x = Mouse.getX()+offSet;
+			if (Mouse.getX() > 3*WIDTH/4) {
+				x -= size*infoBox.getWidth()+2*offSet;
+			}
+			float y = HEIGHT-Mouse.getY()+offSet;
+			if (HEIGHT-Mouse.getY() > HEIGHT/4) {
+				y -= size*infoBox.getHeight()+2*offSet;
+			}
+			infoBox.draw(x, y, size);
+			int textOffset = 25;
+			Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset, hoverUnit.toString());
+			Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*2, "hp: " + hoverUnit.getHp());
+			Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*3, "att: " + hoverUnit.att);
+			if (selectedUnit != null && attackableTiles != null && attackableTiles.contains(hoverUnit.getPosition())) {
+				int chance = (int) Math.round(Mechanics.hitChance(LegendsOfArborea.GAME.board, selectedUnit, hoverUnit)*100);
+				Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*4, "hit: " + chance + " percent");
+			}
+		}
+		
 		// Render strings
 		Menu.FONT_NORMAL.drawString(30, 30, playerTurn);
 		Menu.FONT_SMALL.drawString(WIDTH / 2 - 260, 30, options);
@@ -318,6 +343,16 @@ public class Play extends BasicGameState {
 				} else {
 					u.setState(Unit.ANIM_WALKING);
 				}
+			}
+		}
+		
+		// Get unit for hover information
+		Tile hover = xyToTile(Mouse.getX(), Mouse.getY());
+		if (hover != null) {
+			if (!hover.empty()) {
+				hoverUnit = hover.getUnit();
+			} else {
+				hoverUnit = null;
 			}
 		}
 		
@@ -366,7 +401,6 @@ public class Play extends BasicGameState {
 				        	t.setStatus(Tile.REACHABLE);
 				        }
 				        if (aiPauseTimer > aiPause*2) {
-				        	System.out.println(true);
 				        	aiPauseTimer = 0;
 				        	aiAction(m);
 				        	m = null;

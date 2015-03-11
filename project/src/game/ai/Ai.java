@@ -32,7 +32,6 @@ public class Ai {
 		this.isThinking = true;
 		
 		// if not start Thread
-		System.out.println("Start thinking");
 		Runnable thinkingTask =() -> {
 			// think
 			ArrayList<AIMove> moves = doThinking();
