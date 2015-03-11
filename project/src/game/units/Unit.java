@@ -27,7 +27,7 @@ public class Unit {
 	
 	public final static int ATT_FRAMES = 4;
 	
-	public final static int ATT_DURATION = 150;
+	public final static int ATT_DURATION = 200;
 	
 	public final static int DIE_DURATION = 200;
 	

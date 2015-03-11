@@ -4,6 +4,7 @@ import game.LegendsOfArborea;
 import game.Mechanics;
 import game.ai.AIMove;
 import game.board.Tile;
+import game.datastructures.AnimationLinkedList;
 import game.players.ComputerPlayer;
 import game.players.HumanPlayer;
 import game.players.Player;
@@ -50,15 +51,13 @@ public class Play extends BasicGameState {
 	// Game variables for playing
 	private Tile selectedTile;
 	private Unit selectedUnit;
-	private Tile goal;
 	private ArrayList<Tile> reachableTiles;
 	private ArrayList<Tile> attackableTiles;
 	
 	// AI Variables
 	private LinkedList<AIMove> aiMoves;
-	private boolean aiMoveDone;
 	private int aiPauseTimer;
-	private final int aiPause = 500;
+	private final int aiPause = 0;
 	private AIMove m;
 	private boolean startTurn;
 	
@@ -74,16 +73,8 @@ public class Play extends BasicGameState {
 	private String playerTurn;
 	private String options;
 	
-	// Check animations needed
-	private boolean attackingActive;
-	private Unit attackingUnit;
-	private int attTime;
-	private int attElapsed;
-	private boolean dyingActive;
-	private Unit dyingUnit;
-	private int dieTime;
-	private int dieElapsed;
-	private Player ownerDyingUnit;
+	// Animations
+	private AnimationLinkedList animatedUnits;
 	
 	
 	
@@ -94,21 +85,15 @@ public class Play extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// Initialise variables
-		attackingActive = false;
-		attackingUnit = null;
-		attElapsed = 0;
-		dyingActive = false;
-		dyingUnit = null;
-		dieElapsed = 0;
-		ownerDyingUnit = null;
+		startTurn = true;
 		selectedTile = null;
-		aiMoveDone = true;
-		goal = null;
+		selectedUnit = null;
+		animatedUnits = new AnimationLinkedList();
 		aiMoves = new LinkedList<AIMove>();
 		aiPauseTimer = 0;
 		m = null;
-		startTurn = true;
 		
+		// Resizing for larger boards, works up to 19 x 19 x 19. Default is 5 x 5 x 5
 		POLY_SIDE = 50f / (LegendsOfArborea.GAME.board.getDimension() / 5f);
 		POLY_HORSIDE = POLY_SIDE * 1.5f;
 		
@@ -322,27 +307,20 @@ public class Play extends BasicGameState {
 			switchTurn();
 		}
 		
-		// Check if dying or attacking animations need to be stopped
-		if (attackingActive) {
-			attElapsed += delta;
-			if (attElapsed > attTime) {
-				attackingUnit.setState(Unit.ANIM_WALKING);
-				attackingUnit = null;
-				attackingActive = false;
-				attElapsed = 0;
+		// Update animation timers and check if animation done
+		if (!animatedUnits.isEmpty()) {
+			animatedUnits.updateTime(delta);
+			if (animatedUnits.getTimer() > animatedUnits.getDuration()) {
+				Unit u = animatedUnits.removeFirst();
+				if (u.getState() == Unit.ANIM_DYING) {
+					u.getPosition().removeUnit();
+					u = null;
+				} else {
+					u.setState(Unit.ANIM_WALKING);
+				}
 			}
 		}
-		if (dyingActive) {
-			dieElapsed += delta;
-			if (dieElapsed > dieTime) {
-				ownerDyingUnit.removeUnit(dyingUnit);
-				dyingUnit.getPosition().removeUnit();
-				dyingUnit = null;
-				dyingActive = false;
-				dieElapsed = 0;
-			}
-		}
-			
+		
 		if (activePlayer instanceof HumanPlayer) {
 			// Get input
 			Input input = gc.getInput();
@@ -377,7 +355,6 @@ public class Play extends BasicGameState {
 				} else {
 					if (m == null && !aiMoves.isEmpty() && aiPauseTimer > aiPause) {
 				        m = aiMoves.removeFirst();
-						aiMoveDone = false;
 					}
 					if (m != null) {
 						reachableTiles = m.reachableTiles;
@@ -391,7 +368,6 @@ public class Play extends BasicGameState {
 				        if (aiPauseTimer > aiPause*2) {
 				        	System.out.println(true);
 				        	aiPauseTimer = 0;
-				        	aiMoveDone = true;
 				        	aiAction(m);
 				        	m = null;
 				        	if (aiMoves.isEmpty()) {
@@ -421,24 +397,22 @@ public class Play extends BasicGameState {
 	}
 	
 	private void aiAction(AIMove m) {
-		goal = m.tile;
+		Tile goal = m.tile;
 		if (m.type == AIMove.TYPE.MOVE) {
 			Mechanics.move(LegendsOfArborea.GAME.board, m.unit, goal);
 			deselect();
-		} else if (m.type == AIMove.TYPE.ATTACK) {				
-			attackingActive = true;
-			attackingUnit = m.unit;
-			attackingUnit.setState(Unit.ANIM_ATTACKING);
-			attTime = Unit.ATT_FRAMES * Unit.ATT_DURATION;
+		} else if (m.type == AIMove.TYPE.ATTACK) {			
+			m.unit.setState(Unit.ANIM_ATTACKING);
+			animatedUnits.add(m.unit, Unit.ATT_FRAMES*Unit.ATT_DURATION);
 			if (Mechanics.hit(LegendsOfArborea.GAME.board, m.unit, goal.getUnit())) {
-				handleDying();
+				handleDying(goal.getUnit());
 			}
 			deselect();
 		}
 	}
 	
 	private void unitAction(int delta) {
-		goal = xyToTile(Mouse.getX(), Mouse.getY());
+		Tile goal = xyToTile(Mouse.getX(), Mouse.getY());
 		// Maybe we want to make the switch to a friendly active unit
 		if (goal != null && !goal.empty() && goal.getUnit().race == selectedUnit.race && goal.getUnit().active()) {
 			deselect();
@@ -449,13 +423,11 @@ public class Play extends BasicGameState {
 				Mechanics.move(LegendsOfArborea.GAME.board, selectedUnit, goal);
 				deselect();
 			// If we can attack the goal
-			} else if (attackingUnit == null && attackableTiles != null && attackableTiles.contains(goal) && goal.getUnit() != dyingUnit) {
-				attackingActive = true;
-				attackingUnit = selectedUnit;
-				attackingUnit.setState(Unit.ANIM_ATTACKING);
-				attTime = Unit.ATT_FRAMES * Unit.ATT_DURATION;
-				if (Mechanics.hit(LegendsOfArborea.GAME.board, attackingUnit, goal.getUnit())) {
-					handleDying();
+			} else if (attackableTiles != null && attackableTiles.contains(goal) && goal.getUnit().getState() != Unit.ANIM_DYING) {
+				selectedUnit.setState(Unit.ANIM_ATTACKING);
+				animatedUnits.add(selectedUnit, Unit.ATT_FRAMES*Unit.ATT_DURATION);
+				if (Mechanics.hit(LegendsOfArborea.GAME.board, selectedUnit, goal.getUnit())) {
+					handleDying(goal.getUnit());
 				}
 				deselect();
 			}
@@ -467,12 +439,10 @@ public class Play extends BasicGameState {
 		return LegendsOfArborea.PLAY;
 	}
 	
-	public void handleDying() {
-		dyingActive = true;
-		ownerDyingUnit = inactivePlayer;
-		dyingUnit = goal.getUnit();
-		dyingUnit.setState(Unit.ANIM_DYING);
-		dieTime = dyingUnit.deathFrames * Unit.DIE_DURATION;
+	public void handleDying(Unit u) {
+		u.setState(Unit.ANIM_DYING);
+		inactivePlayer.removeUnit(u);
+		animatedUnits.add(u, u.deathFrames*Unit.DIE_DURATION);
 	}
 	
 	private void switchTurn() {
@@ -542,7 +512,6 @@ public class Play extends BasicGameState {
 		attackableTiles = null;
 		selectedTile = null;
 		selectedUnit = null;
-		goal = null;
 	}
 	
 	private Tile xyToTile(int mx, int my) {
