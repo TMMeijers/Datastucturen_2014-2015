@@ -58,8 +58,9 @@ public class Play extends BasicGameState {
 	private LinkedList<AIMove> aiMoves;
 	private boolean aiMoveDone;
 	private int aiPauseTimer;
-	private final int aiPause = 1;
+	private final int aiPause = 500;
 	private AIMove m;
+	private boolean startTurn;
 	
 	// Input device
 	Mouse mouse;
@@ -106,6 +107,7 @@ public class Play extends BasicGameState {
 		aiMoves = new LinkedList<AIMove>();
 		aiPauseTimer = 0;
 		m = null;
+		startTurn = true;
 		
 		POLY_SIDE = 50f / (LegendsOfArborea.GAME.board.getDimension() / 5f);
 		POLY_HORSIDE = POLY_SIDE * 1.5f;
@@ -332,11 +334,9 @@ public class Play extends BasicGameState {
 		}
 		if (dyingActive) {
 			dieElapsed += delta;
-			System.out.println(dieElapsed);
 			if (dieElapsed > dieTime) {
 				ownerDyingUnit.removeUnit(dyingUnit);
 				dyingUnit.getPosition().removeUnit();
-				System.out.println(dyingUnit);
 				dyingUnit = null;
 				dyingActive = false;
 				dieElapsed = 0;
@@ -371,35 +371,34 @@ public class Play extends BasicGameState {
 			synchronized(aiMoves) {
 				// no moves stored, AI Must think (further down)
 		        aiPauseTimer += delta;
-				if (aiMoves.size() == 0) {
+				if (startTurn) {
 					aiMustThink = true;
-				} else if (aiMoveDone && !aiMoves.isEmpty()) {
-					if (m == null) {
+					startTurn = false;
+				} else {
+					if (m == null && !aiMoves.isEmpty() && aiPauseTimer > aiPause) {
 				        m = aiMoves.removeFirst();
-					}
-					reachableTiles = m.reachableTiles;
-					attackableTiles = m.attackableTiles;
-			        System.out.println(true);
-			        for (Tile t : m.attackableTiles) {
-			        	t.setStatus(Tile.ATTACKABLE);
-			        }
-			        for (Tile t : m.reachableTiles) {
-			        	t.setStatus(Tile.REACHABLE);
-			        }
-			        if (aiPauseTimer > aiPause) {
 						aiMoveDone = false;
-			        	aiPauseTimer = 0;
-			        	aiMoveDone = true;
-			        	aiAction(m);
-			        	m = null;
-			        }
-			        // Check if AI is done with turn
-			        boolean lastMove = false;
-			        if (aiMoves.size() == 0) {
-			        	lastMove = true;
-			        }
-					if (lastMove) {
-						activePlayer.endTurn();
+					}
+					if (m != null) {
+						reachableTiles = m.reachableTiles;
+						attackableTiles = m.attackableTiles;
+				        for (Tile t : m.attackableTiles) {
+				        	t.setStatus(Tile.ATTACKABLE);
+				        }
+				        for (Tile t : m.reachableTiles) {
+				        	t.setStatus(Tile.REACHABLE);
+				        }
+				        if (aiPauseTimer > aiPause*2) {
+				        	System.out.println(true);
+				        	aiPauseTimer = 0;
+				        	aiMoveDone = true;
+				        	aiAction(m);
+				        	m = null;
+				        	if (aiMoves.isEmpty()) {
+				        		deselect();
+				        		activePlayer.endTurn();
+				        	}
+				        }
 					}
 				}
 			}
@@ -425,7 +424,6 @@ public class Play extends BasicGameState {
 		goal = m.tile;
 		if (m.type == AIMove.TYPE.MOVE) {
 			Mechanics.move(LegendsOfArborea.GAME.board, m.unit, goal);
-			System.out.println(true);
 			deselect();
 		} else if (m.type == AIMove.TYPE.ATTACK) {				
 			attackingActive = true;
@@ -475,7 +473,6 @@ public class Play extends BasicGameState {
 		dyingUnit = goal.getUnit();
 		dyingUnit.setState(Unit.ANIM_DYING);
 		dieTime = dyingUnit.deathFrames * Unit.DIE_DURATION;
-		System.out.println(dieTime);
 	}
 	
 	private void switchTurn() {
@@ -496,6 +493,7 @@ public class Play extends BasicGameState {
 		}
 		playerTurn = activePlayer.getName() + "'s turn";
 		activePlayer.initTurn();
+		startTurn = true;
 	}
 	
 	private void selectUnit() {
@@ -529,7 +527,6 @@ public class Play extends BasicGameState {
 	private void deselect() {
 		if (reachableTiles != null) {
 			for (Tile t : reachableTiles) {
-				System.out.println(t + "set to default");
 				t.setStatus(Tile.DEFAULT);
 			}
 		}

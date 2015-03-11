@@ -20,6 +20,7 @@ public class RandomAI extends Ai {
 		System.out.println("think in random ai");
 		
 		ArrayList<AIMove> moves = new ArrayList<AIMove>();
+		ArrayList<Tile> takenTiles = new ArrayList<Tile>();
 		
 		for (Unit u : this.computerPlayer.get().GetUnits()) {
 			// get Tile unit is standing on
@@ -29,7 +30,9 @@ public class RandomAI extends Ai {
 						LegendsOfArborea.GAME.board.getSurroundingEnemyTiles(t, u.rng, u.race);
 				ArrayList<Tile> reachableTiles = 
 						LegendsOfArborea.GAME.board.getSurroundingEmptyTiles(t, u.spd);
-				
+				for (Tile taken : takenTiles) {
+					reachableTiles.remove(taken);
+				}
 				int attackableTileSize = attackableTiles.size();
 				int reachableTileSize = reachableTiles.size();
 				
@@ -43,15 +46,15 @@ public class RandomAI extends Ai {
 					if (targetTileIndex < attackableTileSize) {
 						targetTile = attackableTiles.get(targetTileIndex);
 						mt = AIMove.TYPE.ATTACK;
-						System.out.println("ATTACK");
 					} else {
 						mt = AIMove.TYPE.MOVE;
 						targetTile = reachableTiles.get(Math.abs(targetTileIndex - attackableTileSize));
-						System.out.println("MOVE");
 					}
 					if (targetTile != null && mt != null) {
-						System.out.println("got a target tile: " + targetTileIndex);
+						System.out.println(u + " moving from col: " + u.getPosition().getCol() + ", row: " + u.getPosition().getRow());
+						System.out.println("got a target tile, col: " + targetTile.getCol() + ", row: " + targetTile.getRow());
 						moves.add(new AIMove(targetTile, u, mt, attackableTiles, reachableTiles));
+						takenTiles.add(targetTile);
 					}
 				}
 				

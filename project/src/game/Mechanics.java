@@ -70,7 +70,10 @@ public class Mechanics {
 	 */
 	public static void move(Board board, Unit unit, Tile goal) {
 		Tile current = unit.getPosition();
-		current.removeUnit();
+		if (!current.empty()) {
+			// AI moves already remove unit
+			current.removeUnit();
+		}
 		unit.moveTo(goal);
 		unit.setDirection(findNewDirection(board.getDimension(), current, goal));
 		goal.fill(unit);

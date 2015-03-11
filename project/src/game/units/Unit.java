@@ -220,6 +220,7 @@ public class Unit {
 		activeMove = false;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}
