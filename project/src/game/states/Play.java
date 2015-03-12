@@ -320,6 +320,7 @@ public class Play extends BasicGameState {
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		Input input = gc.getInput();
 		
 		// Check if game ends
 		if (!LegendsOfArborea.GAME.getPlayer(1).anyAlive() || !LegendsOfArborea.GAME.getPlayer(2).anyAlive()) {
@@ -347,18 +348,23 @@ public class Play extends BasicGameState {
 		}
 		
 		// Get unit for hover information
-		Tile hover = xyToTile(Mouse.getX(), Mouse.getY());
-		if (hover != null) {
-			if (!hover.empty()) {
-				hoverUnit = hover.getUnit();
+		if (input.isKeyDown(Input.KEY_LCONTROL)) {
+			Tile hover = xyToTile(Mouse.getX(), Mouse.getY());
+			if (hover != null) {
+				if (!hover.empty()) {
+					hoverUnit = hover.getUnit();
+				} else {
+					hoverUnit = null;
+				}
 			} else {
 				hoverUnit = null;
 			}
-		}
+		} else {
+			hoverUnit = null;
+		}		
 		
 		if (activePlayer instanceof HumanPlayer) {
 			// Get input
-			Input input = gc.getInput();
 			boolean leftMousePressed = input.isMousePressed(0);
 			
 			// Select active tile
@@ -392,6 +398,8 @@ public class Play extends BasicGameState {
 				        m = aiMoves.removeFirst();
 					}
 					if (m != null) {
+						selectedTile = m.unit.getPosition();
+						selectedTile.setStatus(Tile.ACTIVE);
 						reachableTiles = m.reachableTiles;
 						attackableTiles = m.attackableTiles;
 				        for (Tile t : m.attackableTiles) {
