@@ -58,7 +58,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AIMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 0;
+	private final int aiPause = 500;
 	private AIMove m;
 	private boolean startTurn;
 	
@@ -281,7 +281,7 @@ public class Play extends BasicGameState {
 							remaining = health % pointsInRow;
 						}
 						for (int l = 0; l < remaining; l++) {
-							healthPoint.draw(healthX + l*(healthPoint.getWidth()+1), healthY + k*(healthPoint.getHeight()+1));
+							healthPoint.draw(healthX + l*(healthPoint.getWidth()+1*resize), healthY + k*(healthPoint.getHeight()+1*resize), 1*resize);
 						}
 					}
 				}
