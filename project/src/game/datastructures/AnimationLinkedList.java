@@ -35,12 +35,11 @@ public class AnimationLinkedList {
 		}
 	}
 	
-	public int getTimer() {
-		return timers.getFirst();
-	}
-	
-	public int getDuration() {
-		return durations.getFirst();
+	public boolean stopAnimation() {
+		if (timers.getFirst() > durations.getFirst()) {
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean isEmpty() {

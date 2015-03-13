@@ -6,6 +6,7 @@ import game.Mechanics;
 import game.ai.AIMove;
 import game.board.Tile;
 import game.datastructures.AnimationLinkedList;
+import game.datastructures.HitText;
 import game.players.ComputerPlayer;
 import game.players.HumanPlayer;
 import game.players.Player;
@@ -49,7 +50,8 @@ public class Play extends BasicGameState {
 	private Image attackIcon;
 	private Image moveIcon;
 	private Image healthPoint;
-	private Image infoBox;
+	private Image infoBoxHuman;
+	private Image infoBoxOrc;
 	private Image[] infoIcons;
 	
 	// Game variables for playing
@@ -61,7 +63,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AIMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 500;
+	private final int aiPause = 50;
 	private AIMove m;
 	private boolean startTurn;
 	
@@ -79,8 +81,9 @@ public class Play extends BasicGameState {
 	
 	// Animations
 	private AnimationLinkedList animatedUnits;
+	private HitText hitText;
 	
-	
+	private UnicodeFont font24;
 	
 	public Play(int state) {
 		
@@ -97,6 +100,10 @@ public class Play extends BasicGameState {
 		aiMoves = new LinkedList<AIMove>();
 		aiPauseTimer = 0;
 		m = null;
+		hitText = null;
+		
+		// Load fonts
+		font24 = Helpers.getFont("Knights_Quest", 24);
 		
 		// Resizing for larger boards, works up to 19 x 19 x 19. Default is 5 x 5 x 5
 		POLY_SIDE = 50f / (LegendsOfArborea.GAME.board.getDimension() / 5f);
@@ -179,7 +186,8 @@ public class Play extends BasicGameState {
 		attackIcon = new Image("res/icons/active_attack.png");
 		moveIcon = new Image("res/icons/active_move.png");
 		healthPoint = new Image("res/icons/health_point.png");
-		infoBox = new Image("res/ui/png/red_panel.png");	
+		infoBoxHuman = new Image("res/ui/png/blue_panel.png");	
+		infoBoxOrc = new Image("res/ui/png/red_panel.png");	
 		infoIcons = new Image[5];
 		infoIcons[0] = new Image("res/icons/icon_hp.png");
 		infoIcons[1] = new Image("res/icons/icon_att.png");
@@ -301,6 +309,10 @@ public class Play extends BasicGameState {
 			int offSet = 30;
 			float size = 2f;
 			float x = Mouse.getX()+offSet;
+			Image infoBox = infoBoxHuman;
+			if (hoverUnit.race == Unit.ORC) {
+				infoBox = infoBoxOrc;
+			}
 			if (Mouse.getX() > 3*WIDTH/4) {
 				x -= size*infoBox.getWidth()+2*offSet;
 			}
@@ -309,32 +321,42 @@ public class Play extends BasicGameState {
 				y -= size*infoBox.getHeight()+2*offSet;
 			}
 			infoBox.draw(x, y, size);
-			int textOffset = 25;
-			UnicodeFont font = Helpers.getFont("Knights_Quest", 25);
-			font.drawString(x+textOffset, y+textOffset, hoverUnit.toString());
+			int textOffset = 23;
+			UnicodeFont font = Helpers.getFont("Knights_Quest", 26);
+			font.drawString(x+textOffset, y+textOffset-8, hoverUnit.toString());
 			for (int i = 0; i < infoIcons.length; i++) {
-				infoIcons[i].draw(x+textOffset, y+(2+i)*textOffset);
+				infoIcons[i].draw(x+textOffset, y+(2+i)*textOffset, 1.25f);
 				int val = 0;
 				switch(i) {
-				case 0:
-					val = hoverUnit.getHp();
-					break;
-				case 1: 
-					val = hoverUnit.att;
-				case 2:
-					val = hoverUnit.sup;
-				case 3:
-					val = hoverUnit.spd;
-				case 4:
-					val = hoverUnit.rng;
+					case 0:
+						val = hoverUnit.getHp();
+						break;
+					case 1: 
+						val = hoverUnit.att;
+						break;
+					case 2:
+						val = hoverUnit.sup;
+						break;
+					case 3:
+						val = hoverUnit.spd;
+						break;
+					case 4:
+						val = hoverUnit.rng;
+						break;
+					default:
+						break;
 				}
-				font.drawString(x+textOffset*2, y+(2+i)*textOffset, ((Integer)val).toString());
-					
+				font24.drawString(x+textOffset*3, y+(2+i)*textOffset-5, ((Integer)val).toString());
 			}
+			
 			if (selectedUnit != null && attackableTiles != null && attackableTiles.contains(hoverUnit.getPosition())) {
-				int chance = (int) Math.round(Mechanics.hitChance(LegendsOfArborea.GAME.board, selectedUnit, hoverUnit)*100);
-				Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*6, "hit: " + chance + " percent");
+				double chance = ((double)Math.round(Mechanics.hitChance(LegendsOfArborea.GAME.board, selectedUnit, hoverUnit)*100))/100;
+				font24.drawString(x+textOffset, y+textOffset*7, "hit chance: " + chance);
 			}
+		}
+		
+		if (hitText != null) {
+			font24.drawString(hitText.getX(), hitText.getY(), hitText.getText());
 		}
 		
 		// Render strings
@@ -363,7 +385,7 @@ public class Play extends BasicGameState {
 		// Update animation timers and check if animation done
 		if (!animatedUnits.isEmpty()) {
 			animatedUnits.updateTime(delta);
-			if (animatedUnits.getTimer() > animatedUnits.getDuration()) {
+			if (animatedUnits.stopAnimation()) {
 				Unit u = animatedUnits.removeFirst();
 				if (u.getState() == Unit.ANIM_DYING) {
 					u.getPosition().removeUnit();
@@ -371,6 +393,14 @@ public class Play extends BasicGameState {
 				} else {
 					u.setState(Unit.ANIM_WALKING);
 				}
+			}
+		}
+		
+		// Check if we need to draw hit/miss string
+		if (hitText != null) {
+			hitText.updateTimer(delta);
+			if (hitText.stopRender()) {
+				hitText = null;
 			}
 		}
 		
@@ -389,6 +419,28 @@ public class Play extends BasicGameState {
 		} else {
 			hoverUnit = null;
 		}		
+		
+		// Reset tile if unit just died and we already selected new unit
+		if (attackableTiles != null) {
+			for (Tile t : attackableTiles) {
+				if (t.empty()) {
+					if (selectedUnit.canMove()) {
+						if (reachableTiles != null) {
+							reachableTiles.add(t);
+						} else {
+							reachableTiles = new ArrayList<Tile>(1);
+							reachableTiles.add(t);
+						}
+						t.setStatus(Tile.REACHABLE);
+						System.out.println(true);
+					} else {
+						t.setStatus(Tile.DEFAULT);
+					}
+					attackableTiles.remove(t);
+					break;
+				}
+			}
+		}
 		
 		if (activePlayer instanceof HumanPlayer) {
 			// Get input
@@ -471,13 +523,25 @@ public class Play extends BasicGameState {
 			Mechanics.move(LegendsOfArborea.GAME.board, m.unit, goal);
 			deselect();
 		} else if (m.type == AIMove.TYPE.ATTACK) {			
-			m.unit.setState(Unit.ANIM_ATTACKING);
-			animatedUnits.add(m.unit, Unit.ATT_FRAMES*Unit.ATT_DURATION);
-			if (Mechanics.hit(LegendsOfArborea.GAME.board, m.unit, goal.getUnit())) {
-				handleDying(goal.getUnit());
-			}
-			deselect();
+			handleAttack(goal, m.unit);
 		}
+	}
+	
+	private void handleAttack(Tile goal, Unit attacker) {			
+		Unit target = goal.getUnit();
+		attacker.setState(Unit.ANIM_ATTACKING);
+		animatedUnits.add(attacker, Unit.ATT_FRAMES*Unit.ATT_DURATION);
+		float x = gTiles[goal.getCol()][goal.getRow()].getCenterX() - 20;
+		float y = gTiles[goal.getCol()][goal.getRow()].getCenterY() - 10;
+		if (Mechanics.hit(LegendsOfArborea.GAME.board, attacker, target)) {
+			hitText = new HitText(true, x, y);
+			if (target.getHp() <= 0) {
+				handleDying(target);
+			}
+		} else {
+			hitText = new HitText(false, x, y);
+		}
+		deselect();
 	}
 	
 	private void unitAction(int delta) {
@@ -492,13 +556,8 @@ public class Play extends BasicGameState {
 				Mechanics.move(LegendsOfArborea.GAME.board, selectedUnit, goal);
 				deselect();
 			// If we can attack the goal
-			} else if (attackableTiles != null && attackableTiles.contains(goal) && goal.getUnit().getState() != Unit.ANIM_DYING) {
-				selectedUnit.setState(Unit.ANIM_ATTACKING);
-				animatedUnits.add(selectedUnit, Unit.ATT_FRAMES*Unit.ATT_DURATION);
-				if (Mechanics.hit(LegendsOfArborea.GAME.board, selectedUnit, goal.getUnit())) {
-					handleDying(goal.getUnit());
-				}
-				deselect();
+			} else if (attackableTiles != null && attackableTiles.contains(goal) && !goal.empty() &&goal.getUnit().getState() != Unit.ANIM_DYING) {
+				handleAttack(goal, selectedUnit);
 			}
 		}
 	}

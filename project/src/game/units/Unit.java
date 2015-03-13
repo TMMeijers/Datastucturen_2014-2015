@@ -32,6 +32,9 @@ public class Unit {
 	public final static int DIE_DURATION = 200;
 	
 	public final static int SPRITE_SIZE = 80;
+
+	public final static int HUMAN = 0;
+	public final static int ORC = 1;
 	
 	protected int state;
 	

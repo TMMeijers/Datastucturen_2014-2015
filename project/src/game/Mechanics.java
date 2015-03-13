@@ -28,10 +28,7 @@ public class Mechanics {
 			attacker.hasAttacked();
 			defender.damaged(attacker.pwr);
 			System.out.println("HIT! HP remaining: " + defender.getHp());
-			if (defender.getHp() <= 0) {
-				return true;
-			}
-			return false;
+			return true;
 		}
 		attacker.hasAttacked();
 		System.out.println("MISS! HP remaining: " + defender.getHp());
