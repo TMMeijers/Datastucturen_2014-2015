@@ -1,5 +1,6 @@
 package game.states;
 
+import game.Helpers;
 import game.LegendsOfArborea;
 import game.Mechanics;
 import game.ai.AIMove;
@@ -25,6 +26,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -48,6 +50,7 @@ public class Play extends BasicGameState {
 	private Image moveIcon;
 	private Image healthPoint;
 	private Image infoBox;
+	private Image[] infoIcons;
 	
 	// Game variables for playing
 	private Tile selectedTile;
@@ -176,7 +179,13 @@ public class Play extends BasicGameState {
 		attackIcon = new Image("res/icons/active_attack.png");
 		moveIcon = new Image("res/icons/active_move.png");
 		healthPoint = new Image("res/icons/health_point.png");
-		infoBox = new Image("res/ui/png/red_panel.png");
+		infoBox = new Image("res/ui/png/red_panel.png");	
+		infoIcons = new Image[5];
+		infoIcons[0] = new Image("res/icons/icon_hp.png");
+		infoIcons[1] = new Image("res/icons/icon_att.png");
+		infoIcons[2] = new Image("res/icons/icon_sup.png");
+		infoIcons[4] = new Image("res/icons/icon_move.png");
+		infoIcons[3] = new Image("res/icons/icon_range.png");
 		
 		// Polygon sizes
 		float horSpace = 1.5f * POLY_HORSIDE;
@@ -301,12 +310,30 @@ public class Play extends BasicGameState {
 			}
 			infoBox.draw(x, y, size);
 			int textOffset = 25;
-			Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset, hoverUnit.toString());
-			Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*2, "hp: " + hoverUnit.getHp());
-			Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*3, "att: " + hoverUnit.att);
+			UnicodeFont font = Helpers.getFont("Knights_Quest", 25);
+			font.drawString(x+textOffset, y+textOffset, hoverUnit.toString());
+			for (int i = 0; i < infoIcons.length; i++) {
+				infoIcons[i].draw(x+textOffset, y+(2+i)*textOffset);
+				int val = 0;
+				switch(i) {
+				case 0:
+					val = hoverUnit.getHp();
+					break;
+				case 1: 
+					val = hoverUnit.att;
+				case 2:
+					val = hoverUnit.sup;
+				case 3:
+					val = hoverUnit.spd;
+				case 4:
+					val = hoverUnit.rng;
+				}
+				font.drawString(x+textOffset*2, y+(2+i)*textOffset, ((Integer)val).toString());
+					
+			}
 			if (selectedUnit != null && attackableTiles != null && attackableTiles.contains(hoverUnit.getPosition())) {
 				int chance = (int) Math.round(Mechanics.hitChance(LegendsOfArborea.GAME.board, selectedUnit, hoverUnit)*100);
-				Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*4, "hit: " + chance + " percent");
+				Menu.FONT_SMALL.drawString(x+textOffset, y+textOffset*6, "hit: " + chance + " percent");
 			}
 		}
 		

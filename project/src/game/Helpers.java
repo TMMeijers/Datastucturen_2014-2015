@@ -2,6 +2,10 @@ package game;
 
 import java.util.Random;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
+
 public class Helpers {
 	public static int randInt(int min, int max) {
 
@@ -14,5 +18,13 @@ public class Helpers {
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 
 	    return randomNum;
+	}
+	
+	public static UnicodeFont getFont(String name, int size) throws SlickException {
+		UnicodeFont font = new UnicodeFont("res/ui/fonts/" + name + ".ttf", size, false, false);
+		font.addAsciiGlyphs();
+		font.getEffects().add(new ColorEffect());
+		font.loadGlyphs();
+		return font;
 	}
 }
