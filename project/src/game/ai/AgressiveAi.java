@@ -116,7 +116,6 @@ public class AgressiveAi extends Ai {
 		for (Unit u : myUnits) {
 			if (!exhaustedUnits.contains(u)) {
 				moveCloser(moves, u, exhaustedUnits);
-				attackLowest(moves, u);
 			}
 		}
 		return moves;
@@ -139,13 +138,16 @@ public class AgressiveAi extends Ai {
 		}
 		if (bestTile != null) {
 			moves.add(getMove(bestTile, u, AiMove.TYPE.MOVE, u.getPosition()));
+			attackLowest(moves, u, bestTile);
+		} else {
+			attackLowest(moves, u, u.getPosition());
 		}
 	}
 	
 	// Attacks the unit with the lowest HP
-	private void attackLowest(ArrayList<AiMove> moves, Unit u) {
+	private void attackLowest(ArrayList<AiMove> moves, Unit u, Tile t) {
 		ArrayList<Unit> surroundingEnemies = 
-			LegendsOfArborea.GAME.board.getSurroundingEnemies(u.getPosition(), u.rng, u.race);
+			LegendsOfArborea.GAME.board.getSurroundingEnemies(t, u.rng, u.race);
 		Unit bestSurrounding = null;
 		int lowestHp = 100;
 		for (Unit e : surroundingEnemies) {
@@ -156,7 +158,7 @@ public class AgressiveAi extends Ai {
 			}
 		}
 		if (bestSurrounding != null) {
-			moves.add(getMove(bestSurrounding.getPosition(), u, AiMove.TYPE.ATTACK, u.getPosition()));
+			moves.add(getMove(bestSurrounding.getPosition(), u, AiMove.TYPE.ATTACK, t));
 			
 		}
 	}
@@ -166,11 +168,12 @@ public class AgressiveAi extends Ai {
 		// Make distance smaller
 		Tile next = Astar.aStar(board, supporter.getPosition(), target);
 		if (next == null) {
+			attackLowest(moves, supporter, supporter.getPosition());
 			// If we didn't find a suitable path/move
 			return false;
 		}
 		moves.add(getMove(next, supporter, AiMove.TYPE.MOVE, supporter.getPosition()));
-		attackLowest(moves, supporter);
+		attackLowest(moves, supporter, next);
 		return true;
 	}
 	
@@ -184,12 +187,16 @@ public class AgressiveAi extends Ai {
 			Tile next = Astar.aStar(board, attacker.getPosition(), target.getPosition());
 			if (next == null) {
 				// If we didn't find a suitable path/move
+				attackLowest(moves, attacker, attacker.getPosition());
 				return false;
 			}
 			// Add move and attack if possible
 			moves.add(getMove(next, attacker, AiMove.TYPE.MOVE, attacker.getPosition()));
 			if (next.adjecentTo(target.getPosition())) {
 				moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, next));
+			} else {
+				// Else attack other unit if possible
+				attackLowest(moves, attacker, next);
 			}
 		}
 		return true;
