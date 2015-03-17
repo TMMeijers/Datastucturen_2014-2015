@@ -137,15 +137,15 @@ public class AgressiveAi extends Ai {
 			}
 		}
 		if (bestTile != null) {
-			moves.add(getMove(bestTile, u, AiMove.TYPE.MOVE, u.getPosition()));
-			attackLowest(moves, u, bestTile);
+			moves.add(getMove(bestTile, u, AiMove.TYPE.MOVE, u.getPosition(), true));
+			attackLowest(moves, u, bestTile, false);
 		} else {
-			attackLowest(moves, u, u.getPosition());
+			attackLowest(moves, u, u.getPosition(), true);
 		}
 	}
 	
 	// Attacks the unit with the lowest HP
-	private void attackLowest(ArrayList<AiMove> moves, Unit u, Tile t) {
+	private boolean attackLowest(ArrayList<AiMove> moves, Unit u, Tile t, boolean canMove) {
 		ArrayList<Unit> surroundingEnemies = 
 			LegendsOfArborea.GAME.board.getSurroundingEnemies(t, u.rng, u.race);
 		Unit bestSurrounding = null;
@@ -158,9 +158,10 @@ public class AgressiveAi extends Ai {
 			}
 		}
 		if (bestSurrounding != null) {
-			moves.add(getMove(bestSurrounding.getPosition(), u, AiMove.TYPE.ATTACK, t));
-			
+			moves.add(getMove(bestSurrounding.getPosition(), u, AiMove.TYPE.ATTACK, t, canMove));
+			return true;
 		}
+		return false;
 	}
 	
 	// Find the best move for a supporter, attacks if possible
@@ -168,12 +169,14 @@ public class AgressiveAi extends Ai {
 		// Make distance smaller
 		Tile next = Astar.aStar(board, supporter.getPosition(), target);
 		if (next == null) {
-			attackLowest(moves, supporter, supporter.getPosition());
+			if (attackLowest(moves, supporter, supporter.getPosition(), true)) {
+				return true;
+			}
 			// If we didn't find a suitable path/move
 			return false;
 		}
-		moves.add(getMove(next, supporter, AiMove.TYPE.MOVE, supporter.getPosition()));
-		attackLowest(moves, supporter, next);
+		moves.add(getMove(next, supporter, AiMove.TYPE.MOVE, supporter.getPosition(), true));
+		attackLowest(moves, supporter, next, false);
 		return true;
 	}
 	
@@ -181,32 +184,47 @@ public class AgressiveAi extends Ai {
 	private boolean findMovesAttacker(ArrayList<AiMove> moves, Unit attacker, Unit target) {
 		// If we're already there attack
 		if (attacker.adjecentTo(target)) {
-			moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, attacker.getPosition()));
+			moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, attacker.getPosition(), true));
 		} else {
 			// Make distance smaller
 			Tile next = Astar.aStar(board, attacker.getPosition(), target.getPosition());
 			if (next == null) {
 				// If we didn't find a suitable path/move
-				attackLowest(moves, attacker, attacker.getPosition());
+				if (attackLowest(moves, attacker, attacker.getPosition(), true)) {
+					return true;
+				}
 				return false;
 			}
 			// Add move and attack if possible
-			moves.add(getMove(next, attacker, AiMove.TYPE.MOVE, attacker.getPosition()));
+			moves.add(getMove(next, attacker, AiMove.TYPE.MOVE, attacker.getPosition(), true));
 			if (next.adjecentTo(target.getPosition())) {
-				moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, next));
+				moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, next, false));
 			} else {
 				// Else attack other unit if possible
-				attackLowest(moves, attacker, next);
+				attackLowest(moves, attacker, next, false);
 			}
 		}
 		return true;
 	}
 	
 	// Converts tile and goal unit to an AiMove
-	private AiMove getMove(Tile target, Unit u, AiMove.TYPE move, Tile uPosition) {
+	private AiMove getMove(Tile target, Unit u, AiMove.TYPE move, Tile uPosition, boolean canMove) {
 		// Tiles for highlighting
 		ArrayList<Tile> attackableTiles = board.getSurroundingEnemyTiles(uPosition, u.rng, u.race);
-		ArrayList<Tile> reachableTiles = board.getSurroundingEmptyTiles(uPosition, u.spd);
+		ArrayList<Tile> reachableTiles = new ArrayList<Tile>();
+		if (canMove) {
+			reachableTiles = board.getSurroundingTiles(uPosition, u.spd);
+			ArrayList<Tile> remove = new ArrayList<Tile>();
+			for (Tile t : reachableTiles) {
+				if (t.isTaken()) {
+					remove.add(t);
+				}
+			}
+			// Two loops to prevent ConcurrentModificationException
+			for (Tile t : remove) {
+				reachableTiles.remove(t);
+			}
+		}
 		if (move == AiMove.TYPE.MOVE) {
 			target.switchTaken();
 			u.getPosition().switchTaken();

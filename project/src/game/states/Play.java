@@ -64,7 +64,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AiMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 200;
+	private final int aiPause = 500;
 	private AiMove m;
 	private boolean startTurn;
 	
