@@ -68,12 +68,12 @@ public class Mechanics {
 	public static void move(Board board, Unit unit, Tile goal) {
 		Tile current = unit.getPosition();
 		if (!current.empty()) {
-			// AI moves already remove unit
+			// AI already empties and fills tiles
 			current.removeUnit();
+			goal.fill(unit);
 		}
 		unit.moveTo(goal);
 		unit.setDirection(findNewDirection(board.getDimension(), current, goal));
-		goal.fill(unit);
 		if (!unit.anyAttackable(board)) {
 			unit.hasAttacked();
 		}

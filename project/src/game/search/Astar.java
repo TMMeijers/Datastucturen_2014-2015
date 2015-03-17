@@ -39,7 +39,7 @@ public class Astar {
 			open.remove(current);
 			// Open new nodes
 			for (Tile t : board.getSurroundingTiles(current.getTile(), 1)) {
-				if (t.empty()) {
+				if (!t.isTaken()) {
 					next = new Node(current, current.getCost(), t);
 				} else {
 					next = new Node(current, current.getCost(), t, 1000);

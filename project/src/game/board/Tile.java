@@ -48,6 +48,11 @@ public class Tile {
 	private int status;
 	
 	/**
+	 * Boolean to indicate if tile is taken, added for AI so it doesn't have to modify the current state.
+	 */
+	private boolean taken;
+	
+	/**
 	 * Constructor which specifies column and row, uses explicit constructor invocation
 	 * to construct default field (a grass field).
 	 * @param  col column for this tile
@@ -68,6 +73,7 @@ public class Tile {
 		this.col = col;
 		this.row = row;
 		this.name = name;
+		taken = false;
 		status = 0;
 
 		// Maybe change this, first thought about abstract class Tile, and child classes
@@ -149,6 +155,7 @@ public class Tile {
 			return false;
 		}
 		this.unit = unit;
+		taken = true;
 		return true;
 	}
 
@@ -160,10 +167,19 @@ public class Tile {
 		return unit;
 	}
 	
+	public boolean isTaken() {
+		return taken;
+	}
+	
+	public void switchTaken() {
+		taken = !taken;
+	}
+	
 	/**
 	 * Removes the unit from the tile
 	 */
 	public void removeUnit() {
+		taken = false;
 		unit = null;
 	}
 	
