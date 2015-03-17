@@ -63,7 +63,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AiMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 200;
+	private final int aiPause = 10;
 	private AiMove m;
 	private boolean startTurn;
 	
@@ -466,6 +466,8 @@ public class Play extends BasicGameState {
 				        	t.setStatus(Tile.REACHABLE);
 				        }
 				        if (aiPauseTimer > aiPause*2) {
+							System.out.println("Move: " + m.type + ", Unit at: c" + m.unit.getPosition().getCol() + " r" + m.unit.getPosition().getRow() +
+									   ", Target: c" + m.tile.getCol() + " r" + m.tile.getRow());
 				        	aiPauseTimer = 0;
 				        	aiAction(m);
 				        	m = null;
@@ -500,8 +502,10 @@ public class Play extends BasicGameState {
 		if (m.type == AiMove.TYPE.MOVE) {
 			Mechanics.move(LegendsOfArborea.GAME.board, m.unit, goal);
 			deselect();
-		} else if (m.type == AiMove.TYPE.ATTACK) {			
-			handleAttack(goal, m.unit);
+		} else if (m.type == AiMove.TYPE.ATTACK) {	
+			if (!m.tile.empty() && m.tile.getUnit().getState() != Unit.ANIM_DYING) {
+				handleAttack(goal, m.unit);
+			}
 		}
 	}
 	
