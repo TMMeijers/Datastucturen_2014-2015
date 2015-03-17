@@ -1,9 +1,9 @@
 package game.ai;
 
 //import game.LegendsOfArborea;
-import game.Helpers;
 import game.LegendsOfArborea;
 import game.board.Tile;
+import game.helpers.Helpers;
 import game.players.ComputerPlayer;
 import game.units.Unit;
 

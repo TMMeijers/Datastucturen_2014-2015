@@ -1,4 +1,4 @@
-package game;
+package game.helpers;
 
 import game.board.Board;
 import game.board.Tile;
@@ -80,6 +80,7 @@ public class Mechanics {
 		unit.hasMoved();
 	}
 	
+	// Check which direction the unit is facing, for animations
 	public static int findNewDirection(int dim, Tile current, Tile goal) {
 		int curCol = current.getCol();
 		int curRow = current.getRow();

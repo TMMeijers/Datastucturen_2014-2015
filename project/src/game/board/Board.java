@@ -78,6 +78,7 @@ public class Board {
 		return true;
 	}
 	
+	// Returns all tiles around a certain tile
 	public ArrayList<Tile> getSurroundingTiles(Tile tile, int speed) {
 		int col = tile.getCol();
 		int row = tile.getRow();
@@ -163,6 +164,7 @@ public class Board {
 		return surroundingUnitTiles;
 	}
 	
+	// Returns all surrounding tiles which contain an enemy
 	public ArrayList<Tile> getSurroundingEnemyTiles(Tile tile, int range, int race) {
 		int col = tile.getCol();
 		int row = tile.getRow();
@@ -203,6 +205,7 @@ public class Board {
 		return surroundingUnits;
 	}
 	
+	// Returns all enemies surrounding a tile, calls other method which relies on race as an int
 	public ArrayList<Unit> getSurroundingEnemies(Tile tile, int range, boolean race) {
 		if (race) {
 			return getSurroundingEnemies(tile, range, 1);
@@ -210,6 +213,7 @@ public class Board {
 		return getSurroundingEnemies(tile, range, 0);
 	}
 	
+	// Returns all enemies surroudning a tile.
 	public ArrayList<Unit> getSurroundingEnemies(Tile tile, int range, int race) {
 		ArrayList<Tile> surroundingTiles = getSurroundingUnitTiles(tile, range);
 		ArrayList<Unit> surroundingUnits = new ArrayList<Unit>();
@@ -266,6 +270,7 @@ public class Board {
 		return tiles[col].length;
 	}
 	
+	// Returns all tiles
 	public Tile[][] getTiles() {
 		return tiles;
 	}

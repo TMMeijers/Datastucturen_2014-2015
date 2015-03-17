@@ -36,7 +36,7 @@ public class Menu extends BasicGameState {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") // We need one effect for UnicodeFont
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// Load custom font	with different sizes

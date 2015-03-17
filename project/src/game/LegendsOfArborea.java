@@ -7,14 +7,13 @@ import game.states.Play;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
-import de.lessvoid.nifty.slick2d.NiftyStateBasedGame;
-
-public class LegendsOfArborea extends NiftyStateBasedGame {
+public class LegendsOfArborea extends StateBasedGame {
 	
-	public static final int WIDTH = 1440;
-	public static final int HEIGHT = 900;
-	public static final boolean FULLSCREEN = false;
+	public static final int WIDTH = 1920;
+	public static final int HEIGHT = 1080;
+	public static final boolean FULLSCREEN = true;
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
 	
@@ -41,10 +40,11 @@ public class LegendsOfArborea extends NiftyStateBasedGame {
 		this.addState(new Play(PLAY));
 	}
 	
+	// Initialises all the game states
 	public void initStatesList(GameContainer app) throws SlickException {
 		this.getState(MENU).init(app, this);
 		this.getState(PLAY).init(app, this);
-		this.enterState(PLAY);
+		this.enterState(MENU);
 	}
 	
 	public static void main(String[] args) {
@@ -53,6 +53,7 @@ public class LegendsOfArborea extends NiftyStateBasedGame {
 		GAME = null;
 		
 		try {
+			// Run game
 			AppGameContainer app = new AppGameContainer(new LegendsOfArborea(NAME));
 			app.setDisplayMode(WIDTH, HEIGHT, FULLSCREEN);
 			app.setVSync(true);

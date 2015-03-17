@@ -1,4 +1,4 @@
-package game;
+package game.helpers;
 
 import java.util.Random;
 
@@ -20,7 +20,8 @@ public class Helpers {
 	    return randomNum;
 	}
 	
-	@SuppressWarnings("unchecked")
+	// Returns font based on name and font size
+	@SuppressWarnings("unchecked") // We need one effect for UnicodeFonts
 	public static UnicodeFont getFont(String name, int size) throws SlickException {
 		UnicodeFont font = new UnicodeFont("res/ui/fonts/" + name + ".ttf", size, false, false);
 		font.addAsciiGlyphs();

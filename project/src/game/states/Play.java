@@ -1,12 +1,12 @@
 package game.states;
 
-import game.Helpers;
 import game.LegendsOfArborea;
-import game.Mechanics;
 import game.ai.AiMove;
 import game.board.Tile;
 import game.datastructures.AnimationLinkedList;
 import game.datastructures.HitText;
+import game.helpers.Helpers;
+import game.helpers.Mechanics;
 import game.players.ComputerPlayer;
 import game.players.HumanPlayer;
 import game.players.Player;
@@ -34,6 +34,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Play extends BasicGameState {
 
+	// Polygon measurements
 	static final int WIDTH = LegendsOfArborea.WIDTH;
 	static final int HEIGHT = LegendsOfArborea.HEIGHT;
 	static float POLY_SIDE = 50.0f;
@@ -63,7 +64,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AiMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 500;
+	private final int aiPause = 0;
 	private AiMove m;
 	private boolean startTurn;
 	
@@ -90,6 +91,7 @@ public class Play extends BasicGameState {
 		
 	}
 	
+	// Initialise this gamestate
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// Initialise variables
@@ -241,6 +243,7 @@ public class Play extends BasicGameState {
 		}
 	}
 
+	// Loop to handle the rendering of the game.
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		// Render all tiles and units
@@ -302,6 +305,7 @@ public class Play extends BasicGameState {
 			}
 		}
 		
+		// Print info for unit we are hovering
 		if (hoverUnit != null) {
 			int offSet = 30;
 			float size = 2f;
@@ -341,6 +345,7 @@ public class Play extends BasicGameState {
 		}
 	}
 
+	// Loop to handle the updating of the game state. 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
@@ -451,10 +456,12 @@ public class Play extends BasicGameState {
 					aiMustThink = true;
 					startTurn = false;
 				} else {
+					// If we can, pop a move.
 					if (m == null && !aiMoves.isEmpty() && aiPauseTimer > aiPause) {
 				        m = aiMoves.removeFirst();
 					}
 					if (m != null) {
+						// Handle highlighting of tiles.
 						selectedTile = m.unit.getPosition();
 						selectedTile.setStatus(Tile.ACTIVE);
 						reachableTiles = m.reachableTiles;
@@ -465,13 +472,13 @@ public class Play extends BasicGameState {
 				        for (Tile t : m.reachableTiles) {
 				        	t.setStatus(Tile.REACHABLE);
 				        }
+				        // Wait until we execute the move
 				        if (aiPauseTimer > aiPause*2) {
-							System.out.println("Move: " + m.type + ", Unit at: c" + m.unit.getPosition().getCol() + " r" + m.unit.getPosition().getRow() +
-									   ", Target: c" + m.tile.getCol() + " r" + m.tile.getRow());
 				        	aiPauseTimer = 0;
 				        	aiAction(m);
 				        	m = null;
 			        		deselect();
+			        		// End turn
 				        	if (aiMoves.isEmpty()) {
 				        		activePlayer.endTurn();
 				        	}
@@ -497,6 +504,7 @@ public class Play extends BasicGameState {
 		}
 	}
 	
+	// Handles an AiMove, either moving or attacking.
 	private void aiAction(AiMove m) {
 		Tile goal = m.tile;
 		if (m.type == AiMove.TYPE.MOVE) {
@@ -509,23 +517,27 @@ public class Play extends BasicGameState {
 		}
 	}
 	
+	// Handles attacking moves for human and computer players
 	private void handleAttack(Tile goal, Unit attacker) {			
 		Unit target = goal.getUnit();
 		attacker.setState(Unit.ANIM_ATTACKING);
 		animatedUnits.add(attacker, Unit.ATT_FRAMES*Unit.ATT_DURATION);
 		float x = gTiles[goal.getCol()][goal.getRow()].getCenterX() - 20;
 		float y = gTiles[goal.getCol()][goal.getRow()].getCenterY() - 10;
+		// If we hit show hit and check if unit dies
 		if (Mechanics.hit(LegendsOfArborea.GAME.board, attacker, target)) {
 			hitText = new HitText(true, x, y);
 			if (target.getHp() <= 0) {
 				handleDying(target);
 			}
+		// Else display miss
 		} else {
 			hitText = new HitText(false, x, y);
 		}
 		deselect();
 	}
 	
+	// Handles unit action for the human player
 	private void unitAction(int delta) {
 		Tile goal = xyToTile(Mouse.getX(), Mouse.getY());
 		// Maybe we want to make the switch to a friendly active unit
@@ -544,17 +556,20 @@ public class Play extends BasicGameState {
 		}
 	}
 	
+	// Returns id of this gamestate
 	@Override
 	public int getID() {
 		return LegendsOfArborea.PLAY;
 	}
 	
+	// Handles the animation and removing when units die
 	public void handleDying(Unit u) {
 		u.setState(Unit.ANIM_DYING);
 		inactivePlayer.removeUnit(u);
 		animatedUnits.add(u, u.deathFrames*Unit.DIE_DURATION);
 	}
 	
+	// Switches between players and updates accordingly.
 	private void switchTurn() {
 		if (activePlayer.playsOrc()) {
 			if (LegendsOfArborea.GAME.getPlayer(1).playsOrc()) {
@@ -576,6 +591,7 @@ public class Play extends BasicGameState {
 		startTurn = true;
 	}
 	
+	// Selects a unit, handles unselectable tiles and units
 	private void selectUnit() {
 		selectedTile = xyToTile(Mouse.getX(), Mouse.getY());
 		// Check if action can be performed
@@ -598,12 +614,14 @@ public class Play extends BasicGameState {
 				}
 			}
 		} 
+		// If we can't do anything don't select anything.
 		if (reachableTiles == null && attackableTiles == null) {
 			selectedUnit = null;
 			selectedTile = null;
 		}
 	}
 	
+	// Handles the deselection, makes sure nothing is highlighted
 	private void deselect() {
 		if (reachableTiles != null) {
 			for (Tile t : reachableTiles) {
@@ -624,6 +642,7 @@ public class Play extends BasicGameState {
 		selectedUnit = null;
 	}
 	
+	// Translates xy coordinates to a tile
 	private Tile xyToTile(int mx, int my) {
 		// Invert mouse Y so 0 is at the top
 		my = HEIGHT - my;
