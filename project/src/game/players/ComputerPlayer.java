@@ -1,7 +1,8 @@
 package game.players;
 
+import game.ai.AgressiveAi;
 import game.ai.Ai;
-import game.ai.RandomAI;
+import game.ai.RandomAi;
 
 public class ComputerPlayer extends Player {
 	/**
@@ -15,7 +16,12 @@ public class ComputerPlayer extends Player {
 	 */
 	public ComputerPlayer(boolean orc) {
 		super("1337AI", orc);
-		ai = new RandomAI(this);
+		ai = new RandomAi(this);
+	}
+	
+	public ComputerPlayer(boolean orc, Player other) {
+		super("1337AI", orc);
+		ai = new AgressiveAi(this, other);
 	}
 	
 	public Ai getAI() {

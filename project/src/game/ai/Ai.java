@@ -17,9 +17,9 @@ public class Ai {
 		this.computerPlayer = new WeakReference<ComputerPlayer>(cp);
 	}
 	
-	public ArrayList<AIMove> doThinking() {
+	public ArrayList<AiMove> doThinking() {
 		// nothing in here for generic ai class
-		return new ArrayList<AIMove>();
+		return new ArrayList<AiMove>();
 	}
 	
 	public void think(IThinking thinkingDoneCallback) {
@@ -34,7 +34,7 @@ public class Ai {
 		// if not start Thread
 		Runnable thinkingTask =() -> {
 			// think
-			ArrayList<AIMove> moves = doThinking();
+			ArrayList<AiMove> moves = doThinking();
 			// done with thinking. call callback
 			thinkingDoneCallback.thinkingDone(moves);
 			this.isThinking = false;

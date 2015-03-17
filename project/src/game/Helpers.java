@@ -20,6 +20,7 @@ public class Helpers {
 	    return randomNum;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static UnicodeFont getFont(String name, int size) throws SlickException {
 		UnicodeFont font = new UnicodeFont("res/ui/fonts/" + name + ".ttf", size, false, false);
 		font.addAsciiGlyphs();

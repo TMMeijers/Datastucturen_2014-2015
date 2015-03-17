@@ -9,16 +9,16 @@ import game.units.Unit;
 
 import java.util.ArrayList;
 
-public class RandomAI extends Ai {
+public class RandomAi extends Ai {
 
-	public RandomAI(ComputerPlayer cp) {
+	public RandomAi(ComputerPlayer cp) {
 		super(cp);
 	}
 
 	@Override
-	public ArrayList<AIMove> doThinking() {
+	public ArrayList<AiMove> doThinking() {
 		
-		ArrayList<AIMove> moves = new ArrayList<AIMove>();
+		ArrayList<AiMove> moves = new ArrayList<AiMove>();
 		ArrayList<Tile> takenTiles = new ArrayList<Tile>();
 		
 		for (Unit u : this.computerPlayer.get().GetUnits()) {
@@ -37,20 +37,20 @@ public class RandomAI extends Ai {
 				
 				int max = attackableTileSize + reachableTileSize - 1;
 				
-				AIMove.TYPE mt = null;
+				AiMove.TYPE mt = null;
 				
 				if (max > 0) {
 					int targetTileIndex = Helpers.randInt(0, max);
 					Tile targetTile = null;
 					if (targetTileIndex < attackableTileSize) {
 						targetTile = attackableTiles.get(targetTileIndex);
-						mt = AIMove.TYPE.ATTACK;
+						mt = AiMove.TYPE.ATTACK;
 					} else {
-						mt = AIMove.TYPE.MOVE;
+						mt = AiMove.TYPE.MOVE;
 						targetTile = reachableTiles.get(Math.abs(targetTileIndex - attackableTileSize));
 					}
 					if (targetTile != null && mt != null) {
-						moves.add(new AIMove(targetTile, u, mt, attackableTiles, reachableTiles));
+						moves.add(new AiMove(targetTile, u, mt, attackableTiles, reachableTiles));
 						takenTiles.add(targetTile);
 					}
 				}

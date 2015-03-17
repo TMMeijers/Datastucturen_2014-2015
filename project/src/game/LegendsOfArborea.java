@@ -44,7 +44,7 @@ public class LegendsOfArborea extends NiftyStateBasedGame {
 	public void initStatesList(GameContainer app) throws SlickException {
 		this.getState(MENU).init(app, this);
 		this.getState(PLAY).init(app, this);
-		this.enterState(PLAY);
+		this.enterState(MENU);
 	}
 	
 	public static void main(String[] args) {
@@ -55,7 +55,8 @@ public class LegendsOfArborea extends NiftyStateBasedGame {
 		try {
 			AppGameContainer app = new AppGameContainer(new LegendsOfArborea(NAME));
 			app.setDisplayMode(WIDTH, HEIGHT, FULLSCREEN);
-			app.setTargetFrameRate(60);
+			app.setVSync(true);
+			app.setShowFPS(false);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

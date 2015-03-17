@@ -5,7 +5,7 @@ import game.units.Unit;
 
 import java.util.ArrayList;
 
-public class AIMove {
+public class AiMove {
 	public enum TYPE {
 		ATTACK,
 		MOVE
@@ -17,7 +17,7 @@ public class AIMove {
 	public ArrayList<Tile> attackableTiles;
 	public ArrayList<Tile> reachableTiles;
 	
-	public AIMove(Tile t, Unit u, TYPE mt, ArrayList<Tile> attackableTiles, ArrayList<Tile> reachableTiles) {
+	public AiMove(Tile t, Unit u, TYPE mt, ArrayList<Tile> attackableTiles, ArrayList<Tile> reachableTiles) {
 		this.tile = t;
 		this.unit = u;
 		this.type = mt;

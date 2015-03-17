@@ -3,7 +3,7 @@ package game.states;
 import game.Helpers;
 import game.LegendsOfArborea;
 import game.Mechanics;
-import game.ai.AIMove;
+import game.ai.AiMove;
 import game.board.Tile;
 import game.datastructures.AnimationLinkedList;
 import game.datastructures.HitText;
@@ -52,7 +52,7 @@ public class Play extends BasicGameState {
 	private Image healthPoint;
 	private Image infoBoxHuman;
 	private Image infoBoxOrc;
-	private Image[] infoIcons;
+	private Image infoIcons;
 	
 	// Game variables for playing
 	private Tile selectedTile;
@@ -61,10 +61,10 @@ public class Play extends BasicGameState {
 	private ArrayList<Tile> attackableTiles;
 	
 	// AI Variables
-	private LinkedList<AIMove> aiMoves;
+	private LinkedList<AiMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 50;
-	private AIMove m;
+	private final int aiPause = 500;
+	private AiMove m;
 	private boolean startTurn;
 	
 	// Unit for hover information
@@ -78,6 +78,7 @@ public class Play extends BasicGameState {
 	private String winMessage;
 	private String playerTurn;
 	private String options;
+	private String hoverInfo;
 	
 	// Animations
 	private AnimationLinkedList animatedUnits;
@@ -97,10 +98,11 @@ public class Play extends BasicGameState {
 		selectedUnit = null;
 		animatedUnits = new AnimationLinkedList();
 		hoverUnit = null;
-		aiMoves = new LinkedList<AIMove>();
+		aiMoves = new LinkedList<AiMove>();
 		aiPauseTimer = 0;
 		m = null;
 		hitText = null;
+		hoverInfo = "";
 		
 		// Load fonts
 		font24 = Helpers.getFont("Knights_Quest", 24);
@@ -188,12 +190,7 @@ public class Play extends BasicGameState {
 		healthPoint = new Image("res/icons/health_point.png");
 		infoBoxHuman = new Image("res/ui/png/blue_panel.png");	
 		infoBoxOrc = new Image("res/ui/png/red_panel.png");	
-		infoIcons = new Image[5];
-		infoIcons[0] = new Image("res/icons/icon_hp.png");
-		infoIcons[1] = new Image("res/icons/icon_att.png");
-		infoIcons[2] = new Image("res/icons/icon_sup.png");
-		infoIcons[4] = new Image("res/icons/icon_move.png");
-		infoIcons[3] = new Image("res/icons/icon_range.png");
+		infoIcons = new Image("res/icons/info_icons.png");
 		
 		// Polygon sizes
 		float horSpace = 1.5f * POLY_HORSIDE;
@@ -324,34 +321,11 @@ public class Play extends BasicGameState {
 			int textOffset = 23;
 			UnicodeFont font = Helpers.getFont("Knights_Quest", 26);
 			font.drawString(x+textOffset, y+textOffset-8, hoverUnit.toString());
-			for (int i = 0; i < infoIcons.length; i++) {
-				infoIcons[i].draw(x+textOffset, y+(2+i)*textOffset, 1.25f);
-				int val = 0;
-				switch(i) {
-					case 0:
-						val = hoverUnit.getHp();
-						break;
-					case 1: 
-						val = hoverUnit.att;
-						break;
-					case 2:
-						val = hoverUnit.sup;
-						break;
-					case 3:
-						val = hoverUnit.spd;
-						break;
-					case 4:
-						val = hoverUnit.rng;
-						break;
-					default:
-						break;
-				}
-				font24.drawString(x+textOffset*3, y+(2+i)*textOffset-5, ((Integer)val).toString());
-			}
-			
+			infoIcons.draw(x+textOffset, y+2*textOffset, 1.1f);
+			font24.drawString(x+textOffset*3, y+2*textOffset, hoverInfo);
 			if (selectedUnit != null && attackableTiles != null && attackableTiles.contains(hoverUnit.getPosition())) {
 				double chance = ((double)Math.round(Mechanics.hitChance(LegendsOfArborea.GAME.board, selectedUnit, hoverUnit)*100))/100;
-				font24.drawString(x+textOffset, y+textOffset*7, "hit chance: " + chance);
+				font24.drawString(x+textOffset, y+textOffset*7.1f, "hit chance: " + chance);
 			}
 		}
 		
@@ -410,6 +384,11 @@ public class Play extends BasicGameState {
 			if (hover != null) {
 				if (!hover.empty()) {
 					hoverUnit = hover.getUnit();
+					hoverInfo = Integer.toString(hoverUnit.getHp()) + '\n' +
+								Integer.toString(hoverUnit.att) + '\n' +
+								Integer.toString(hoverUnit.sup) + '\n' +
+								Integer.toString(hoverUnit.rng) + '\n' +
+								Integer.toString(hoverUnit.spd);
 				} else {
 					hoverUnit = null;
 				}
@@ -432,7 +411,6 @@ public class Play extends BasicGameState {
 							reachableTiles.add(t);
 						}
 						t.setStatus(Tile.REACHABLE);
-						System.out.println(true);
 					} else {
 						t.setStatus(Tile.DEFAULT);
 					}
@@ -508,7 +486,7 @@ public class Play extends BasicGameState {
 	
 					// fill move queue
 					synchronized(aiMoves) {
-						for (AIMove m : moves) {
+						for (AiMove m : moves) {
 							aiMoves.add(m);
 						}
 					}
@@ -517,12 +495,12 @@ public class Play extends BasicGameState {
 		}
 	}
 	
-	private void aiAction(AIMove m) {
+	private void aiAction(AiMove m) {
 		Tile goal = m.tile;
-		if (m.type == AIMove.TYPE.MOVE) {
+		if (m.type == AiMove.TYPE.MOVE) {
 			Mechanics.move(LegendsOfArborea.GAME.board, m.unit, goal);
 			deselect();
-		} else if (m.type == AIMove.TYPE.ATTACK) {			
+		} else if (m.type == AiMove.TYPE.ATTACK) {			
 			handleAttack(goal, m.unit);
 		}
 	}
@@ -671,51 +649,6 @@ public class Play extends BasicGameState {
 		if (row < 0 || row >= length) {
 			return null;
 		}
-		
-		// ARGHHHH MARKUS HELP
-//		// Now check if we are in the left upper or lower triangle section (different tile)
-//		// First get triangle vertices
-//		x -= col;
-//		y -= row;
-//		System.out.println("X: " + x + ", Y: " + y);
-//		float p0X= 0;
-//		float p0Y = vertSpace/2f;
-//		float p1X = POLY_HORSIDE/2f;
-//		float p1Y = 0;
-//		float p2X = 0;
-//		float p2Y = 0;
-//		
-//		// If we need to check if were on one of the triangles
-//		if (x < POLY_HORSIDE/2f) {
-//			System.out.println(true);
-//			// If we're checking lower triangle
-//			if (y > vertSpace/2) {
-//				p1Y = vertSpace;
-//				p2Y = vertSpace;
-//			}
-//			float sign = 1;
-//			float r = 0.5f * (-p1Y * p2X + p0Y * (-p1X + p2X) + p0X * (p1Y - p2Y) + p1X * p2Y);
-//			if (r < 0) {
-//				sign = -1;
-//			}
-//			float s = (p0Y * p2X - p0X * p2Y + (p2Y - p0Y) * x + (p0X - p2X) * y) * sign;
-//			float t = (p0X * p1Y - p0Y * p1X + (p0Y - p1Y) * x + (p1X - p0X) * y) * sign;
-//			// If were in a triangle
-//			if (s > 0 && t > 0 && (s+t) < 2 * r * sign) {
-//				col--;
-//				// Left side of the board and middle column
-//				if (col < dim) {
-//					if (y <= vertSpace/2) {
-//						row--;
-//					}
-//				// Right side of the board
-//				} else {
-//					if (y > vertSpace/2) {
-//						row++;
-//					}
-//				}
-//			}
-//		}
 		return LegendsOfArborea.GAME.board.getTile(col, row);
 	}
 

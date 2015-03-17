@@ -36,7 +36,7 @@ public abstract class GameMode {
 	 */
 	public void initPlayers(String nameP1, boolean orcP1) {
 		players[0] = new HumanPlayer(nameP1, orcP1);
-		players[1] = new ComputerPlayer(!orcP1);
+		players[1] = new ComputerPlayer(!orcP1, players[0]);
 	}
 	
 	/**

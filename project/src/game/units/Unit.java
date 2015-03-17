@@ -141,6 +141,14 @@ public class Unit {
 		return position;
 	}
 	
+	public int getCol() {
+		return position.getCol();
+	}
+	
+	public int getRow() {
+		return position.getRow();
+	}
+	
 	/**
 	 * Sets the position for the Unit.
 	 * @param tile the new position
@@ -175,6 +183,10 @@ public class Unit {
 	
 	public boolean active() {
 		return activeAttack || activeMove;
+	}
+	
+	public boolean adjecentTo(Unit u) {
+		return (Math.abs(getCol() - u.getCol()) <= 1 && Math.abs(getRow() - u.getRow()) <= 1);
 	}
 	
 	/**

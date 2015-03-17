@@ -178,6 +178,10 @@ public class Tile {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	public boolean adjecentTo(Tile t) {
+		return (Math.abs(col - t.getCol()) <= 1 && Math.abs(row - t.getRow()) <= 1);
+	}
 
 	/**
 	 * Overrides toString from Object, prints the type of the unit
