@@ -1,7 +1,6 @@
 package game.ai;
 
 import game.LegendsOfArborea;
-import game.Mechanics;
 import game.board.Board;
 import game.board.Tile;
 import game.players.ComputerPlayer;
@@ -100,8 +99,29 @@ public class AgressiveAi extends Ai {
 						bestSupport = u;
 					}
 				}
-				findMovesSupporter(moves, bestSupport, support);
-				exhaustedUnits.add(bestSupport);
+				if (findMovesSupporter(moves, bestSupport, support)) {
+					exhaustedUnits.add(bestSupport);
+				}
+			}
+		}
+		
+		// Now let all units attack that haven't done so
+		for (Unit u : myUnits) {
+			if (!exhaustedUnits.contains(u)) {
+				ArrayList<Unit> surroundingEnemies = 
+						LegendsOfArborea.GAME.board.getSurroundingEnemies(u.getPosition(), u.rng, u.race);
+				Unit bestSurrounding = null;
+				int lowestHp = 100;
+				for (Unit e : surroundingEnemies) {
+					int hp = e.getHp();
+					if (hp < lowestHp) {
+						lowestHp = hp;
+						bestSurrounding = e;
+					}
+				}
+				if (bestSurrounding != null) {
+					moves.add(getMove(bestSurrounding.getPosition(), u, AiMove.TYPE.ATTACK, u.getPosition()));
+				}
 			}
 		}
 		return moves;
@@ -118,12 +138,12 @@ public class AgressiveAi extends Ai {
 		ArrayList<Unit> surroundingEnemies = 
 				LegendsOfArborea.GAME.board.getSurroundingEnemies(next, supporter.rng, supporter.race);
 		Unit bestSurrounding = null;
-		double bestChance = 0;
+		int lowestHp = 100;
 		for (Unit e : surroundingEnemies) {
-			double chance = Mechanics.hitChance(board, supporter, e);
-			if (chance > bestChance) {
+			int hp = e.getHp();
+			if (hp < lowestHp) {
+				lowestHp = hp;
 				bestSurrounding = e;
-				bestChance = chance;
 			}
 		}
 		if (bestSurrounding != null) {

@@ -63,7 +63,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AiMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 100;
+	private final int aiPause = 500;
 	private AiMove m;
 	private boolean startTurn;
 	
@@ -471,8 +471,8 @@ public class Play extends BasicGameState {
 				        	aiPauseTimer = 0;
 				        	aiAction(m);
 				        	m = null;
+			        		deselect();
 				        	if (aiMoves.isEmpty()) {
-				        		deselect();
 				        		activePlayer.endTurn();
 				        	}
 				        }
