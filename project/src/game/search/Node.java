@@ -10,20 +10,20 @@ public class Node {
 	public int row;
 	private Node previous;
 	
-	public Node(Node previous, int cost, Tile tile) {
-		this.cost = cost++;
+	public Node(Node previous, int cost, Tile tile, int increment) {
+		this.cost = cost + increment;
 		this.tile = tile;
 		col = tile.getCol();
 		row = tile.getRow();
 		this.previous = previous;
 	}
+	
+	public Node(Node previous, int cost, Tile tile) {
+		this(previous, cost, tile, 1);
+	}
 
 	public Node(Tile tile) {
-		this.tile = tile;
-		col = tile.getCol();
-		row = tile.getRow();
-		cost = 0;
-		previous = null;
+		this(null, 0, tile, 0);
 	}
 	
 	public Node getPrevious() {

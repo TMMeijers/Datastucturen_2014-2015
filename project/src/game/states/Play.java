@@ -63,7 +63,7 @@ public class Play extends BasicGameState {
 	// AI Variables
 	private LinkedList<AiMove> aiMoves;
 	private int aiPauseTimer;
-	private final int aiPause = 500;
+	private final int aiPause = 200;
 	private AiMove m;
 	private boolean startTurn;
 	
@@ -403,7 +403,7 @@ public class Play extends BasicGameState {
 		if (attackableTiles != null) {
 			for (Tile t : attackableTiles) {
 				if (t.empty()) {
-					if (selectedUnit.canMove()) {
+					if (selectedUnit != null && selectedUnit.canMove()) {
 						if (reachableTiles != null) {
 							reachableTiles.add(t);
 						} else {

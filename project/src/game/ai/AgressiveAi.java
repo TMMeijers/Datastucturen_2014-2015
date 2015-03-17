@@ -27,69 +27,75 @@ public class AgressiveAi extends Ai {
 	public ArrayList<AiMove> doThinking() {
 		this.board = LegendsOfArborea.GAME.board;
 		ArrayList<AiMove> moves = new ArrayList<AiMove>();
-		ArrayList<Unit> enemyUnits = enemy.GetUnits();
 		ArrayList<Unit> targets = new ArrayList<Unit>();
+		ArrayList<Unit> unreachable = new ArrayList<Unit>();
+		ArrayList<Unit> exhaustedUnits = new ArrayList<Unit>();
 		
 		// Get targets to attack
 		int nrTargets = 1;
-		if (enemyUnits.size() < 2) {
+		if (enemy.GetUnits().size() < 2) {
 			nrTargets = 1;
 		}
 		while (targets.size() < nrTargets) {
 			int lowestHp = 100;
 			int bestEmpty = 0;
 			Unit bestTarget = null;
-			for (Unit u : enemyUnits) {
-				if (!targets.contains(u)) {
+			for (Unit u : enemy.GetUnits()) {
+				if (!targets.contains(u) && !unreachable.contains(u)) {
+					// Find best target (low hp + space around the unit)
 					int emptyTiles = board.getSurroundingEmptyTiles(u.getPosition(), 1).size();
-					if (u.getHp() < lowestHp && emptyTiles > bestEmpty) {
-						// Check if we can move to unit
+					emptyTiles += board.getSurroundingEnemies(u.getPosition(), 1, u.race).size();
+					if (u.getHp() <= lowestHp && emptyTiles > bestEmpty) {
 						lowestHp = u.getHp();
 						bestTarget = u;
 						bestEmpty = emptyTiles;
 					}
 				}
 			}
-			System.out.println(true);
 			targets.add(bestTarget);
-		}
-		ArrayList<ArrayList<Unit>> clusters = new ArrayList<ArrayList<Unit>>();
-		for (Unit u : targets) {
-			clusters.add(new ArrayList<Unit>());
+			// Now find a suitable attacker
 			int bestDist = 1000;
 			Unit bestAttacker = null;
 			for (Unit a : myUnits) {
-				int dist = Math.abs(u.getCol() - a.getCol()) + Math.abs(u.getRow() - a.getRow());
-				if (dist < bestDist) {
+				int dist = Math.abs(bestTarget.getCol() - a.getCol()) + Math.abs(bestTarget.getRow() - a.getRow());
+				if (dist < bestDist && !exhaustedUnits.contains(a)) {
 					bestDist = dist;
 					bestAttacker = a;
 				}
 			}
-			System.out.println("Trying to find move");
-			findMovesAttacker(moves, bestAttacker, u);
-		}
-		for (AiMove m : moves) {
-			System.out.println(m.type);
+			// If we couldn't find a target it must be blocked, remove and search new
+			if (!findMovesAttacker(moves, bestAttacker, bestTarget)) {
+				targets.remove(bestTarget);
+				unreachable.add(bestTarget);
+			} else {
+				exhaustedUnits.add(bestAttacker);
+				// Get cluster going
+			}
 		}
 		return moves;		
 	}
 	
-	private void findMovesAttacker(ArrayList<AiMove> moves, Unit attacker, Unit target) {
+	private boolean findMovesAttacker(ArrayList<AiMove> moves, Unit attacker, Unit target) {
 		if (attacker.adjecentTo(target)) {
-			moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK));
+			moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, attacker.getPosition()));
 		} else {
 			// Make distance smaller
 			Tile next = Astar.aStar(board, attacker.getPosition(), target.getPosition());
-			moves.add(getMove(next, attacker, AiMove.TYPE.MOVE));
+			if (next == null) {
+				// If we didn't find a suitable path/move
+				return false;
+			}
+			moves.add(getMove(next, attacker, AiMove.TYPE.MOVE, attacker.getPosition()));
 			if (next.adjecentTo(target.getPosition())) {
-				moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK));
+				moves.add(getMove(target.getPosition(), attacker, AiMove.TYPE.ATTACK, next));
 			}
 		}
+		return true;
 	}
 	
-	private AiMove getMove(Tile target, Unit u, AiMove.TYPE move) {
-		ArrayList<Tile> attackableTiles = board.getSurroundingEnemyTiles(target, u.rng, u.race);
-		ArrayList<Tile> reachableTiles = board.getSurroundingEmptyTiles(target, u.spd);
+	private AiMove getMove(Tile target, Unit u, AiMove.TYPE move, Tile uPosition) {
+		ArrayList<Tile> attackableTiles = board.getSurroundingEnemyTiles(uPosition, u.rng, u.race);
+		ArrayList<Tile> reachableTiles = board.getSurroundingEmptyTiles(uPosition, u.spd);
 		return new AiMove(target, u, move, attackableTiles, reachableTiles);
 	}
 }

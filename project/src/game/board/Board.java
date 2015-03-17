@@ -78,6 +78,31 @@ public class Board {
 		return true;
 	}
 	
+	public ArrayList<Tile> getSurroundingTiles(Tile tile, int speed) {
+		int col = tile.getCol();
+		int row = tile.getRow();
+		ArrayList<Tile> surroundingTiles = new ArrayList<Tile>();
+		// Go through all surrounding tiles
+		for (int i = -speed; i < speed + 1; i++) {
+			for (int j = -speed; j < speed + 1; j++) {
+				// Don't add tiles out of reach
+				if (col < dimension-speed && ((i == -speed && j == speed) || i == speed && j == -speed)) {
+					continue;
+				} else if (col > dimension-speed && ((i == speed && j == speed) || i == -speed && j == -speed)) {
+					continue;
+				} else if (col == dimension-speed && j == speed && (i == -speed || i == speed)) {
+					continue;
+				}
+				// If on board add to list, don't add self
+				if (tileOnBoard(col+i, row+j) && tile != getTile(col+i, row+j)) {
+					surroundingTiles.add(getTile(col+i, row+j));
+				}
+			}
+		}
+		return surroundingTiles;
+	}
+
+	
 	/**
 	 * Returns all the Tiles surrounding this tile and are empty
 	 * @param tile the tile for which the surrounding empty tiles are obtained
